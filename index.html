@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>thredU — Campus Clothing Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f6f4f1;
+            --white: #ffffff;
+            --primary: #5046e4;
+            --primary-dark: #3d35c9;
+            --primary-light: #ede9fe;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            --border: #e5e7eb;
+            --success: #059669;
+            --danger: #dc2626;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.14);
+            --radius: 18px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --radius-xs: 6px;
+            --nav-h: 68px;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            height: var(--nav-h);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 24px; height: 100%;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .logo {
+            font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+            color: var(--text); cursor: pointer; flex-shrink: 0; text-decoration: none;
+            user-select: none;
+        }
+        .logo span { color: var(--primary); }
+
+        .nav-search { flex: 1; max-width: 400px; position: relative; }
+        .nav-search input {
+            width: 100%; height: 40px; padding: 0 16px 0 40px;
+            border: 1.5px solid var(--border); border-radius: 999px;
+            font-family: inherit; font-size: 14px;
+            background: var(--bg); color: var(--text); outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .nav-search input:focus { border-color: var(--primary); background: white; }
+        .nav-search-icon {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); pointer-events: none;
+        }
+        .nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0 20px; height: 40px; border-radius: 999px;
+            font-family: inherit; font-size: 14px; font-weight: 600;
+            cursor: pointer; border: none; transition: all 0.18s ease;
+            white-space: nowrap; text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(80,70,228,0.35); }
+        .btn-ghost { background: transparent; color: var(--text); }
+        .btn-ghost:hover { background: var(--border); }
+        .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary-light); }
+        .btn-white { background: white; color: var(--primary); }
+        .btn-white:hover { background: #f5f5ff; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.14); }
+        .btn-lg { height: 52px; padding: 0 32px; font-size: 16px; }
+        .btn-sm { height: 34px; padding: 0 14px; font-size: 13px; }
+        .btn-block { width: 100%; justify-content: center; height: 48px; font-size: 15px; border-radius: var(--radius-sm); }
+
+        /* Avatar */
+        .avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; user-select: none;
+        }
+
+        /* ── LANDING PAGE ── */
+        .hero {
+            max-width: 1200px; margin: 0 auto; padding: 80px 24px 60px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; background: var(--primary-light); color: var(--primary);
+            border-radius: 999px; font-size: 13px; font-weight: 600; margin-bottom: 22px;
+        }
+        .hero-title {
+            font-size: clamp(38px, 5vw, 62px); font-weight: 900;
+            line-height: 1.06; letter-spacing: -2.5px; margin-bottom: 20px;
+        }
+        .hero-title .accent {
+            background: linear-gradient(130deg, var(--primary), #818cf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-sub {
+            font-size: 18px; color: var(--text-muted); line-height: 1.65;
+            margin-bottom: 36px; max-width: 440px;
+        }
+        .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-stats { display: flex; gap: 36px; margin-top: 44px; }
+        .hero-stat-num { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+        .hero-stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+        /* Hero floating cards */
+        .hero-visual { position: relative; height: 440px; }
+        .float-card {
+            position: absolute; background: white; border-radius: 16px;
+            box-shadow: var(--shadow-md); padding: 14px;
+            display: flex; gap: 12px; align-items: center; width: 240px;
+            animation: float 4s ease-in-out infinite;
+        }
+        .float-card:nth-child(1) { top: 24px; right: 0; animation-delay: 0s; }
+        .float-card:nth-child(2) { top: 170px; right: 70px; animation-delay: 1.2s; }
+        .float-card:nth-child(3) { top: 310px; right: 8px; animation-delay: 0.6s; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+        .float-card-emoji {
+            width: 54px; height: 54px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; flex-shrink: 0;
+        }
+        .float-card-info { flex: 1; min-width: 0; }
+        .float-card-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .float-card-price { font-size: 17px; font-weight: 800; color: var(--primary); margin-top: 2px; }
+        .float-card-tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-top: 4px; }
+
+        /* Features */
+        .features { background: white; padding: 80px 24px; }
+        .features-inner { max-width: 1200px; margin: 0 auto; }
+        .section-label {
+            text-align: center; font-size: 12px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary); margin-bottom: 12px;
+        }
+        .section-title {
+            text-align: center; font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800; letter-spacing: -1px; margin-bottom: 56px;
+        }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .feature-card {
+            padding: 32px; background: var(--bg);
+            border-radius: var(--radius); border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .feature-icon {
+            width: 52px; height: 52px; background: var(--primary-light);
+            border-radius: 14px; display: flex; align-items: center;
+            justify-content: center; font-size: 24px; margin-bottom: 18px;
+        }
+        .feature-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+        .feature-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+        /* CTA */
+        .cta-section { max-width: 1200px; margin: 80px auto; padding: 0 24px; }
+        .cta-inner {
+            background: var(--primary); border-radius: var(--radius);
+            padding: 72px 48px; text-align: center; color: white;
+        }
+        .cta-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .cta-sub { font-size: 17px; opacity: 0.82; margin-bottom: 36px; }
+
+        footer {
+            background: white; border-top: 1px solid var(--border);
+            padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 14px;
+        }
+        .footer-logo { font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+        .footer-logo span { color: var(--primary); }
+
+        /* ── MARKETPLACE ── */
+        .marketplace-layout { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        .filters-bar {
+            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+            padding: 16px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+        }
+        .filter-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-right: 2px; flex-shrink: 0; }
+        .filter-chip {
+            padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border);
+            background: white; font-family: inherit; font-size: 13px; font-weight: 500;
+            cursor: pointer; color: var(--text); transition: all 0.15s;
+        }
+        .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-chip.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .filter-select {
+            height: 36px; padding: 0 12px; border: 1.5px solid var(--border);
+            border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 500;
+            color: var(--text); background: white; cursor: pointer; outline: none; transition: border-color 0.15s;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+        .results-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .results-count { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+        .results-count strong { color: var(--text); }
+        .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+
+        /* Card */
+        .listing-card {
+            background: white; border-radius: var(--radius); overflow: hidden;
+            box-shadow: var(--shadow); cursor: pointer;
+            transition: all 0.22s ease; border: 1px solid transparent;
+        }
+        .listing-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: #e0e0f0; }
+        .card-image {
+            height: 180px; display: flex; align-items: center;
+            justify-content: center; font-size: 72px; position: relative;
+        }
+        .card-condition {
+            position: absolute; top: 12px; left: 12px;
+            padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+        }
+        .condition-like-new { background: #dcfce7; color: #16a34a; }
+        .condition-good { background: #dbeafe; color: #2563eb; }
+        .condition-fair { background: #fef3c7; color: #d97706; }
+        .card-save {
+            position: absolute; top: 10px; right: 10px;
+            width: 34px; height: 34px; background: white; border-radius: 50%;
+            border: none; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: transform 0.15s;
+        }
+        .card-save:hover { transform: scale(1.18); }
+        .card-body { padding: 14px 16px 16px; }
+        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 7px; line-height: 1.3; }
+        .card-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+        .card-size {
+            font-size: 12px; font-weight: 600; color: var(--text-muted);
+            background: var(--bg); padding: 2px 8px; border-radius: 4px;
+        }
+        .card-school { font-size: 12px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .card-bottom { display: flex; align-items: center; justify-content: space-between; }
+        .card-price { font-size: 20px; font-weight: 800; }
+        .card-seller { font-size: 12px; color: var(--text-muted); }
+
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 80px 20px; color: var(--text-muted); }
+        .empty-state-emoji { font-size: 56px; margin-bottom: 16px; }
+        .empty-state h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+
+        /* ── MODALS ── */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            z-index: 200; display: flex; align-items: center; justify-content: center;
+            padding: 20px; animation: fadeIn 0.15s ease;
+        }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        .modal-box {
+            background: white; border-radius: var(--radius); box-shadow: var(--shadow-lg);
+            width: 100%; animation: slideUp 0.22s ease;
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        @keyframes slideUp { from{transform:translateY(22px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .modal-close {
+            position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+            border-radius: 50%; border: none; background: var(--bg); cursor: pointer;
+            font-size: 20px; display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); transition: all 0.15s; z-index: 10;
+        }
+        .modal-close:hover { background: var(--border); color: var(--text); }
+
+        /* Auth modal */
+        #auth-modal .modal-box { max-width: 420px; }
+        .auth-modal-content { padding: 36px; }
+        .auth-tabs {
+            display: flex; background: var(--bg); border-radius: 10px;
+            padding: 4px; margin-bottom: 28px;
+        }
+        .auth-tab {
+            flex: 1; height: 36px; border: none; background: transparent;
+            border-radius: 8px; font-family: inherit; font-size: 14px;
+            font-weight: 600; cursor: pointer; color: var(--text-muted); transition: all 0.15s;
+        }
+        .auth-tab.active { background: white; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .auth-form-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .auth-form-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+        /* Form */
+        .field { margin-bottom: 16px; }
+        .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .field input, .field select, .field textarea {
+            width: 100%; height: 44px; padding: 0 14px;
+            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+            font-family: inherit; font-size: 15px; color: var(--text);
+            background: white; outline: none; transition: border-color 0.15s;
+        }
+        .field textarea { height: 84px; padding: 12px 14px; resize: vertical; }
+        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--primary); }
+        .field input.error, .field select.error { border-color: var(--danger); }
+        .field-error { font-size: 12px; color: var(--danger); margin-top: 5px; display: none; }
+        .field-error.show { display: block; }
+        .field-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+        /* Verification */
+        #verification-screen { text-align: center; padding: 44px 36px 36px; display: none; }
+        .verify-icon { font-size: 56px; margin-bottom: 16px; }
+        .verify-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+        .verify-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.7; }
+        .verify-email-tag { font-weight: 700; color: var(--primary); }
+        .verify-demo-note {
+            font-size: 12px; color: var(--text-light); margin-top: 16px;
+            padding: 12px 16px; background: var(--bg); border-radius: var(--radius-xs); line-height: 1.6;
+        }
+
+        /* Sell modal */
+        #sell-modal .modal-box { max-width: 520px; }
+        .sell-modal-content { padding: 32px; }
+        .sell-modal-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+        .sell-modal-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* Detail modal */
+        #detail-modal .modal-box { max-width: 560px; }
+        .detail-image {
+            height: 260px; display: flex; align-items: center;
+            justify-content: center; font-size: 96px;
+            border-radius: var(--radius) var(--radius) 0 0; position: relative;
+        }
+        .detail-body { padding: 24px 28px; }
+        .detail-price { font-size: 34px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 8px; }
+        .detail-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+        .detail-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .detail-tag {
+            padding: 4px 12px; border-radius: 999px; font-size: 12px;
+            font-weight: 600; background: var(--bg); color: var(--text-muted);
+        }
+        .detail-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
+        .detail-seller {
+            display: flex; align-items: center; gap: 12px;
+            padding: 16px; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 20px;
+        }
+        .detail-seller-name { font-size: 15px; font-weight: 600; }
+        .detail-seller-school { font-size: 13px; color: var(--text-muted); }
+        .detail-seller-badge {
+            font-size: 11px; font-weight: 700; color: var(--success);
+            background: #dcfce7; padding: 3px 10px; border-radius: 999px; margin-left: auto; white-space: nowrap;
+        }
+
+        /* User dropdown */
+        .user-menu { position: relative; }
+        .user-dropdown {
+            position: absolute; top: calc(100% + 8px); right: 0;
+            background: white; border: 1px solid var(--border);
+            border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+            width: 210px; padding: 8px; z-index: 300; display: none;
+        }
+        .user-dropdown.open { display: block; animation: slideUp 0.15s ease; }
+        .dropdown-item {
+            width: 100%; padding: 10px 14px; border: none; background: transparent;
+            border-radius: var(--radius-xs); font-family: inherit; font-size: 14px;
+            font-weight: 500; color: var(--text); cursor: pointer; text-align: left; transition: background 0.12s;
+        }
+        .dropdown-item:hover { background: var(--bg); }
+        .dropdown-item.danger { color: var(--danger); }
+        .dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
+        .dropdown-user-info { padding: 10px 14px 6px; }
+        .dropdown-user-name { font-size: 14px; font-weight: 700; }
+        .dropdown-user-email { font-size: 12px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Toast */
+        #toast {
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1f2937; color: white;
+            padding: 13px 26px; border-radius: 999px;
+            font-size: 14px; font-weight: 500; z-index: 1000;
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: var(--shadow-md); pointer-events: none; white-space: nowrap;
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+        #toast.success { background: var(--success); }
+        #toast.error { background: var(--danger); }
+
+        /* Welcome bar */
+        .welcome-bar {
+            padding: 20px 0 4px;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+        }
+        .welcome-greeting { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+        .welcome-sub { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .features-grid { grid-template-columns: 1fr; gap: 16px; }
+        }
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; padding: 40px 20px; gap: 32px; }
+            .hero-visual { display: none; }
+            .hero-title { letter-spacing: -1.5px; }
+            .field-row { grid-template-columns: 1fr; }
+            .filters-bar { gap: 6px; }
+            .cta-inner { padding: 48px 28px; }
+        }
+        @media (max-width: 480px) {
+            .hero-stats { gap: 20px; }
+            .nav-inner { padding: 0 16px; }
+            .marketplace-layout { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+    <div class="nav-inner">
+        <span class="logo" onclick="handleLogoClick()">thred<span>U</span></span>
+
+        <div class="nav-search hidden" id="nav-search">
+            <svg class="nav-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search clothes, brands, sizes..." oninput="handleSearch(this.value)">
+        </div>
+
+        <div class="nav-right">
+            <button class="btn btn-ghost" id="nav-login-btn" onclick="openAuth('login')">Log in</button>
+            <button class="btn btn-primary" id="nav-signup-btn" onclick="openAuth('signup')">Sign up free</button>
+            <button class="btn btn-primary hidden" id="nav-sell-btn" onclick="openSellModal()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Sell
+            </button>
+            <div class="user-menu hidden" id="nav-user-menu">
+                <div class="avatar" id="nav-avatar" onclick="toggleDropdown()"></div>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="dropdown-user-info">
+                        <div class="dropdown-user-name" id="dd-name"></div>
+                        <div class="dropdown-user-email" id="dd-email"></div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item" onclick="closeDropdown()">My Listings</button>
+                    <button class="dropdown-item" onclick="closeDropdown()">Saved Items</button>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item danger" onclick="logout()">Log out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ── LANDING PAGE ── -->
+<div id="landing-page">
+    <section class="hero">
+        <div>
+            <div class="hero-badge">🎓 College students only</div>
+            <h1 class="hero-title">Your campus closet,<br><span class="accent">reimagined.</span></h1>
+            <p class="hero-sub">Buy and sell clothes with students at your school. Verified .edu emails mean you always know who you're dealing with.</p>
+            <div class="hero-ctas">
+                <button class="btn btn-primary btn-lg" onclick="openAuth('signup')">Start selling</button>
+                <button class="btn btn-ghost btn-lg" onclick="openAuth('signup')">Browse listings</button>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num">12k+</div>
+                    <div class="hero-stat-label">Active listings</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">340+</div>
+                    <div class="hero-stat-label">Colleges</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">$18</div>
+                    <div class="hero-stat-label">Avg. price</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="float-card">
+                <div class="float-card-emoji" style="background:#dbeafe">👖</div>
+                <div class="float-card-info">
+                    <div class="float-card-name">Levi's 501 Jeans</div>
+                    <div class="float-card-price">$45</div>
+                    <span class="float-card-tag" style="background:#dcfce7;color:#16a34a">Like New</span>
+                </div>
+            </div>
+            <div class="float-card">
+                <div class="float-card-emoji" style="background:#fce7f3">👗</div>
+                <div class="float-card-info">
+                    <div class="float-card-name">Zara Floral Dress</div>
+                    <div class="float-card-price">$20</div>
+                    <span class="float-card-tag" style="background:#dbeafe;color:#2563eb">Good</span>
+                </div>
+            </div>
+            <div class="float-card">
+                <div class="float-card-emoji" style="background:#d1fae5">🧥</div>
+                <div class="float-card-info">
+                    <div class="float-card-name">Patagonia Fleece</div>
+                    <div class="float-card-price">$55</div>
+                    <span class="float-card-tag" style="background:#dcfce7;color:#16a34a">Like New</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features-inner">
+            <div class="section-label">Why thredU?</div>
+            <h2 class="section-title">Resale built for campus life</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">.edu verified only</h3>
+                    <p class="feature-desc">Every user must sign up with a verified college email. No strangers — just fellow students you can trust.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3 class="feature-title">List in under 2 min</h3>
+                    <p class="feature-desc">Fill in a few details, set your price, and your item is live. No photography studio required — just the facts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3 class="feature-title">Safe campus swaps</h3>
+                    <p class="feature-desc">Meet at the library, the quad, or the dining hall. Local pickup keeps it simple and safe — no shipping drama.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-inner">
+            <h2 class="cta-title">Ready to clear out your closet?</h2>
+            <p class="cta-sub">Join thousands of students already buying and selling on thredU.</p>
+            <button class="btn btn-white btn-lg" onclick="openAuth('signup')">Get started — it's free</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">thred<span>U</span></div>
+        <p>Made for students, by students. &copy; 2025 thredU, Inc.</p>
+    </footer>
+</div>
+
+<!-- ── MARKETPLACE ── -->
+<div id="marketplace-page" class="hidden">
+    <div class="marketplace-layout">
+        <div class="welcome-bar">
+            <div>
+                <div class="welcome-greeting" id="welcome-greeting"></div>
+                <div class="welcome-sub" id="welcome-sub"></div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="openSellModal()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Post a listing
+            </button>
+        </div>
+
+        <div class="filters-bar">
+            <span class="filter-label">Category:</span>
+            <button class="filter-chip active" onclick="setCategory('all', this)">All</button>
+            <button class="filter-chip" onclick="setCategory('Tops', this)">Tops</button>
+            <button class="filter-chip" onclick="setCategory('Bottoms', this)">Bottoms</button>
+            <button class="filter-chip" onclick="setCategory('Outerwear', this)">Outerwear</button>
+            <button class="filter-chip" onclick="setCategory('Dresses', this)">Dresses</button>
+            <button class="filter-chip" onclick="setCategory('Shoes', this)">Shoes</button>
+            <button class="filter-chip" onclick="setCategory('Accessories', this)">Accessories</button>
+            <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
+                <select class="filter-select" onchange="setCondition(this.value)">
+                    <option value="all">Any condition</option>
+                    <option value="Like New">Like New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                </select>
+                <select class="filter-select" onchange="setSortOrder(this.value)">
+                    <option value="newest">Newest first</option>
+                    <option value="price-low">Price: low → high</option>
+                    <option value="price-high">Price: high → low</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="results-header">
+            <div class="results-count" id="results-count"></div>
+        </div>
+        <div class="listings-grid" id="listings-grid"></div>
+    </div>
+</div>
+
+<!-- ── AUTH MODAL ── -->
+<div class="modal-overlay hidden" id="auth-modal" onclick="overlayClick(event,'auth-modal')">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeAuth()">&#x2715;</button>
+
+        <div id="auth-forms">
+            <div class="auth-modal-content">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-signup" onclick="switchTab('signup')">Sign up</button>
+                    <button class="auth-tab" id="tab-login" onclick="switchTab('login')">Log in</button>
+                </div>
+
+                <!-- Signup -->
+                <div id="form-signup">
+                    <div class="auth-form-title">Create your account</div>
+                    <div class="auth-form-sub">Use your college .edu email to get verified.</div>
+                    <div class="field">
+                        <label for="su-name">Full name</label>
+                        <input type="text" id="su-name" placeholder="Your name" autocomplete="name">
+                        <div class="field-error" id="err-su-name">Please enter your name.</div>
+                    </div>
+                    <div class="field">
+                        <label for="su-email">College email</label>
+                        <input type="email" id="su-email" placeholder="you@university.edu" autocomplete="email" oninput="onEduEmailInput()">
+                        <div class="field-error" id="err-su-email">Must be a valid .edu email address.</div>
+                        <div class="field-hint" id="hint-school"></div>
+                    </div>
+                    <div class="field">
+                        <label for="su-pass">Password</label>
+                        <input type="password" id="su-pass" placeholder="At least 8 characters" autocomplete="new-password">
+                        <div class="field-error" id="err-su-pass">Password must be at least 8 characters.</div>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="handleSignup()" style="margin-top:8px">Create account &rarr;</button>
+                    <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:14px">
+                        By signing up you agree to our <a href="#" style="color:var(--primary)">Terms</a> and <a href="#" style="color:var(--primary)">Privacy Policy</a>.
+                    </p>
+                </div>
+
+                <!-- Login -->
+                <div id="form-login" class="hidden">
+                    <div class="auth-form-title">Welcome back</div>
+                    <div class="auth-form-sub">Sign in with your college email.</div>
+                    <div class="field">
+                        <label for="li-email">College email</label>
+                        <input type="email" id="li-email" placeholder="you@university.edu" autocomplete="email">
+                        <div class="field-error" id="err-li-email">Please enter a valid .edu email.</div>
+                    </div>
+                    <div class="field">
+                        <label for="li-pass">Password</label>
+                        <input type="password" id="li-pass" placeholder="Your password" autocomplete="current-password">
+                        <div class="field-error" id="err-li-pass">Incorrect email or password.</div>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="handleLogin()" style="margin-top:8px">Log in &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification screen -->
+        <div id="verification-screen">
+            <div class="verify-icon">📬</div>
+            <div class="verify-title">Check your inbox!</div>
+            <div class="verify-sub">
+                We sent a verification link to<br>
+                <span class="verify-email-tag" id="verify-email-display"></span>
+                <br><br>
+                Click the link to confirm your .edu address and unlock the marketplace.
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="simulateVerification()" style="margin:0 auto;display:flex">
+                &#10003; Simulate email click
+            </button>
+            <p class="verify-demo-note">Demo only — in production, the user would receive a real email and click the verification link from their college inbox.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ── SELL MODAL ── -->
+<div class="modal-overlay hidden" id="sell-modal" onclick="overlayClick(event,'sell-modal')">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeSellModal()">&#x2715;</button>
+        <div class="sell-modal-content">
+            <div class="sell-modal-title">Post a listing</div>
+            <div class="sell-modal-sub">Fill in the details and start selling in seconds.</div>
+            <div class="field">
+                <label for="sell-title">Item name</label>
+                <input type="text" id="sell-title" placeholder="e.g. Nike Hoodie, Levi's 501 Jeans…">
+                <div class="field-error" id="err-sell-title">Please enter an item name.</div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label for="sell-price">Price ($)</label>
+                    <input type="number" id="sell-price" placeholder="25" min="1" max="9999">
+                    <div class="field-error" id="err-sell-price">Enter a valid price.</div>
+                </div>
+                <div class="field">
+                    <label for="sell-size">Size</label>
+                    <input type="text" id="sell-size" placeholder="e.g. M, 8, 30×32">
+                    <div class="field-error" id="err-sell-size">Please enter a size.</div>
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label for="sell-category">Category</label>
+                    <select id="sell-category">
+                        <option value="">Select…</option>
+                        <option>Tops</option><option>Bottoms</option><option>Outerwear</option>
+                        <option>Dresses</option><option>Shoes</option><option>Accessories</option>
+                    </select>
+                    <div class="field-error" id="err-sell-category">Select a category.</div>
+                </div>
+                <div class="field">
+                    <label for="sell-condition">Condition</label>
+                    <select id="sell-condition">
+                        <option value="">Select…</option>
+                        <option>Like New</option><option>Good</option><option>Fair</option>
+                    </select>
+                    <div class="field-error" id="err-sell-condition">Select a condition.</div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="sell-desc">Description <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+                <textarea id="sell-desc" placeholder="Any wear, pickup location preferences, or other details…"></textarea>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="handleSellSubmit()">Post listing &rarr;</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── DETAIL MODAL ── -->
+<div class="modal-overlay hidden" id="detail-modal" onclick="overlayClick(event,'detail-modal')">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeDetailModal()">&#x2715;</button>
+        <div id="detail-content"></div>
+    </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast"></div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+
+const SCHOOL_MAP = {
+    mit:'MIT', harvard:'Harvard', yale:'Yale', princeton:'Princeton',
+    stanford:'Stanford', columbia:'Columbia', cornell:'Cornell',
+    dartmouth:'Dartmouth', upenn:'UPenn', brown:'Brown',
+    bu:'Boston University', northeastern:'Northeastern', bc:'Boston College',
+    umass:'UMass Amherst', tufts:'Tufts', emerson:'Emerson',
+    berklee:'Berklee College of Music', simmons:'Simmons', suffolk:'Suffolk',
+    nyu:'NYU', fordham:'Fordham', pace:'Pace', newschool:'The New School',
+    usc:'USC', ucla:'UCLA', ucb:'UC Berkeley', ucsb:'UCSB', ucsd:'UC San Diego',
+    ucdavis:'UC Davis', uci:'UC Irvine', ucr:'UC Riverside', ucsc:'UC Santa Cruz',
+    uchicago:'University of Chicago', northwestern:'Northwestern', purdue:'Purdue',
+    osu:'Ohio State', umich:'University of Michigan', msu:'Michigan State',
+    duke:'Duke', unc:'UNC Chapel Hill', gatech:'Georgia Tech',
+    vt:'Virginia Tech', uva:'University of Virginia', georgetown:'Georgetown',
+    gmu:'George Mason', gwu:'George Washington', american:'American University',
+    drexel:'Drexel', temple:'Temple', pitt:'University of Pittsburgh',
+    cmu:'Carnegie Mellon', rutgers:'Rutgers', njit:'NJIT',
+    cuny:'CUNY', caltech:'Caltech', rice:'Rice', tulane:'Tulane',
+    vanderbilt:'Vanderbilt', emory:'Emory', wake:'Wake Forest',
+    nd:'Notre Dame', bc:'Boston College', villanova:'Villanova',
+    asu:'Arizona State', ua:'University of Arizona', cu:'University of Colorado',
+    colorado:'University of Colorado', uw:'University of Washington',
+    oregonstate:'Oregon State', uoregon:'University of Oregon',
+    lsu:'LSU', auburn:'Auburn', alabama:'University of Alabama',
+    usf:'University of South Florida', fsu:'Florida State', uf:'University of Florida',
+    ucf:'UCF', miami:'University of Miami', fiu:'FIU', fau:'FAU',
+};
+
+const CATEGORY_EMOJI = {
+    Tops:        ['👕','#e0f2fe'],
+    Bottoms:     ['👖','#dbeafe'],
+    Outerwear:   ['🧥','#d1fae5'],
+    Dresses:     ['👗','#fce7f3'],
+    Shoes:       ['👟','#fef3c7'],
+    Accessories: ['🧢','#f3e8ff'],
+};
+
+const SAMPLE = [
+    { id:1,  title:"Vintage Levi's 501 Jeans",           price:45, size:"W30 L32",  condition:"Good",     category:"Bottoms",     seller:"Alex K.",   school:"Boston University", emoji:"👖", color:"#dbeafe", daysAgo:2, desc:"Classic 501s in great shape. Light fade, no rips. Washed and ready." },
+    { id:2,  title:"Nike Air Force 1 Low (White)",        price:65, size:"M 10",     condition:"Like New", category:"Shoes",       seller:"Jordan M.", school:"Northeastern",      emoji:"👟", color:"#fef3c7", daysAgo:1, desc:"Only worn twice. Cleaned, no yellowing on the sole. No box." },
+    { id:3,  title:"Patagonia Better Sweater Fleece",     price:55, size:"L",        condition:"Good",     category:"Outerwear",   seller:"Sam R.",    school:"Boston University", emoji:"🧥", color:"#d1fae5", daysAgo:3, desc:"Navy blue, perfect for fall. Light pilling on elbows but solid otherwise." },
+    { id:4,  title:"Zara Floral Mini Dress",              price:20, size:"S",        condition:"Like New", category:"Dresses",     seller:"Taylor W.", school:"Emerson",           emoji:"👗", color:"#fce7f3", daysAgo:5, desc:"Wore it once to a party. Beautiful print, fits true to size." },
+    { id:5,  title:"Champion Reverse Weave Hoodie",       price:28, size:"XL",       condition:"Good",     category:"Tops",        seller:"Chris B.",  school:"UMass Amherst",     emoji:"👕", color:"#e0f2fe", daysAgo:1, desc:"Heather grey, cozy and thick. Minor wash fading, otherwise great." },
+    { id:6,  title:"Lululemon Align Leggings",            price:45, size:"Size 6",   condition:"Like New", category:"Bottoms",     seller:"Morgan P.", school:"Boston College",    emoji:"👖", color:"#ffe4e6", daysAgo:4, desc:"Black, 28\" inseam. A few wears, no pilling. Offers welcome!" },
+    { id:7,  title:"Carhartt WIP Acrylic Beanie",         price:14, size:"One Size", condition:"Good",     category:"Accessories", seller:"Riley S.",  school:"Tufts",             emoji:"🧢", color:"#f3e8ff", daysAgo:6, desc:"Dark brown colorway, one small snag on inside but not visible." },
+    { id:8,  title:"Aritzia Super Puff Jacket",           price:95, size:"XS",       condition:"Like New", category:"Outerwear",   seller:"Quinn A.",  school:"Simmons",           emoji:"🧥", color:"#dbeafe", daysAgo:2, desc:"Caramel color, worn maybe 3 times last winter. Perfect condition." },
+    { id:9,  title:"Dr. Martens 1460 Boots",              price:80, size:"W 8",      condition:"Good",     category:"Shoes",       seller:"Avery L.",  school:"Suffolk",           emoji:"👢", color:"#d1fae5", daysAgo:7, desc:"Classic black. Light scuffs on toe — normal Doc wear. Very wearable." },
+    { id:10, title:"Free People Peasant Blouse",          price:22, size:"S/M",      condition:"Good",     category:"Tops",        seller:"Drew N.",   school:"Berklee",           emoji:"👕", color:"#fce7f3", daysAgo:3, desc:"Flowy cream top, super versatile. Hand-washed, no stains." },
+    { id:11, title:"Adidas Campus 00s Sneakers",          price:50, size:"M 9",      condition:"Like New", category:"Shoes",       seller:"Jamie O.",  school:"MIT",               emoji:"👟", color:"#fef3c7", daysAgo:1, desc:"White/off-white colorway. Worn twice, still crispy. No box." },
+    { id:12, title:"Urban Outfitters Corduroy Jacket",    price:38, size:"M",        condition:"Good",     category:"Outerwear",   seller:"Casey F.",  school:"Harvard",           emoji:"🧥", color:"#fef3c7", daysAgo:8, desc:"Rust orange cord jacket, slightly oversized. Classic and timeless." },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+
+const state = {
+    user: null,
+    pendingUser: null,
+    listings: [...SAMPLE],
+    filters: { category:'all', condition:'all', sort:'newest', search:'' },
+    saved: new Set(),
+    nextId: 200,
+};
+
+function loadState() {
+    try {
+        const u = localStorage.getItem('thredu_user');
+        if (u) state.user = JSON.parse(u);
+        const extra = localStorage.getItem('thredu_listings');
+        if (extra) state.listings = [...SAMPLE, ...JSON.parse(extra)];
+        const sv = localStorage.getItem('thredu_saved');
+        if (sv) state.saved = new Set(JSON.parse(sv));
+        if (!localStorage.getItem('thredu_accounts')) localStorage.setItem('thredu_accounts', '{}');
+    } catch {}
+}
+
+function persistUser()     { state.user ? localStorage.setItem('thredu_user', JSON.stringify(state.user)) : localStorage.removeItem('thredu_user'); }
+function persistListings() { localStorage.setItem('thredu_listings', JSON.stringify(state.listings.filter(l => l.id >= 200))); }
+function persistSaved()    { localStorage.setItem('thredu_saved', JSON.stringify([...state.saved])); }
+
+// ─── ROUTING ─────────────────────────────────────────────────────────────────
+
+function showLanding() {
+    document.getElementById('landing-page').style.display = '';
+    document.getElementById('marketplace-page').classList.add('hidden');
+    document.getElementById('nav-search').classList.add('hidden');
+    document.getElementById('nav-login-btn').classList.remove('hidden');
+    document.getElementById('nav-signup-btn').classList.remove('hidden');
+    document.getElementById('nav-sell-btn').classList.add('hidden');
+    document.getElementById('nav-user-menu').classList.add('hidden');
+}
+
+function showMarketplace() {
+    document.getElementById('landing-page').style.display = 'none';
+    document.getElementById('marketplace-page').classList.remove('hidden');
+    document.getElementById('nav-search').classList.remove('hidden');
+    document.getElementById('nav-login-btn').classList.add('hidden');
+    document.getElementById('nav-signup-btn').classList.add('hidden');
+    document.getElementById('nav-sell-btn').classList.remove('hidden');
+    document.getElementById('nav-user-menu').classList.remove('hidden');
+
+    const first = state.user.name.split(' ')[0];
+    const initials = state.user.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('nav-avatar').textContent = initials;
+    document.getElementById('dd-name').textContent = state.user.name;
+    document.getElementById('dd-email').textContent = state.user.email;
+    document.getElementById('welcome-greeting').textContent = `Hey, ${first}! 👋`;
+    document.getElementById('welcome-sub').textContent = `Browsing listings at ${state.user.school}`;
+    renderListings();
+}
+
+function handleLogoClick() {
+    state.user ? showMarketplace() : showLanding();
+}
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
+
+function openAuth(tab) {
+    el('auth-modal').classList.remove('hidden');
+    el('verification-screen').style.display = 'none';
+    el('auth-forms').style.display = '';
+    switchTab(tab || 'signup');
+}
+
+function closeAuth() {
+    el('auth-modal').classList.add('hidden');
+    clearErrors();
+}
+
+function switchTab(tab) {
+    const isSignup = tab === 'signup';
+    el('form-signup').classList.toggle('hidden', !isSignup);
+    el('form-login').classList.toggle('hidden', isSignup);
+    el('tab-signup').classList.toggle('active', isSignup);
+    el('tab-login').classList.toggle('active', !isSignup);
+    clearErrors();
+}
+
+function clearErrors() {
+    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.field input.error, .field select.error').forEach(e => e.classList.remove('error'));
+}
+
+function showErr(errId, fieldId) {
+    el(errId)?.classList.add('show');
+    if (fieldId) el(fieldId)?.classList.add('error');
+}
+
+function isEdu(email) { return email.endsWith('.edu') && email.includes('@'); }
+
+function schoolFromEmail(email) {
+    const domain = email.split('@')[1] || '';
+    const key = domain.replace('.edu','').split('.').pop();
+    if (SCHOOL_MAP[key]) return SCHOOL_MAP[key];
+    return key.split(/[-_]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') + ' University';
+}
+
+function onEduEmailInput() {
+    const email = el('su-email').value.trim().toLowerCase();
+    const hint = el('hint-school');
+    if (isEdu(email)) {
+        hint.textContent = '🎓 ' + schoolFromEmail(email);
+        hint.style.color = 'var(--success)';
+        el('su-email').classList.remove('error');
+        el('err-su-email').classList.remove('show');
+    } else {
+        hint.textContent = '';
+    }
+}
+
+function handleSignup() {
+    clearErrors();
+    const name  = el('su-name').value.trim();
+    const email = el('su-email').value.trim().toLowerCase();
+    const pass  = el('su-pass').value;
+    let ok = true;
+
+    if (!name)            { showErr('err-su-name','su-name'); ok = false; }
+    if (!isEdu(email))    { showErr('err-su-email','su-email'); ok = false; }
+    if (pass.length < 8)  { showErr('err-su-pass','su-pass'); ok = false; }
+    if (!ok) return;
+
+    const accounts = JSON.parse(localStorage.getItem('thredu_accounts') || '{}');
+    const school = schoolFromEmail(email);
+    accounts[email] = { name, pass, school, verified: false };
+    localStorage.setItem('thredu_accounts', JSON.stringify(accounts));
+
+    state.pendingUser = { name, email, school };
+    el('auth-forms').style.display = 'none';
+    el('verification-screen').style.display = '';
+    el('verify-email-display').textContent = email;
+}
+
+function simulateVerification() {
+    const { name, email, school } = state.pendingUser;
+    const accounts = JSON.parse(localStorage.getItem('thredu_accounts') || '{}');
+    if (accounts[email]) accounts[email].verified = true;
+    localStorage.setItem('thredu_accounts', JSON.stringify(accounts));
+
+    state.user = { name, email, school, verified: true };
+    persistUser();
+    closeAuth();
+    showMarketplace();
+    toast(`Welcome to thredU, ${name.split(' ')[0]}! 🎉`, 'success');
+}
+
+function handleLogin() {
+    clearErrors();
+    const email = el('li-email').value.trim().toLowerCase();
+    const pass  = el('li-pass').value;
+    let ok = true;
+
+    if (!isEdu(email)) { showErr('err-li-email','li-email'); ok = false; }
+    if (!pass)         { showErr('err-li-pass','li-pass'); ok = false; }
+    if (!ok) return;
+
+    const accounts = JSON.parse(localStorage.getItem('thredu_accounts') || '{}');
+    const acct = accounts[email];
+
+    if (!acct || acct.pass !== pass) {
+        showErr('err-li-pass','li-pass');
+        el('err-li-pass').textContent = 'Incorrect email or password.';
+        return;
+    }
+
+    state.user = { name: acct.name, email, school: acct.school, verified: true };
+    persistUser();
+    closeAuth();
+    showMarketplace();
+    toast(`Welcome back, ${acct.name.split(' ')[0]}!`, 'success');
+}
+
+function logout() {
+    state.user = null;
+    state.filters = { category:'all', condition:'all', sort:'newest', search:'' };
+    persistUser();
+    closeDropdown();
+    showLanding();
+    toast('Logged out. See you around!');
+}
+
+// ─── MARKETPLACE ─────────────────────────────────────────────────────────────
+
+function filteredListings() {
+    let list = [...state.listings];
+    const { category, condition, sort, search } = state.filters;
+
+    if (category !== 'all') list = list.filter(l => l.category === category);
+    if (condition !== 'all') list = list.filter(l => l.condition === condition);
+    if (search) {
+        const q = search.toLowerCase();
+        list = list.filter(l =>
+            l.title.toLowerCase().includes(q) ||
+            l.category.toLowerCase().includes(q) ||
+            l.seller.toLowerCase().includes(q) ||
+            l.school.toLowerCase().includes(q)
+        );
+    }
+
+    if (sort === 'price-low')  list.sort((a,b) => a.price - b.price);
+    else if (sort === 'price-high') list.sort((a,b) => b.price - a.price);
+    else list.sort((a,b) => (a.daysAgo||0) - (b.daysAgo||0));
+
+    return list;
+}
+
+function renderListings() {
+    const grid = el('listings-grid');
+    const list = filteredListings();
+    el('results-count').innerHTML = `<strong>${list.length}</strong> listing${list.length !== 1 ? 's' : ''} found`;
+
+    if (!list.length) {
+        grid.innerHTML = `<div class="empty-state">
+            <div class="empty-state-emoji">🔍</div>
+            <h3>No listings found</h3>
+            <p>Try adjusting your filters or search term.</p>
+        </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(l => {
+        const condClass = l.condition === 'Like New' ? 'condition-like-new' : l.condition === 'Good' ? 'condition-good' : 'condition-fair';
+        const saved = state.saved.has(l.id);
+        const time  = l.daysAgo === 0 ? 'Just now' : l.daysAgo === 1 ? '1 day ago' : `${l.daysAgo}d ago`;
+        return `
+        <div class="listing-card" onclick="openDetail(${l.id})">
+            <div class="card-image" style="background:${l.color}">
+                ${l.emoji}
+                <span class="card-condition ${condClass}">${l.condition}</span>
+                <button class="card-save" onclick="toggleSave(event,${l.id})">${saved ? '❤️' : '🤍'}</button>
+            </div>
+            <div class="card-body">
+                <div class="card-title">${esc(l.title)}</div>
+                <div class="card-meta">
+                    <span class="card-size">${esc(l.size)}</span>
+                    <span class="card-school">&bull; ${esc(l.school)}</span>
+                </div>
+                <div class="card-bottom">
+                    <div class="card-price">$${l.price}</div>
+                    <div class="card-seller">${esc(l.seller)} &middot; ${time}</div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function setCategory(cat, btn) {
+    state.filters.category = cat;
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderListings();
+}
+function setCondition(v)  { state.filters.condition = v; renderListings(); }
+function setSortOrder(v)  { state.filters.sort = v; renderListings(); }
+function handleSearch(v)  { state.filters.search = v; renderListings(); }
+
+function toggleSave(e, id) {
+    e.stopPropagation();
+    if (state.saved.has(id)) { state.saved.delete(id); toast('Removed from saved'); }
+    else { state.saved.add(id); toast('Saved! ❤️', 'success'); }
+    persistSaved();
+    renderListings();
+}
+
+// ─── DETAIL MODAL ─────────────────────────────────────────────────────────────
+
+function openDetail(id) {
+    const l = state.listings.find(x => x.id === id);
+    if (!l) return;
+    const condClass = l.condition === 'Like New' ? 'condition-like-new' : l.condition === 'Good' ? 'condition-good' : 'condition-fair';
+    const saved = state.saved.has(id);
+    const initials = l.seller.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const time = l.daysAgo === 0 ? 'Today' : l.daysAgo === 1 ? 'Yesterday' : `${l.daysAgo} days ago`;
+
+    el('detail-content').innerHTML = `
+        <div class="detail-image" style="background:${l.color}">
+            ${l.emoji}
+            <span class="card-condition ${condClass}" style="position:absolute;top:16px;left:16px">${l.condition}</span>
+        </div>
+        <div class="detail-body">
+            <div class="detail-price">$${l.price}</div>
+            <div class="detail-title">${esc(l.title)}</div>
+            <div class="detail-tags">
+                <span class="detail-tag">📐 ${esc(l.size)}</span>
+                <span class="detail-tag">📂 ${esc(l.category)}</span>
+                <span class="detail-tag">📅 ${time}</span>
+            </div>
+            ${l.desc ? `<p class="detail-desc">${esc(l.desc)}</p>` : ''}
+            <div class="detail-seller">
+                <div class="avatar">${initials}</div>
+                <div>
+                    <div class="detail-seller-name">${esc(l.seller)}</div>
+                    <div class="detail-seller-school">🎓 ${esc(l.school)}</div>
+                </div>
+                <span class="detail-seller-badge">&#10003; .edu verified</span>
+            </div>
+            <div style="display:flex;gap:10px">
+                <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="handleContact(${id})">Message seller</button>
+                <button class="btn btn-outline" id="save-detail-btn" onclick="toggleSaveDetail(${id})">${saved ? '❤️ Saved' : '🤍 Save'}</button>
+            </div>
+        </div>`;
+    el('detail-modal').classList.remove('hidden');
+}
+
+function closeDetailModal() { el('detail-modal').classList.add('hidden'); }
+
+function toggleSaveDetail(id) {
+    if (state.saved.has(id)) { state.saved.delete(id); el('save-detail-btn').textContent = '🤍 Save'; toast('Removed from saved'); }
+    else { state.saved.add(id); el('save-detail-btn').textContent = '❤️ Saved'; toast('Saved! ❤️', 'success'); }
+    persistSaved();
+    renderListings();
+}
+
+function handleContact(id) {
+    const l = state.listings.find(x => x.id === id);
+    toast(`Message sent to ${l.seller.split(' ')[0]}! (demo feature)`, 'success');
+    closeDetailModal();
+}
+
+// ─── SELL MODAL ───────────────────────────────────────────────────────────────
+
+function openSellModal()  { el('sell-modal').classList.remove('hidden'); }
+function closeSellModal() {
+    el('sell-modal').classList.add('hidden');
+    ['sell-title','sell-price','sell-size','sell-desc'].forEach(id => { if(el(id)) el(id).value = ''; });
+    el('sell-category').value = '';
+    el('sell-condition').value = '';
+    document.querySelectorAll('#sell-modal .field-error').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('#sell-modal .field input.error, #sell-modal .field select.error').forEach(e => e.classList.remove('error'));
+}
+
+function handleSellSubmit() {
+    document.querySelectorAll('#sell-modal .field-error').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('#sell-modal .field input.error, #sell-modal .field select.error').forEach(e => e.classList.remove('error'));
+
+    const title     = el('sell-title').value.trim();
+    const price     = parseFloat(el('sell-price').value);
+    const size      = el('sell-size').value.trim();
+    const category  = el('sell-category').value;
+    const condition = el('sell-condition').value;
+    const desc      = el('sell-desc').value.trim();
+    let ok = true;
+
+    if (!title)            { showErr('err-sell-title','sell-title'); ok = false; }
+    if (!price || price<1) { showErr('err-sell-price','sell-price'); ok = false; }
+    if (!size)             { showErr('err-sell-size','sell-size'); ok = false; }
+    if (!category)         { showErr('err-sell-category','sell-category'); ok = false; }
+    if (!condition)        { showErr('err-sell-condition','sell-condition'); ok = false; }
+    if (!ok) return;
+
+    const [emoji, color] = CATEGORY_EMOJI[category] || ['👕','#e0f2fe'];
+    const name = state.user.name;
+    const sellerDisplay = name.split(' ').length > 1
+        ? name.split(' ')[0] + ' ' + name.split(' ').slice(1).map(n=>n[0]+'.').join(' ')
+        : name;
+
+    const listing = {
+        id: state.nextId++, title, price: Math.round(price), size, category, condition,
+        desc, seller: sellerDisplay, sellerEmail: state.user.email,
+        school: state.user.school, emoji, color, daysAgo: 0,
+    };
+
+    state.listings.unshift(listing);
+    persistListings();
+    closeSellModal();
+
+    state.filters = { category:'all', condition:'all', sort:'newest', search:'' };
+    el('search-input').value = '';
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    document.querySelector('.filter-chip').classList.add('active');
+    document.querySelectorAll('.filter-select').forEach(s => s.selectedIndex = 0);
+
+    renderListings();
+    toast(`"${title}" listed for $${Math.round(price)}! 🎉`, 'success');
+}
+
+// ─── USER DROPDOWN ────────────────────────────────────────────────────────────
+
+function toggleDropdown() { el('user-dropdown').classList.toggle('open'); }
+function closeDropdown()  { el('user-dropdown').classList.remove('open'); }
+
+document.addEventListener('click', e => {
+    if (!el('nav-avatar')?.contains(e.target) && !el('user-dropdown')?.contains(e.target)) closeDropdown();
+});
+
+// ─── MODAL HELPERS ────────────────────────────────────────────────────────────
+
+function overlayClick(e, id) {
+    if (e.target === el(id)) {
+        if (id === 'auth-modal') closeAuth();
+        else if (id === 'sell-modal') closeSellModal();
+        else if (id === 'detail-modal') closeDetailModal();
+    }
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    closeAuth(); closeSellModal(); closeDetailModal(); closeDropdown();
+});
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+
+let _toastTimer;
+function toast(msg, type = '') {
+    const t = el('toast');
+    t.textContent = msg;
+    t.className = type ? `show ${type}` : 'show';
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => { t.className = ''; }, 3000);
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+
+function el(id) { return document.getElementById(id); }
+function esc(s) {
+    return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ─── BOOT ────────────────────────────────────────────────────────────────────
+
+loadState();
+if (state.user?.verified) showMarketplace();
+else showLanding();
+</script>
+</body>
+</html>
