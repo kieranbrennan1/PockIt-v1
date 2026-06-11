@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>thredU — Campus Clothing Marketplace</title>
+    <title>Pockit — Campus Clothing Marketplace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -432,7 +432,7 @@
 <!-- ── NAVBAR ── -->
 <nav>
     <div class="nav-inner">
-        <span class="logo" onclick="handleLogoClick()">thred<span>U</span></span>
+        <span class="logo" onclick="handleLogoClick()">Pock<span>it</span></span>
 
         <div class="nav-search hidden" id="nav-search">
             <svg class="nav-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -524,7 +524,7 @@
 
     <section class="features">
         <div class="features-inner">
-            <div class="section-label">Why thredU?</div>
+            <div class="section-label">Why Pockit?</div>
             <h2 class="section-title">Resale built for campus life</h2>
             <div class="features-grid">
                 <div class="feature-card">
@@ -549,14 +549,14 @@
     <section class="cta-section">
         <div class="cta-inner">
             <h2 class="cta-title">Ready to clear out your closet?</h2>
-            <p class="cta-sub">Join thousands of students already buying and selling on thredU.</p>
+            <p class="cta-sub">Join thousands of students already buying and selling on Pockit.</p>
             <button class="btn btn-white btn-lg" onclick="openAuth('signup')">Get started — it's free</button>
         </div>
     </section>
 
     <footer>
-        <div class="footer-logo">thred<span>U</span></div>
-        <p>Made for students, by students. &copy; 2025 thredU, Inc.</p>
+        <div class="footer-logo">Pock<span>it</span></div>
+        <p>Made for students, by students. &copy; 2025 Pockit, Inc.</p>
     </footer>
 </div>
 
@@ -813,19 +813,19 @@ const state = {
 
 function loadState() {
     try {
-        const u = localStorage.getItem('thredu_user');
+        const u = localStorage.getItem('pockit_user');
         if (u) state.user = JSON.parse(u);
-        const extra = localStorage.getItem('thredu_listings');
+        const extra = localStorage.getItem('pockit_listings');
         if (extra) state.listings = [...SAMPLE, ...JSON.parse(extra)];
-        const sv = localStorage.getItem('thredu_saved');
+        const sv = localStorage.getItem('pockit_saved');
         if (sv) state.saved = new Set(JSON.parse(sv));
-        if (!localStorage.getItem('thredu_accounts')) localStorage.setItem('thredu_accounts', '{}');
+        if (!localStorage.getItem('pockit_accounts')) localStorage.setItem('pockit_accounts', '{}');
     } catch {}
 }
 
-function persistUser()     { state.user ? localStorage.setItem('thredu_user', JSON.stringify(state.user)) : localStorage.removeItem('thredu_user'); }
-function persistListings() { localStorage.setItem('thredu_listings', JSON.stringify(state.listings.filter(l => l.id >= 200))); }
-function persistSaved()    { localStorage.setItem('thredu_saved', JSON.stringify([...state.saved])); }
+function persistUser()     { state.user ? localStorage.setItem('pockit_user', JSON.stringify(state.user)) : localStorage.removeItem('pockit_user'); }
+function persistListings() { localStorage.setItem('pockit_listings', JSON.stringify(state.listings.filter(l => l.id >= 200))); }
+function persistSaved()    { localStorage.setItem('pockit_saved', JSON.stringify([...state.saved])); }
 
 // ─── ROUTING ─────────────────────────────────────────────────────────────────
 
@@ -929,10 +929,10 @@ function handleSignup() {
     if (pass.length < 8)  { showErr('err-su-pass','su-pass'); ok = false; }
     if (!ok) return;
 
-    const accounts = JSON.parse(localStorage.getItem('thredu_accounts') || '{}');
+    const accounts = JSON.parse(localStorage.getItem('pockit_accounts') || '{}');
     const school = schoolFromEmail(email);
     accounts[email] = { name, pass, school, verified: false };
-    localStorage.setItem('thredu_accounts', JSON.stringify(accounts));
+    localStorage.setItem('pockit_accounts', JSON.stringify(accounts));
 
     state.pendingUser = { name, email, school };
     el('auth-forms').style.display = 'none';
@@ -942,15 +942,15 @@ function handleSignup() {
 
 function simulateVerification() {
     const { name, email, school } = state.pendingUser;
-    const accounts = JSON.parse(localStorage.getItem('thredu_accounts') || '{}');
+    const accounts = JSON.parse(localStorage.getItem('pockit_accounts') || '{}');
     if (accounts[email]) accounts[email].verified = true;
-    localStorage.setItem('thredu_accounts', JSON.stringify(accounts));
+    localStorage.setItem('pockit_accounts', JSON.stringify(accounts));
 
     state.user = { name, email, school, verified: true };
     persistUser();
     closeAuth();
     showMarketplace();
-    toast(`Welcome to thredU, ${name.split(' ')[0]}! 🎉`, 'success');
+    toast(`Welcome to Pockit, ${name.split(' ')[0]}! 🎉`, 'success');
 }
 
 function handleLogin() {
@@ -963,7 +963,7 @@ function handleLogin() {
     if (!pass)         { showErr('err-li-pass','li-pass'); ok = false; }
     if (!ok) return;
 
-    const accounts = JSON.parse(localStorage.getItem('thredu_accounts') || '{}');
+    const accounts = JSON.parse(localStorage.getItem('pockit_accounts') || '{}');
     const acct = accounts[email];
 
     if (!acct || acct.pass !== pass) {
