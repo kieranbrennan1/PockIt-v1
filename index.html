@@ -193,7 +193,35 @@
             letter-spacing: -3.5px; margin-bottom: 20px;
             color: var(--text);
         }
-        .hero-title .accent { color: var(--red); }
+        .hero-title .accent {
+            background: linear-gradient(
+                90deg,
+                #8b0015 0%,
+                #cc001a 10%,
+                #e8002d 20%,
+                #ff2244 30%,
+                #ff8899 38%,
+                #ffe0e5 43%,
+                #ffffff 46%,
+                #ffe0e5 49%,
+                #ff8899 54%,
+                #ff2244 62%,
+                #e8002d 72%,
+                #cc001a 82%,
+                #8b0015 90%,
+                #e8002d 100%
+            );
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: shine-red 2.2s linear infinite;
+        }
+        @keyframes shine-red {
+            0%   { background-position: 200% center; }
+            100% { background-position: -50% center; }
+        }
 
         .hero-sub {
             font-size: 16px; color: var(--text-2);
