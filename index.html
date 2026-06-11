@@ -232,15 +232,15 @@
 
         /* ── TRUST STRIP ── */
         .trust {
-            background: var(--text); padding: 14px 24px;
-            overflow: hidden; position: relative;
+            background: var(--bg-warm2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            padding: 14px 24px; overflow: hidden; position: relative;
         }
         .trust-track {
             display: flex; gap: 48px; align-items: center;
             width: max-content; animation: marquee 90s linear infinite;
         }
-        .trust-item { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.45); white-space: nowrap; }
-        .trust-item strong { color: rgba(255,255,255,0.85); }
+        .trust-item { font-size: 13px; font-weight: 600; color: var(--text-3); white-space: nowrap; }
+        .trust-item strong { font-weight: 700; }
         @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
         /* ── HOW IT WORKS ── */
@@ -709,11 +709,11 @@
     <div class="trust" aria-label="Colleges on Pockit">
         <div class="trust-track" aria-hidden="true">
             <!-- No two red-school names appear side by side -->
-            <span class="trust-item">Students at <strong style="color:#FFCB05">Michigan</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#C09A00">Michigan</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#5599FF">Duke</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1515">Alabama</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#4A90D9">Kansas</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">UC Berkeley</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">UC Berkeley</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1515">Harvard</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#66CCFF">UNC</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00AA55">Baylor</strong></span><span class="trust-item">·</span>
@@ -733,16 +733,16 @@
             <span class="trust-item">Students at <strong style="color:#42CC7E">Michigan State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF6622">Florida</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC2222">Cornell</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Florida State</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Florida State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#88CCFF">Columbia</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC2222">Texas A&amp;M</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FEBC11">UCSB</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">LSU</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8900A">UCSB</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">LSU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Texas Tech</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">West Virginia</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#D4AF37">UC Davis</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">West Virginia</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">UC Davis</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF4455">Nebraska</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFCD00">Iowa</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Iowa</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7744">Virginia Tech</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF3344">Ole Miss</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00AA55">Dartmouth</strong></span><span class="trust-item">·</span>
@@ -751,11 +751,11 @@
             <span class="trust-item">Students at <strong style="color:#FF7A8A">Minnesota</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7722">Auburn</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1133">Arkansas</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFCC00">Georgia Tech</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">UCF</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Georgia Tech</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">UCF</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Northeastern</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#5599FF">UPenn</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#F2A900">Emory</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B87800">Emory</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1133">SMU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00CC66">Miami</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#BB7755">Brown</strong></span><span class="trust-item">·</span>
@@ -767,21 +767,21 @@
             <span class="trust-item">Students at <strong style="color:#5599FF">BYU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Boston University</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#9944BB">NYU</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#CCB055">Wake Forest</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">Wake Forest</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#BB2222">Boston College</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Purdue</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#F5C518">Missouri</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Purdue</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Missouri</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Utah</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7700">Syracuse</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#D4AF37">Colorado</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">Colorado</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF4444">Maryland</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Notre Dame</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Notre Dame</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF8844">Arizona State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1515">Stanford</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#F0C430">Marquette</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Marquette</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7744">Illinois</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC3333">Indiana</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#D4AF55">Vanderbilt</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">Vanderbilt</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#88CCFF">Georgetown</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Louisville</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#55AAFF">DePaul</strong></span><span class="trust-item">·</span>
@@ -794,20 +794,20 @@
             <span class="trust-item">Students at <strong style="color:#55A0FF">UCLA</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">USC</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#5599FF">UConn</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">GWU</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">GWU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC2222">Mississippi State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#55AAFF">Villanova</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Drexel</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Drexel</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#BB1122">Temple</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00DD66">Oregon</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#AA66FF">Washington</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1230">Carnegie Mellon</strong></span><span class="trust-item">·</span>
             <!-- duplicate set for seamless loop -->
-            <span class="trust-item">Students at <strong style="color:#FFCB05">Michigan</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#C09A00">Michigan</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#5599FF">Duke</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1515">Alabama</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#4A90D9">Kansas</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">UC Berkeley</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">UC Berkeley</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1515">Harvard</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#66CCFF">UNC</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00AA55">Baylor</strong></span><span class="trust-item">·</span>
@@ -827,16 +827,16 @@
             <span class="trust-item">Students at <strong style="color:#42CC7E">Michigan State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF6622">Florida</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC2222">Cornell</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Florida State</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Florida State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#88CCFF">Columbia</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC2222">Texas A&amp;M</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FEBC11">UCSB</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">LSU</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8900A">UCSB</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">LSU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Texas Tech</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">West Virginia</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#D4AF37">UC Davis</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">West Virginia</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">UC Davis</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF4455">Nebraska</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFCD00">Iowa</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Iowa</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7744">Virginia Tech</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF3344">Ole Miss</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00AA55">Dartmouth</strong></span><span class="trust-item">·</span>
@@ -845,11 +845,11 @@
             <span class="trust-item">Students at <strong style="color:#FF7A8A">Minnesota</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7722">Auburn</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1133">Arkansas</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFCC00">Georgia Tech</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">UCF</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Georgia Tech</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">UCF</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Northeastern</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#5599FF">UPenn</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#F2A900">Emory</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B87800">Emory</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1133">SMU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00CC66">Miami</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#BB7755">Brown</strong></span><span class="trust-item">·</span>
@@ -861,21 +861,21 @@
             <span class="trust-item">Students at <strong style="color:#5599FF">BYU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Boston University</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#9944BB">NYU</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#CCB055">Wake Forest</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">Wake Forest</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#BB2222">Boston College</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Purdue</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#F5C518">Missouri</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Purdue</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Missouri</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Utah</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7700">Syracuse</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#D4AF37">Colorado</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">Colorado</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF4444">Maryland</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Notre Dame</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Notre Dame</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF8844">Arizona State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1515">Stanford</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#F0C430">Marquette</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Marquette</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#FF7744">Illinois</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC3333">Indiana</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#D4AF55">Vanderbilt</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#9A7A20">Vanderbilt</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#88CCFF">Georgetown</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">Louisville</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#55AAFF">DePaul</strong></span><span class="trust-item">·</span>
@@ -888,10 +888,10 @@
             <span class="trust-item">Students at <strong style="color:#55A0FF">UCLA</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC1111">USC</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#5599FF">UConn</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">GWU</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">GWU</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#CC2222">Mississippi State</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#55AAFF">Villanova</strong></span><span class="trust-item">·</span>
-            <span class="trust-item">Students at <strong style="color:#FFD700">Drexel</strong></span><span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong style="color:#B8920A">Drexel</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#BB1122">Temple</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#00DD66">Oregon</strong></span><span class="trust-item">·</span>
             <span class="trust-item">Students at <strong style="color:#AA66FF">Washington</strong></span><span class="trust-item">·</span>
