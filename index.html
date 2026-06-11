@@ -67,9 +67,10 @@
             font-size: 22px; font-weight: 900;
             color: var(--red); letter-spacing: -0.5px;
             cursor: pointer; flex-shrink: 0; user-select: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
         }
 
-        .nav-search { width: min(480px, 100%); position: relative; }
+        .nav-search { width: min(620px, 100%); position: relative; }
         .nav-search input {
             width: 100%; height: 38px; padding: 0 14px 0 40px;
             background: var(--bg-warm); border: 1.5px solid var(--border);
@@ -345,7 +346,7 @@
 
         /* ── FOOTER ── */
         footer {
-            background: var(--bg-warm); border-top: 1px solid var(--border);
+            background: #f4f4f4; border-top: 1px solid #e0e0e0;
             padding: 36px 24px;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
         }
@@ -1640,8 +1641,14 @@ function navCat(key, el) {
         let idx;
         do { idx = Math.floor(Math.random() * fonts.length); } while (idx === last);
         last = idx;
-        logo.style.fontFamily = fonts[idx];
-    }, 900);
+        logo.style.opacity = '0';
+        logo.style.transform = 'scale(0.92)';
+        setTimeout(() => {
+            logo.style.fontFamily = fonts[idx];
+            logo.style.opacity = '1';
+            logo.style.transform = 'scale(1)';
+        }, 180);
+    }, 1100);
 })();
 </script>
 </body>
