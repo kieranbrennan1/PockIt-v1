@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pockit — Campus Clothing Marketplace</title>
+    <title>Pockit — Campus Thrift</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,29 +11,29 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg:         #050506;
-            --bg-2:       #0a0a0f;
-            --bg-3:       #111118;
-            --surface:    rgba(255,255,255,0.04);
-            --surface-2:  rgba(255,255,255,0.07);
-            --surface-3:  rgba(255,255,255,0.12);
-            --border:     rgba(255,255,255,0.08);
-            --border-2:   rgba(255,255,255,0.16);
-            --red:        #e8193c;
-            --red-d:      #c0112e;
-            --red-l:      #ff5577;
-            --red-glow:   rgba(232,25,60,0.4);
-            --red-sub:    rgba(232,25,60,0.12);
-            --text:       #eeeef2;
-            --text-2:     rgba(238,238,242,0.55);
-            --text-3:     rgba(238,238,242,0.28);
-            --success:    #10b981;
-            --warning:    #f59e0b;
-            --ease:       cubic-bezier(0.16,1,0.3,1);
-            --nav-h:      68px;
-            --r:          18px;
-            --r-md:       13px;
-            --r-sm:       9px;
+            --bg:       #ffffff;
+            --bg-warm:  #f8f2eb;
+            --bg-warm2: #f0e8df;
+            --border:   #e8e0d6;
+            --border-2: #d4c9bc;
+            --red:      #e8002d;
+            --red-d:    #bf0024;
+            --red-pale: #fff0f3;
+            --text:     #1a1504;
+            --text-2:   #6b5f50;
+            --text-3:   #b0a090;
+            --success:  #00875a;
+            --warning:  #d97706;
+            --nav-h:    60px;
+            --r:        12px;
+            --r-md:     8px;
+            --r-sm:     6px;
+            --sh-xs: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --sh-sm: 0 2px 8px rgba(0,0,0,0.09), 0 1px 3px rgba(0,0,0,0.04);
+            --sh-md: 0 6px 20px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+            --sh-lg: 0 12px 36px rgba(0,0,0,0.13), 0 4px 10px rgba(0,0,0,0.06);
+            --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+            --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
         }
 
         html { scroll-behavior: smooth; }
@@ -42,62 +42,20 @@
             font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
         }
 
         .hidden { display: none !important; }
 
-        /* ── ANIMATED BACKGROUND ── */
-        .bg-canvas {
-            position: fixed; inset: 0; z-index: -1; overflow: hidden;
-            background: radial-gradient(ellipse at 60% 0%, #1a0610 0%, #050506 55%);
-        }
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(90px);
-            animation: blobIn 1.8s var(--ease) both, blobDrift ease-in-out infinite alternate;
-        }
-        .blob-1 {
-            width: 720px; height: 720px; top: -280px; right: -140px;
-            background: radial-gradient(circle, rgba(232,25,60,0.38) 0%, transparent 70%);
-            animation-duration: 1.8s, 14s; animation-delay: 0s, 0s;
-        }
-        .blob-2 {
-            width: 480px; height: 480px; bottom: -180px; left: -80px;
-            background: radial-gradient(circle, rgba(200,10,50,0.22) 0%, transparent 70%);
-            animation-duration: 1.8s, 18s; animation-delay: 0.4s, 0.4s;
-        }
-        .blob-3 {
-            width: 360px; height: 360px; top: 45%; left: 28%;
-            background: radial-gradient(circle, rgba(255,80,100,0.14) 0%, transparent 70%);
-            animation-duration: 1.8s, 22s; animation-delay: 0.8s, 0.8s;
-        }
-        @keyframes blobIn  { from{opacity:0;transform:scale(0.7)} to{opacity:1;transform:scale(1)} }
-        @keyframes blobDrift {
-            0%   { transform: translate(0,0) scale(1); }
-            33%  { transform: translate(35px,-55px) scale(1.06); }
-            66%  { transform: translate(-25px,30px) scale(0.94); }
-            100% { transform: translate(50px,20px) scale(1.03); }
-        }
-        .grid-dots {
-            position: absolute; inset: 0; pointer-events: none;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 38px 38px;
-            mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, black 0%, transparent 100%);
-        }
-
-        /* ── NAVBAR ── */
+        /* ── NAV ── */
         nav {
             position: sticky; top: 0; z-index: 200;
             height: var(--nav-h);
-            background: rgba(5,5,6,0.65);
-            backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+            background: rgba(255,255,255,0.94);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
-            transition: background 0.4s;
         }
-        nav.scrolled { background: rgba(5,5,6,0.9); }
-
         .nav-inner {
             max-width: 1200px; margin: 0 auto;
             padding: 0 24px; height: 100%;
@@ -106,584 +64,561 @@
 
         .logo {
             font-family: 'Syne', sans-serif;
-            font-size: 23px; font-weight: 900; letter-spacing: -0.5px;
-            background: linear-gradient(125deg, #fff 0%, #ffb3be 55%, #e8193c 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            font-size: 22px; font-weight: 900;
+            color: var(--red); letter-spacing: -0.5px;
             cursor: pointer; flex-shrink: 0; user-select: none;
         }
 
-        .nav-search { flex: 1; max-width: 420px; position: relative; }
+        .nav-search { flex: 1; max-width: 400px; position: relative; }
         .nav-search input {
-            width: 100%; height: 40px; padding: 0 16px 0 42px;
-            background: var(--surface); border: 1px solid var(--border);
+            width: 100%; height: 38px; padding: 0 14px 0 40px;
+            background: var(--bg-warm); border: 1.5px solid var(--border);
             border-radius: 999px; font-family: inherit; font-size: 14px;
             color: var(--text); outline: none;
-            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+            transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
         }
         .nav-search input::placeholder { color: var(--text-3); }
         .nav-search input:focus {
-            border-color: rgba(232,25,60,0.5);
-            background: var(--surface-2);
-            box-shadow: 0 0 0 3px rgba(232,25,60,0.1);
+            border-color: var(--red); background: var(--bg);
+            box-shadow: 0 0 0 3px rgba(232,0,45,0.08);
         }
-        .nav-search-icon {
-            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+        .nav-si {
+            position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
             color: var(--text-3); pointer-events: none;
         }
-        .nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+        .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 
         /* ── BUTTONS ── */
         .btn {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 0 22px; height: 42px; border-radius: 999px;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0 20px; height: 40px; border-radius: 999px;
             font-family: inherit; font-size: 14px; font-weight: 600;
             cursor: pointer; border: none;
-            transition: transform 0.2s var(--ease), box-shadow 0.2s, background 0.2s;
+            transition: transform 0.15s var(--ease), box-shadow 0.15s, background 0.15s, border-color 0.15s;
             white-space: nowrap; text-decoration: none;
         }
         .btn:active { transform: scale(0.97) !important; }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--red-d), var(--red));
-            color: white; box-shadow: 0 4px 18px var(--red-glow);
+        .btn-red {
+            background: var(--red); color: white;
+            box-shadow: 0 2px 8px rgba(232,0,45,0.28);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,25,60,0.55); }
+        .btn-red:hover { background: var(--red-d); box-shadow: 0 4px 14px rgba(232,0,45,0.38); transform: translateY(-1px); }
 
         .btn-ghost {
-            background: var(--surface); color: var(--text); border: 1px solid var(--border);
+            background: transparent; color: var(--text);
+            border: 1.5px solid var(--border);
         }
-        .btn-ghost:hover { background: var(--surface-2); border-color: var(--border-2); }
+        .btn-ghost:hover { background: var(--bg-warm); border-color: var(--border-2); }
 
-        .btn-outline {
-            background: transparent; color: var(--red-l); border: 1.5px solid rgba(232,25,60,0.45);
+        .btn-outline-red {
+            background: var(--red-pale); color: var(--red);
+            border: 1.5px solid rgba(232,0,45,0.22);
         }
-        .btn-outline:hover { background: var(--red-sub); border-color: var(--red); }
+        .btn-outline-red:hover { background: #ffe4ea; border-color: rgba(232,0,45,0.4); }
 
-        .btn-white { background: white; color: var(--red); font-weight: 700; }
-        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
-
-        .btn-lg { height: 54px; padding: 0 36px; font-size: 16px; }
-        .btn-sm { height: 34px; padding: 0 16px; font-size: 13px; }
-        .btn-block { width: 100%; justify-content: center; height: 50px; font-size: 15px; border-radius: var(--r-sm); }
+        .btn-lg { height: 50px; padding: 0 32px; font-size: 15px; }
+        .btn-sm { height: 34px; padding: 0 14px; font-size: 13px; }
+        .btn-block { width: 100%; justify-content: center; height: 48px; font-size: 15px; border-radius: var(--r-sm); }
 
         .avatar {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--red-d), var(--red));
-            color: white; display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--red); color: white;
+            display: flex; align-items: center; justify-content: center;
             font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0;
-            box-shadow: 0 4px 14px var(--red-glow);
         }
 
-        /* ── GLASS UTIL ── */
-        .glass {
-            background: var(--surface);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-        }
-
-        /* ── ENTRANCE ANIMATIONS ── */
+        /* ── ENTRANCE ANIMS ── */
         @keyframes fadeUp {
-            from { opacity:0; transform:translateY(26px); }
+            from { opacity:0; transform:translateY(20px); }
             to   { opacity:1; transform:translateY(0); }
         }
-        .au { animation: fadeUp 0.7s var(--ease) both; }
-        .au-1 { animation-delay:0.15s; }
-        .au-2 { animation-delay:0.28s; }
-        .au-3 { animation-delay:0.42s; }
-        .au-4 { animation-delay:0.56s; }
-        .au-5 { animation-delay:0.70s; }
+        .au { animation: fadeUp 0.55s var(--ease) both; }
+        .au-1 { animation-delay: 0.08s; }
+        .au-2 { animation-delay: 0.18s; }
+        .au-3 { animation-delay: 0.30s; }
+        .au-4 { animation-delay: 0.42s; }
+        .au-5 { animation-delay: 0.54s; }
 
-        .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s var(--ease), transform 0.65s var(--ease); }
-        .reveal.visible { opacity:1; transform:translateY(0); }
-        .reveal-d1 { transition-delay:0.08s; }
-        .reveal-d2 { transition-delay:0.18s; }
-        .reveal-d3 { transition-delay:0.28s; }
+        .reveal {
+            opacity: 0; transform: translateY(22px);
+            transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.06s; }
+        .reveal-d2 { transition-delay: 0.14s; }
+        .reveal-d3 { transition-delay: 0.22s; }
 
         /* ── HERO ── */
         .hero {
-            min-height: calc(100vh - var(--nav-h));
             max-width: 1200px; margin: 0 auto;
-            padding: 80px 24px 60px;
+            padding: 72px 24px 80px;
             display: grid; grid-template-columns: 1fr 1fr;
-            gap: 64px; align-items: center;
+            gap: 56px; align-items: center;
         }
 
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 9px;
-            padding: 7px 16px; border-radius: 999px;
-            background: var(--surface); border: 1px solid var(--border);
-            font-size: 13px; font-weight: 600; color: var(--text-2);
-            margin-bottom: 28px;
-        }
-        .badge-pulse {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--red); box-shadow: 0 0 8px var(--red);
-            animation: pulseDot 2s ease infinite;
-        }
-        @keyframes pulseDot {
-            0%,100% { box-shadow: 0 0 6px var(--red); }
-            50%      { box-shadow: 0 0 16px var(--red), 0 0 32px rgba(232,25,60,0.35); }
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 14px; border-radius: 999px;
+            background: var(--red-pale); border: 1.5px solid rgba(232,0,45,0.2);
+            font-size: 13px; font-weight: 600; color: var(--red);
+            margin-bottom: 22px;
+            transform: rotate(-1.5deg);
         }
 
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: clamp(44px, 5.5vw, 74px);
-            font-weight: 900; line-height: 1.0; letter-spacing: -3px; margin-bottom: 22px;
+            font-size: clamp(46px, 5.8vw, 80px);
+            font-weight: 900; line-height: 0.95;
+            letter-spacing: -3.5px; margin-bottom: 20px;
+            color: var(--text);
         }
-        .hero-title .g {
-            display: block;
-            background: linear-gradient(120deg, #ffffff 0%, #ffb3be 45%, #e8193c 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
+        .hero-title .accent { color: var(--red); }
 
         .hero-sub {
-            font-size: 17px; color: var(--text-2); line-height: 1.72;
-            margin-bottom: 36px; max-width: 460px;
+            font-size: 16px; color: var(--text-2);
+            line-height: 1.7; margin-bottom: 32px; max-width: 440px;
         }
 
-        .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0; }
+        .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
 
         .hero-stats {
-            display: flex; gap: 40px; margin-top: 52px; padding-top: 36px;
+            display: flex; align-items: center; gap: 0;
+            margin-top: 40px; padding-top: 32px;
             border-top: 1px solid var(--border);
         }
-        .stat-val {
-            font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
-            background: linear-gradient(120deg, var(--red-l), var(--red));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            letter-spacing: -0.5px;
+        .stat { padding: 0 24px; }
+        .stat:first-child { padding-left: 0; }
+        .stat strong {
+            display: block; font-family: 'Syne', sans-serif;
+            font-size: 24px; font-weight: 900; color: var(--text); letter-spacing: -0.5px;
         }
-        .stat-label { font-size: 13px; color: var(--text-3); margin-top: 3px; }
+        .stat span { font-size: 13px; color: var(--text-3); margin-top: 1px; display: block; }
+        .sdiv { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
 
-        /* Hero floating cards */
-        .hero-visual { position: relative; height: 490px; }
-
-        .hc-glow {
-            position: absolute; width: 340px; height: 340px;
-            right: 20px; top: 60px; pointer-events: none;
-            background: radial-gradient(circle, rgba(232,25,60,0.18) 0%, transparent 70%);
+        /* Hero visual */
+        .hero-visual {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px; max-width: 440px; margin-left: auto;
         }
 
-        .hero-card {
-            position: absolute; width: 264px; padding: 16px;
-            border-radius: var(--r); display: flex; gap: 14px; align-items: center;
-            transition: transform 0.3s var(--ease), box-shadow 0.3s;
+        .hcard {
+            background: white; border-radius: var(--r);
+            box-shadow: var(--sh-md);
+            border: 1px solid var(--border);
+            overflow: hidden; cursor: default;
+            transition: transform 0.28s var(--ease), box-shadow 0.28s;
         }
-        .hero-card:hover {
-            transform: translateY(-8px) !important;
-            box-shadow: 0 24px 50px rgba(0,0,0,0.55), 0 0 32px rgba(232,25,60,0.14) !important;
+        .hcard:hover {
+            transform: translateY(-6px) rotate(0deg) !important;
+            box-shadow: var(--sh-lg);
+            z-index: 2; position: relative;
         }
-        .hero-card:nth-child(2) { top:18px;  right:0;   animation: hcf1 5s ease-in-out infinite; }
-        .hero-card:nth-child(3) { top:185px; right:82px; animation: hcf2 6.5s ease-in-out infinite; }
-        .hero-card:nth-child(4) { top:348px; right:12px; animation: hcf3 5.8s ease-in-out infinite; }
+        .hcard:nth-child(1) { transform: rotate(-2deg); }
+        .hcard:nth-child(2) { transform: rotate(1.2deg) translateY(10px); }
+        .hcard:nth-child(3) { transform: rotate(1deg) translateY(-6px); }
+        .hcard:nth-child(4) { transform: rotate(-1.5deg); }
 
-        @keyframes hcf1 { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-12px)} }
-        @keyframes hcf2 { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-10px)} }
-        @keyframes hcf3 { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-14px)} }
+        .hcard-img {
+            aspect-ratio: 1; display: flex; align-items: center;
+            justify-content: center; font-size: 52px;
+        }
+        .hcard-body { padding: 8px 10px 12px; }
+        .hcard-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px; font-weight: 800; color: var(--text);
+        }
+        .hcard-name { font-size: 12px; color: var(--text-2); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        .hc-img {
-            width: 58px; height: 58px; border-radius: 14px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center; font-size: 26px;
+        /* ── TRUST STRIP ── */
+        .trust {
+            background: var(--text); padding: 14px 24px;
+            overflow: hidden; position: relative;
         }
-        .hc-name { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--text); }
-        .hc-price {
-            font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-top: 2px;
-            background: linear-gradient(120deg, var(--red-l), var(--red));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        .trust-track {
+            display: flex; gap: 48px; align-items: center;
+            width: max-content; animation: marquee 22s linear infinite;
         }
-        .hc-badge {
-            display: inline-block; padding: 2px 9px; border-radius: 999px;
-            font-size: 10px; font-weight: 700; letter-spacing: 0.2px; margin-top: 5px;
-        }
-        .b-new  { background: rgba(16,185,129,0.14); color: #34d399; }
-        .b-good { background: rgba(59,130,246,0.14); color: #60a5fa; }
-        .b-fair { background: rgba(245,158,11,0.14); color: #fbbf24; }
+        .trust-item { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.45); white-space: nowrap; }
+        .trust-item strong { color: rgba(255,255,255,0.85); }
+        @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-        /* ── FEATURES ── */
-        .features {
-            padding: 110px 24px;
-            background: linear-gradient(180deg,transparent 0%,rgba(10,10,15,0.7) 50%,transparent 100%);
+        /* ── HOW IT WORKS ── */
+        .how {
+            background: var(--bg-warm);
+            padding: 88px 24px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
-        .features-inner { max-width: 1200px; margin: 0 auto; }
+        .how-inner { max-width: 1000px; margin: 0 auto; }
 
-        .eyebrow {
-            text-align: center; font-size: 11px; font-weight: 700;
-            letter-spacing: 2.5px; text-transform: uppercase;
-            background: linear-gradient(120deg, var(--red-l), var(--red));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            margin-bottom: 14px;
+        .how-top {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 56px; flex-wrap: wrap; gap: 16px;
         }
-        .section-h {
-            text-align: center; font-family: 'Syne', sans-serif;
-            font-size: clamp(30px,4vw,50px); font-weight: 800;
-            letter-spacing: -1.5px; margin-bottom: 64px; line-height: 1.1;
+        .how-hed {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 44px); font-weight: 900;
+            letter-spacing: -1.5px; line-height: 1.05;
         }
+        .how-sub { font-size: 15px; color: var(--text-2); max-width: 280px; text-align: right; line-height: 1.6; }
 
-        .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+        .steps { display: flex; flex-direction: column; }
+        .step {
+            display: grid; grid-template-columns: 88px 1fr;
+            gap: 24px; align-items: start;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .step:first-child { border-top: 1px solid var(--border); }
+        .step-n {
+            font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 900;
+            color: var(--red); opacity: 0.25; line-height: 1; padding-top: 4px;
+        }
+        .step-content h3 {
+            font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 800;
+            margin-bottom: 7px; letter-spacing: -0.2px;
+        }
+        .step-content p { font-size: 14px; color: var(--text-2); line-height: 1.7; }
 
-        .feat-card {
-            padding: 38px 32px; border-radius: var(--r);
-            transition: transform 0.35s var(--ease), border-color 0.3s, box-shadow 0.3s;
+        /* ── CATEGORIES ── */
+        .cats { padding: 64px 24px; max-width: 1200px; margin: 0 auto; }
+        .cats-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+        .cats-head h2 {
+            font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 900; letter-spacing: -0.5px;
+        }
+        .cats-head span { font-size: 14px; color: var(--text-3); }
+
+        .cat-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .cat-pill {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 20px; border-radius: var(--r);
+            background: var(--bg-warm); border: 1.5px solid var(--border);
+            font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text-2);
+            cursor: pointer; transition: all 0.18s;
+        }
+        .cat-pill:hover { background: white; border-color: var(--text); color: var(--text); box-shadow: var(--sh-sm); }
+
+        /* ── CTA BAND ── */
+        .cta-band {
+            margin: 0 24px 80px; border-radius: 20px;
+            background: var(--text); padding: 80px 56px;
+            display: grid; grid-template-columns: 1fr auto;
+            gap: 32px; align-items: center;
             position: relative; overflow: hidden;
         }
-        .feat-card::before {
-            content: ''; position: absolute; inset: 0; border-radius: inherit;
-            background: linear-gradient(135deg, rgba(232,25,60,0.06) 0%, transparent 60%);
-            opacity: 0; transition: opacity 0.3s;
+        .cta-band::before {
+            content: ''; position: absolute;
+            top: -80px; right: -80px;
+            width: 320px; height: 320px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(232,0,45,0.3) 0%, transparent 70%);
+            pointer-events: none;
         }
-        .feat-card:hover { transform: translateY(-7px); border-color: rgba(232,25,60,0.28); box-shadow: 0 24px 50px rgba(0,0,0,0.45), 0 0 40px rgba(232,25,60,0.07); }
-        .feat-card:hover::before { opacity: 1; }
-
-        .feat-icon {
-            width: 56px; height: 56px; border-radius: 16px; margin-bottom: 22px;
-            background: var(--red-sub); border: 1px solid rgba(232,25,60,0.22);
-            display: flex; align-items: center; justify-content: center; font-size: 26px;
+        .cta-band-left { position: relative; z-index: 1; }
+        .cta-band-title {
+            font-family: 'Syne', sans-serif; font-size: clamp(24px,3.5vw,44px);
+            font-weight: 900; letter-spacing: -1.5px; color: white; margin-bottom: 10px; line-height: 1.05;
         }
-        .feat-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 18px; font-weight: 800; margin-bottom: 11px; letter-spacing: -0.3px;
-        }
-        .feat-desc { font-size: 14px; color: var(--text-2); line-height: 1.72; }
-
-        /* ── CTA ── */
-        .cta-wrap { max-width: 1200px; margin: 0 auto 90px; padding: 0 24px; }
-        .cta-box {
-            position: relative; overflow: hidden; border-radius: var(--r);
-            padding: 90px 56px; text-align: center;
-            background: linear-gradient(135deg, #a80f27 0%, var(--red) 50%, #ff4d6b 100%);
-            box-shadow: 0 12px 60px rgba(232,25,60,0.5);
-        }
-        .cta-box::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(255,255,255,0.12), transparent);
-        }
-        .cta-box::after {
-            content: ''; position: absolute; inset: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-        .cta-content { position: relative; z-index: 1; }
-        .cta-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(28px,4vw,50px); font-weight: 900;
-            letter-spacing: -1.5px; color: white; margin-bottom: 14px; line-height: 1.05;
-        }
-        .cta-sub { font-size: 17px; color: rgba(255,255,255,0.78); margin-bottom: 38px; }
+        .cta-band-sub { font-size: 15px; color: rgba(255,255,255,0.5); }
+        .cta-band-right { position: relative; z-index: 1; flex-shrink: 0; }
+        .btn-white { background: white; color: var(--text); font-weight: 700; }
+        .btn-white:hover { background: var(--bg-warm); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
 
         /* ── FOOTER ── */
         footer {
-            border-top: 1px solid var(--border);
-            padding: 38px 24px; text-align: center;
-            background: rgba(5,5,6,0.8); backdrop-filter: blur(10px);
+            background: var(--bg-warm); border-top: 1px solid var(--border);
+            padding: 36px 24px;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
         }
-        .foot-logo {
-            font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 900;
-            background: linear-gradient(120deg, #fff 0%, #ffb3be 55%, var(--red) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            margin-bottom: 8px;
-        }
+        .foot-logo { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 900; color: var(--red); }
         footer p { font-size: 13px; color: var(--text-3); }
 
         /* ── MARKETPLACE ── */
-        .mkt { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
+        .mkt { max-width: 1200px; margin: 0 auto; padding: 24px 24px 60px; }
 
         .welcome-row {
-            padding: 24px 0 6px;
+            padding: 18px 0 4px;
             display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 12px; margin-bottom: 6px;
+            flex-wrap: wrap; gap: 12px; margin-bottom: 4px;
         }
-        .welcome-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
-        }
-        .welcome-sub { font-size: 14px; color: var(--text-2); margin-top: 3px; }
+        .welcome-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+        .welcome-sub  { font-size: 13px; color: var(--text-3); margin-top: 3px; }
 
         .filters {
             display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
-            padding: 16px 0 22px; border-bottom: 1px solid var(--border); margin-bottom: 28px;
+            padding: 16px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
         }
-        .f-label { font-size: 12px; font-weight: 600; color: var(--text-3); flex-shrink: 0; }
+        .f-label { font-size: 12px; font-weight: 700; color: var(--text-3); flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .chip {
             padding: 6px 16px; border-radius: 999px;
-            border: 1px solid var(--border); background: var(--surface);
+            border: 1.5px solid var(--border); background: var(--bg);
             font-family: inherit; font-size: 13px; font-weight: 500;
-            cursor: pointer; color: var(--text-2);
-            transition: all 0.18s;
+            cursor: pointer; color: var(--text-2); transition: all 0.16s;
         }
-        .chip:hover { border-color: rgba(232,25,60,0.4); color: var(--text); background: var(--surface-2); }
-        .chip.on { background: var(--red-sub); border-color: rgba(232,25,60,0.5); color: #ff8a9a; font-weight: 600; }
+        .chip:hover { border-color: var(--text); color: var(--text); background: var(--bg-warm); }
+        .chip.on { background: var(--text); border-color: var(--text); color: white; font-weight: 600; }
 
         .fsel {
             height: 36px; padding: 0 12px;
-            border: 1px solid var(--border); border-radius: 999px;
+            border: 1.5px solid var(--border); border-radius: 999px;
             font-family: inherit; font-size: 13px; font-weight: 500;
-            color: var(--text-2); background: var(--surface);
-            cursor: pointer; outline: none; transition: all 0.18s;
+            color: var(--text-2); background: var(--bg);
+            cursor: pointer; outline: none; transition: all 0.16s;
         }
-        .fsel:focus { border-color: rgba(232,25,60,0.5); }
-        .fsel option { background: #111118; }
+        .fsel:focus { border-color: var(--text); }
+        .fsel option { background: white; }
 
-        .res-count { font-size: 14px; color: var(--text-3); margin-bottom: 22px; }
+        .res-count { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
         .res-count strong { color: var(--text-2); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 20px; }
+        /* ── LISTING CARDS (Depop-style square) ── */
+        .grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
 
-        /* ── LISTING CARD ── */
         .lcard {
-            background: var(--surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border); border-radius: var(--r);
-            overflow: hidden; cursor: pointer; position: relative;
-            transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
+            background: white; border-radius: var(--r);
+            border: 1px solid var(--border); overflow: hidden; cursor: pointer;
+            transition: transform 0.22s var(--ease), box-shadow 0.22s;
+            box-shadow: var(--sh-xs);
         }
-        .lcard:hover {
-            transform: translateY(-7px);
-            border-color: rgba(232,25,60,0.32);
-            box-shadow: 0 22px 44px rgba(0,0,0,0.55), 0 0 28px rgba(232,25,60,0.1);
-        }
+        .lcard:hover { transform: translateY(-5px); box-shadow: var(--sh-md); }
 
         .lc-img {
-            height: 182px; display: flex; align-items: center;
-            justify-content: center; font-size: 72px; position: relative;
+            aspect-ratio: 1 / 1; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 64px; position: relative; background: var(--bg-warm);
         }
         .lc-cond {
-            position: absolute; top: 12px; left: 12px;
-            padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700;
+            position: absolute; top: 10px; left: 10px;
+            display: flex; align-items: center; gap: 5px;
+            padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
+            background: white; box-shadow: var(--sh-xs); border: 1px solid var(--border);
         }
-        .c-new  { background: rgba(16,185,129,0.14); color: #34d399; }
-        .c-good { background: rgba(59,130,246,0.14); color: #60a5fa; }
-        .c-fair { background: rgba(245,158,11,0.14); color: #fbbf24; }
+        .cdot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .c-new  .cdot { background: #00875a; }
+        .c-good .cdot { background: #2563eb; }
+        .c-fair .cdot { background: #d97706; }
+        .c-new  { color: #00875a; }
+        .c-good { color: #2563eb; }
+        .c-fair { color: #d97706; }
 
         .lc-save {
-            position: absolute; top: 10px; right: 10px;
-            width: 34px; height: 34px;
-            background: rgba(0,0,0,0.45); backdrop-filter: blur(8px);
-            border: 1px solid var(--border); border-radius: 50%;
+            position: absolute; top: 8px; right: 8px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: white; border: 1px solid var(--border);
             cursor: pointer; display: flex; align-items: center;
-            justify-content: center; font-size: 15px;
-            transition: transform 0.2s var(--ease), background 0.2s;
+            justify-content: center; font-size: 14px; box-shadow: var(--sh-xs);
+            transition: transform 0.2s var(--spring), box-shadow 0.2s;
         }
-        .lc-save:hover { transform: scale(1.18); background: rgba(0,0,0,0.65); }
+        .lc-save:hover { transform: scale(1.15); box-shadow: var(--sh-sm); }
 
-        .lc-body { padding: 14px 16px 18px; }
-        .lc-title { font-size: 15px; font-weight: 600; margin-bottom: 7px; line-height: 1.3; }
-        .lc-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
-        .lc-size {
-            font-size: 11px; font-weight: 700; color: var(--text-3);
-            background: var(--surface-2); padding: 2px 8px; border-radius: 4px;
-            text-transform: uppercase; letter-spacing: 0.5px;
+        .lc-body { padding: 10px 12px 14px; }
+        .lc-price { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 900; color: var(--text); margin-bottom: 3px; }
+        .lc-title { font-size: 13px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 3px; }
+        .lc-seller { font-size: 12px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+        .lc-size-tag {
+            display: inline-block; padding: 1px 6px; border-radius: 4px;
+            background: var(--bg-warm); border: 1px solid var(--border);
+            font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase;
+            margin-left: auto;
         }
-        .lc-school { font-size: 12px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .lc-bottom { display: flex; align-items: center; justify-content: space-between; }
-        .lc-price {
-            font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800;
-            background: linear-gradient(120deg, var(--red-l), var(--red));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .lc-seller { font-size: 12px; color: var(--text-3); }
 
-        .empty {
-            grid-column: 1/-1; text-align: center; padding: 80px 20px; color: var(--text-3);
-        }
-        .empty-emoji { font-size: 52px; margin-bottom: 16px; }
-        .empty h3 { font-size: 19px; font-weight: 700; color: var(--text-2); margin-bottom: 8px; }
+        .empty { grid-column: 1/-1; text-align: center; padding: 80px 20px; }
+        .empty-emoji { font-size: 48px; margin-bottom: 14px; }
+        .empty h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .empty p { font-size: 14px; color: var(--text-3); }
 
         /* ── MODALS ── */
         .overlay {
             position: fixed; inset: 0;
-            background: rgba(0,0,0,0.72);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(20,14,4,0.5);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
             z-index: 300; display: flex; align-items: center; justify-content: center;
-            padding: 20px; animation: fadeIn 0.18s ease;
+            padding: 20px; animation: fadeIn 0.16s ease;
         }
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
         .mbox {
-            background: var(--bg-2); border: 1px solid var(--border);
-            border-radius: var(--r); box-shadow: 0 24px 64px rgba(0,0,0,0.7);
-            width: 100%; position: relative;
-            animation: mboxIn 0.3s cubic-bezier(0.34,1.4,0.64,1);
+            background: white; border-radius: 18px;
+            box-shadow: var(--sh-lg); width: 100%; position: relative;
+            animation: mboxIn 0.28s var(--spring);
             max-height: 90vh; overflow-y: auto;
         }
         @keyframes mboxIn {
-            from { transform:translateY(30px) scale(0.96); opacity:0; }
+            from { transform:translateY(24px) scale(0.97); opacity:0; }
             to   { transform:translateY(0) scale(1); opacity:1; }
         }
 
         .mclose {
-            position: absolute; top: 16px; right: 16px;
-            width: 32px; height: 32px; border-radius: 50%;
-            border: 1px solid var(--border); background: var(--surface);
-            cursor: pointer; font-size: 18px; z-index: 10;
+            position: absolute; top: 14px; right: 14px;
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 1.5px solid var(--border); background: var(--bg-warm);
+            cursor: pointer; font-size: 16px; z-index: 10;
             display: flex; align-items: center; justify-content: center;
-            color: var(--text-2); transition: all 0.18s;
+            color: var(--text-2); transition: all 0.14s;
         }
-        .mclose:hover { background: var(--surface-2); color: var(--text); }
+        .mclose:hover { background: var(--bg-warm2); color: var(--text); }
 
         /* Auth */
-        #auth-m .mbox { max-width: 440px; }
-        .auth-pad { padding: 40px; }
+        #auth-m .mbox { max-width: 420px; }
+        .auth-pad { padding: 36px; }
 
         .auth-tabs {
-            display: flex; background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 4px; margin-bottom: 32px;
+            display: flex; background: var(--bg-warm); border: 1.5px solid var(--border);
+            border-radius: 10px; padding: 3px; margin-bottom: 28px;
         }
         .atab {
-            flex: 1; height: 38px; border: none; background: transparent;
-            border-radius: 9px; font-family: inherit; font-size: 14px;
-            font-weight: 600; cursor: pointer; color: var(--text-3); transition: all 0.2s;
+            flex: 1; height: 36px; border: none; background: transparent;
+            border-radius: 8px; font-family: inherit; font-size: 14px;
+            font-weight: 600; cursor: pointer; color: var(--text-3); transition: all 0.18s;
         }
-        .atab.on { background: var(--surface-3); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.35); }
+        .atab.on { background: white; color: var(--text); box-shadow: var(--sh-xs); }
 
-        .mh1 {
-            font-family: 'Syne', sans-serif;
-            font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px;
-        }
-        .msub { font-size: 14px; color: var(--text-2); margin-bottom: 28px; }
+        .mh1 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 5px; }
+        .msub { font-size: 14px; color: var(--text-2); margin-bottom: 24px; }
 
-        /* Form fields */
-        .f { margin-bottom: 18px; }
-        .f label { display: block; font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 7px; }
+        /* Forms */
+        .f { margin-bottom: 16px; }
+        .f label { display: block; font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 6px; }
         .f input, .f select, .f textarea {
-            width: 100%; height: 46px; padding: 0 16px;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: var(--r-sm); font-family: inherit;
-            font-size: 15px; color: var(--text); outline: none;
-            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+            width: 100%; height: 44px; padding: 0 14px;
+            background: var(--bg-warm); border: 1.5px solid var(--border);
+            border-radius: var(--r-md); font-family: inherit; font-size: 15px;
+            color: var(--text); outline: none;
+            transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
         }
         .f input::placeholder, .f textarea::placeholder { color: var(--text-3); }
-        .f textarea { height: 90px; padding: 13px 16px; resize: vertical; }
+        .f textarea { height: 88px; padding: 12px 14px; resize: vertical; }
         .f input:focus, .f select:focus, .f textarea:focus {
-            border-color: rgba(232,25,60,0.5); background: var(--surface-2);
-            box-shadow: 0 0 0 3px rgba(232,25,60,0.1);
+            border-color: var(--text); background: white;
+            box-shadow: 0 0 0 3px rgba(26,21,4,0.06);
         }
-        .f input.err, .f select.err { border-color: rgba(232,25,60,0.7); }
-        .ferr { font-size: 12px; color: #ff8a9a; margin-top: 6px; display: none; }
+        .f input.err, .f select.err { border-color: var(--red); }
+        .ferr { font-size: 12px; color: var(--red); margin-top: 5px; display: none; }
         .ferr.on { display: block; }
-        .fhint { font-size: 12px; color: var(--text-3); margin-top: 5px; }
-        .f select option { background: var(--bg-3); }
-        .f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .fhint { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+        .f select option { background: white; }
+        .f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         /* Verify */
-        #verify-s { display: none; text-align: center; padding: 48px 40px 42px; }
-        .vi { font-size: 56px; margin-bottom: 18px; }
-        .vh1 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .vs  { font-size: 14px; color: var(--text-2); margin-bottom: 28px; line-height: 1.7; }
-        .ve  { font-weight: 700; color: var(--red-l); }
+        #verify-s { display: none; text-align: center; padding: 44px 36px 40px; }
+        .vi  { font-size: 52px; margin-bottom: 16px; }
+        .vh1 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 900; margin-bottom: 10px; }
+        .vs  { font-size: 14px; color: var(--text-2); margin-bottom: 24px; line-height: 1.7; }
+        .ve  { font-weight: 700; color: var(--red); }
         .vn  {
-            font-size: 12px; color: var(--text-3); margin-top: 18px;
-            padding: 14px 18px; background: var(--surface);
-            border: 1px solid var(--border); border-radius: 8px; line-height: 1.6;
+            font-size: 12px; color: var(--text-3); margin-top: 16px;
+            padding: 12px 16px; background: var(--bg-warm);
+            border: 1px solid var(--border); border-radius: var(--r-sm); line-height: 1.6; text-align: left;
         }
 
         /* Sell */
-        #sell-m .mbox { max-width: 540px; }
-        .sell-pad { padding: 36px; }
+        #sell-m .mbox { max-width: 520px; }
+        .sell-pad { padding: 32px; }
 
         /* Detail */
-        #det-m .mbox { max-width: 580px; }
+        #det-m .mbox { max-width: 540px; }
         .det-img {
-            height: 280px; display: flex; align-items: center;
-            justify-content: center; font-size: 100px;
-            border-radius: var(--r) var(--r) 0 0; position: relative;
+            height: 260px; display: flex; align-items: center;
+            justify-content: center; font-size: 96px; position: relative;
+            background: var(--bg-warm); border-radius: 18px 18px 0 0;
         }
-        .det-body { padding: 28px 32px; }
+        .det-body { padding: 24px 28px 28px; }
         .det-price {
-            font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 900;
-            letter-spacing: -2px; margin-bottom: 8px;
-            background: linear-gradient(120deg, var(--red-l), var(--red));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 900;
+            color: var(--text); letter-spacing: -1.5px; margin-bottom: 6px;
         }
-        .det-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
-        .det-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+        .det-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.3px; }
+        .det-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
         .det-tag {
-            padding: 5px 13px; border-radius: 999px;
-            font-size: 12px; font-weight: 600;
-            background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
+            padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+            color: var(--text-2); background: var(--bg-warm); border: 1px solid var(--border);
         }
-        .det-desc { font-size: 14px; color: var(--text-2); line-height: 1.7; margin-bottom: 22px; }
+        .det-desc { font-size: 14px; color: var(--text-2); line-height: 1.7; margin-bottom: 20px; }
         .det-seller {
-            display: flex; align-items: center; gap: 14px; padding: 18px;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: var(--r-md); margin-bottom: 22px;
+            display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+            background: var(--bg-warm); border: 1.5px solid var(--border);
+            border-radius: var(--r-md); margin-bottom: 18px;
         }
-        .det-sname { font-size: 15px; font-weight: 600; }
-        .det-sschool { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+        .det-sname   { font-size: 14px; font-weight: 600; }
+        .det-sschool { font-size: 13px; color: var(--text-2); margin-top: 1px; }
         .det-badge {
-            font-size: 11px; font-weight: 700; color: #34d399;
-            background: rgba(16,185,129,0.12); padding: 3px 10px;
-            border-radius: 999px; margin-left: auto; white-space: nowrap;
+            font-size: 11px; font-weight: 700; color: var(--success);
+            background: #e6f6f0; padding: 3px 10px; border-radius: 999px;
+            margin-left: auto; white-space: nowrap;
         }
 
         /* User dropdown */
         .umenu { position: relative; }
         .udrop {
-            position: absolute; top: calc(100% + 10px); right: 0;
-            background: var(--bg-3); border: 1px solid var(--border);
-            border-radius: var(--r-md); box-shadow: 0 16px 48px rgba(0,0,0,0.65);
-            width: 220px; padding: 8px; z-index: 400; display: none;
+            position: absolute; top: calc(100% + 8px); right: 0;
+            background: white; border: 1.5px solid var(--border);
+            border-radius: 14px; box-shadow: var(--sh-lg);
+            width: 210px; padding: 6px; z-index: 400; display: none;
         }
-        .udrop.on { display: block; animation: mboxIn 0.2s var(--ease); }
+        .udrop.on { display: block; animation: mboxIn 0.2s var(--spring); }
         .di {
-            width: 100%; padding: 10px 14px; border: none;
+            width: 100%; padding: 9px 13px; border: none;
             background: transparent; border-radius: 8px;
             font-family: inherit; font-size: 14px; font-weight: 500;
-            color: var(--text-2); cursor: pointer; text-align: left; transition: all 0.14s;
+            color: var(--text-2); cursor: pointer; text-align: left; transition: all 0.12s;
         }
-        .di:hover { background: var(--surface); color: var(--text); }
-        .di.red { color: #ff6b8a; }
-        .di.red:hover { background: rgba(232,25,60,0.1); }
-        .ddiv { height: 1px; background: var(--border); margin: 6px 0; }
-        .dinfo { padding: 12px 14px 8px; }
-        .dname { font-size: 14px; font-weight: 700; }
-        .demail { font-size: 12px; color: var(--text-3); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .di:hover { background: var(--bg-warm); color: var(--text); }
+        .di.red { color: var(--red); }
+        .di.red:hover { background: var(--red-pale); }
+        .ddiv  { height: 1px; background: var(--border); margin: 4px 0; }
+        .dinfo { padding: 10px 13px 6px; }
+        .dname  { font-size: 14px; font-weight: 700; }
+        .demail { font-size: 12px; color: var(--text-3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         /* ── TOAST ── */
         #toast {
-            position: fixed; bottom: 28px; left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(20,20,28,0.9); border: 1px solid var(--border);
-            color: var(--text); padding: 13px 28px;
-            border-radius: 999px; font-size: 14px; font-weight: 500; z-index: 999;
-            transition: transform 0.32s cubic-bezier(0.34,1.5,0.64,1);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5); pointer-events: none;
-            backdrop-filter: blur(18px); white-space: nowrap;
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--text); color: white;
+            padding: 12px 24px; border-radius: 999px;
+            font-size: 14px; font-weight: 500; z-index: 999;
+            transition: transform 0.3s var(--spring);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            pointer-events: none; white-space: nowrap;
         }
-        #toast.on { transform: translateX(-50%) translateY(0); }
-        #toast.ok  { background: rgba(16,80,57,0.9); border-color: rgba(16,185,129,0.3); color: #34d399; }
-        #toast.bad { background: rgba(90,10,20,0.9); border-color: rgba(232,25,60,0.3); color: #ff8a9a; }
+        #toast.on  { transform: translateX(-50%) translateY(0); }
+        #toast.ok  { background: #00875a; }
+        #toast.bad { background: var(--red); }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 900px) { .feat-grid { grid-template-columns: 1fr; gap: 16px; } }
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: repeat(3,1fr); }
+            .cta-band { grid-template-columns: 1fr; }
+        }
         @media (max-width: 768px) {
-            .hero { grid-template-columns: 1fr; padding: 48px 20px; gap: 44px; min-height: auto; }
+            .hero { grid-template-columns: 1fr; padding: 44px 20px 60px; gap: 40px; }
             .hero-visual { display: none; }
             .hero-title { letter-spacing: -2px; }
-            .hero-stats { gap: 24px; }
-            .cta-box { padding: 52px 28px; }
+            .hero-stats { gap: 0; }
+            .stat { padding: 0 16px; }
+            .how-top { flex-direction: column; }
+            .how-sub { text-align: left; }
+            .step { grid-template-columns: 60px 1fr; }
+            .step-n { font-size: 28px; }
+            .cta-band { padding: 48px 28px; margin: 0 16px 60px; }
             .f2 { grid-template-columns: 1fr; }
         }
-        @media (max-width: 480px) {
-            .nav-inner { padding: 0 16px; }
+        @media (max-width: 540px) {
+            .grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+            .lc-img { font-size: 48px; }
             .mkt { padding: 16px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .blob, .hero-card, .au, .reveal { animation: none !important; transition: none !important; }
+            .au, .reveal { animation: none !important; transition: none !important; }
             .au { opacity: 1; transform: none; }
             .reveal { opacity: 1; transform: none; }
+            .trust-track { animation: none; }
         }
     </style>
 </head>
 <body>
-
-<!-- ── BACKGROUND ── -->
-<div class="bg-canvas" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    <div class="grid-dots"></div>
-</div>
 
 <!-- ── NAV ── -->
 <nav id="nav">
@@ -691,31 +626,31 @@
         <span class="logo" onclick="goHome()">Pockit</span>
 
         <div class="nav-search hidden" id="nav-search">
-            <svg class="nav-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="nav-si" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
-            <input type="text" id="s-input" placeholder="Search clothes, brands, sizes…" oninput="doSearch(this.value)" aria-label="Search listings">
+            <input type="text" id="s-input" placeholder="Search campus fashion…" oninput="doSearch(this.value)" aria-label="Search listings">
         </div>
 
         <div class="nav-right">
-            <button class="btn btn-ghost"    id="n-login"  onclick="openAuth('login')">Log in</button>
-            <button class="btn btn-primary"  id="n-signup" onclick="openAuth('signup')">Sign up free</button>
-            <button class="btn btn-primary hidden" id="n-sell" onclick="openSell()">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <button class="btn btn-ghost btn-sm" id="n-login"  onclick="openAuth('login')">Log in</button>
+            <button class="btn btn-red   btn-sm" id="n-signup" onclick="openAuth('signup')">Sign up</button>
+            <button class="btn btn-red hidden" id="n-sell" onclick="openSell()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
                 Sell
             </button>
             <div class="umenu hidden" id="n-umenu">
-                <div class="avatar" id="n-avatar" onclick="toggleDrop()" role="button" aria-label="User menu" tabindex="0"></div>
+                <div class="avatar" id="n-avatar" onclick="toggleDrop()" role="button" tabindex="0"></div>
                 <div class="udrop" id="udrop">
                     <div class="dinfo">
                         <div class="dname"  id="d-name"></div>
                         <div class="demail" id="d-email"></div>
                     </div>
                     <div class="ddiv"></div>
-                    <button class="di" onclick="closeDrop()">My Listings</button>
-                    <button class="di" onclick="closeDrop()">Saved Items</button>
+                    <button class="di" onclick="closeDrop()">My listings</button>
+                    <button class="di" onclick="closeDrop()">Saved items</button>
                     <div class="ddiv"></div>
                     <button class="di red" onclick="doLogout()">Log out</button>
                 </div>
@@ -726,109 +661,155 @@
 
 <!-- ── LANDING ── -->
 <div id="landing">
+
     <!-- Hero -->
     <section class="hero">
         <div>
-            <div class="hero-badge au au-1">
-                <span class="badge-pulse" aria-hidden="true"></span>
-                🎓 .edu verified marketplace
-            </div>
+            <div class="hero-badge au au-1">🎓 .edu verified — students only</div>
             <h1 class="hero-title au au-2">
-                Your campus<br>
-                <span class="g">closet, reimagined.</span>
+                Your campus<br><span class="accent">thrift shop.</span>
             </h1>
             <p class="hero-sub au au-3">
-                Buy and sell clothes with verified students at your college. Every user authenticated with a real .edu email — no randos, ever.
+                Buy and sell clothes with real students at your college. Everyone's .edu verified — so you always know who you're dealing with.
             </p>
             <div class="hero-ctas au au-4">
-                <button class="btn btn-primary btn-lg" onclick="openAuth('signup')">Start selling</button>
-                <button class="btn btn-ghost btn-lg" onclick="openAuth('signup')">Browse listings</button>
+                <button class="btn btn-red btn-lg" onclick="openAuth('signup')">Browse the feed</button>
+                <button class="btn btn-ghost btn-lg" onclick="openAuth('signup')">Start selling</button>
             </div>
             <div class="hero-stats au au-5">
-                <div>
-                    <div class="stat-val">12k+</div>
-                    <div class="stat-label">Active listings</div>
-                </div>
-                <div>
-                    <div class="stat-val">340+</div>
-                    <div class="stat-label">Colleges</div>
-                </div>
-                <div>
-                    <div class="stat-val">$18</div>
-                    <div class="stat-label">Avg. price</div>
-                </div>
+                <div class="stat"><strong>12k+</strong><span>Listings live</span></div>
+                <div class="sdiv"></div>
+                <div class="stat"><strong>340+</strong><span>Colleges</span></div>
+                <div class="sdiv"></div>
+                <div class="stat"><strong>$18</strong><span>Avg. price</span></div>
             </div>
         </div>
 
-        <div class="hero-visual" aria-hidden="true">
-            <div class="hc-glow"></div>
-            <div class="glass hero-card au au-2">
-                <div class="hc-img" style="background:rgba(59,130,246,0.14)">👖</div>
-                <div>
-                    <div class="hc-name">Levi's 501 Jeans</div>
-                    <div class="hc-price">$45</div>
-                    <span class="hc-badge b-new">Like New</span>
-                </div>
+        <div class="hero-visual au au-3" aria-hidden="true">
+            <div class="hcard">
+                <div class="hcard-img" style="background:#eef2f8">👖</div>
+                <div class="hcard-body"><div class="hcard-price">$45</div><div class="hcard-name">Levi's 501 Jeans</div></div>
             </div>
-            <div class="glass hero-card au au-3">
-                <div class="hc-img" style="background:rgba(236,72,153,0.14)">👗</div>
-                <div>
-                    <div class="hc-name">Zara Floral Dress</div>
-                    <div class="hc-price">$20</div>
-                    <span class="hc-badge b-good">Good</span>
-                </div>
+            <div class="hcard">
+                <div class="hcard-img" style="background:#f8eef4">👗</div>
+                <div class="hcard-body"><div class="hcard-price">$20</div><div class="hcard-name">Zara Floral Dress</div></div>
             </div>
-            <div class="glass hero-card au au-4">
-                <div class="hc-img" style="background:rgba(16,185,129,0.14)">🧥</div>
-                <div>
-                    <div class="hc-name">Patagonia Fleece</div>
-                    <div class="hc-price">$55</div>
-                    <span class="hc-badge b-new">Like New</span>
+            <div class="hcard">
+                <div class="hcard-img" style="background:#eef8f2">🧥</div>
+                <div class="hcard-body"><div class="hcard-price">$55</div><div class="hcard-name">Patagonia Fleece</div></div>
+            </div>
+            <div class="hcard">
+                <div class="hcard-img" style="background:#faf4ee">👟</div>
+                <div class="hcard-body"><div class="hcard-price">$65</div><div class="hcard-name">Nike Air Force 1</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust marquee -->
+    <div class="trust" aria-label="Colleges on Pockit">
+        <div class="trust-track" aria-hidden="true">
+            <span class="trust-item">Students at <strong>Boston University</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>NYU</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>USC</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Northeastern</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>UCLA</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Harvard</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>UMass</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Columbia</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Boston University</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>NYU</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>USC</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Northeastern</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>UCLA</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Harvard</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>UMass</strong></span>
+            <span class="trust-item">·</span>
+            <span class="trust-item">Students at <strong>Columbia</strong></span>
+            <span class="trust-item">·</span>
+        </div>
+    </div>
+
+    <!-- How it works -->
+    <section class="how">
+        <div class="how-inner">
+            <div class="how-top reveal">
+                <h2 class="how-hed">How Pockit works</h2>
+                <p class="how-sub">We kept it simple, because buying secondhand should be.</p>
+            </div>
+            <div class="steps">
+                <div class="step reveal reveal-d1">
+                    <div class="step-n">01</div>
+                    <div class="step-content">
+                        <h3>Sign up with your .edu</h3>
+                        <p>We verify you're a real student. No .edu, no entry. It's what keeps Pockit a community you can actually trust.</p>
+                    </div>
+                </div>
+                <div class="step reveal reveal-d2">
+                    <div class="step-n">02</div>
+                    <div class="step-content">
+                        <h3>List what you don't wear</h3>
+                        <p>Title, price, size, condition. Hit post. Your item is live in under two minutes, visible to everyone at your school.</p>
+                    </div>
+                </div>
+                <div class="step reveal reveal-d3">
+                    <div class="step-n">03</div>
+                    <div class="step-content">
+                        <h3>Meet up on campus</h3>
+                        <p>Pick a spot you both know — the library, the quad, wherever. Cash in hand, clothes in bag. No shipping, no drama.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="features">
-        <div class="features-inner">
-            <p class="eyebrow reveal">Why Pockit?</p>
-            <h2 class="section-h reveal reveal-d1">Resale built for campus life</h2>
-            <div class="feat-grid">
-                <div class="glass feat-card reveal reveal-d1">
-                    <div class="feat-icon">🎓</div>
-                    <h3 class="feat-title">.edu verified only</h3>
-                    <p class="feat-desc">Every user signs up with a verified college email. No strangers — just students from real campuses you can trust.</p>
-                </div>
-                <div class="glass feat-card reveal reveal-d2">
-                    <div class="feat-icon">📦</div>
-                    <h3 class="feat-title">List in under 2 min</h3>
-                    <p class="feat-desc">Fill in a few details, set your price, and your item is live. No photography studio required — just the facts.</p>
-                </div>
-                <div class="glass feat-card reveal reveal-d3">
-                    <div class="feat-icon">🤝</div>
-                    <h3 class="feat-title">Safe campus swaps</h3>
-                    <p class="feat-desc">Meet at the library, the quad, or the dining hall. Local pickup keeps it simple and safe — no shipping drama.</p>
-                </div>
-            </div>
+    <!-- Browse by category -->
+    <section class="cats">
+        <div class="cats-head reveal">
+            <h2>Browse by category</h2>
+            <span>What are you looking for?</span>
+        </div>
+        <div class="cat-row reveal reveal-d1">
+            <button class="cat-pill" onclick="goCat('Tops')">👕 Tops</button>
+            <button class="cat-pill" onclick="goCat('Bottoms')">👖 Bottoms</button>
+            <button class="cat-pill" onclick="goCat('Outerwear')">🧥 Outerwear</button>
+            <button class="cat-pill" onclick="goCat('Dresses')">👗 Dresses</button>
+            <button class="cat-pill" onclick="goCat('Shoes')">👟 Shoes</button>
+            <button class="cat-pill" onclick="goCat('Accessories')">🧢 Accessories</button>
         </div>
     </section>
 
-    <!-- CTA -->
-    <div class="cta-wrap reveal">
-        <div class="cta-box">
-            <div class="cta-content">
-                <h2 class="cta-title">Ready to clear out your closet?</h2>
-                <p class="cta-sub">Join thousands of students already buying and selling on Pockit.</p>
-                <button class="btn btn-white btn-lg" onclick="openAuth('signup')">Get started — it's free</button>
-            </div>
+    <!-- CTA band -->
+    <div class="cta-band reveal">
+        <div class="cta-band-left">
+            <div class="cta-band-title">Your closet's<br>waiting.</div>
+            <div class="cta-band-sub">List your first item for free. Takes two minutes.</div>
+        </div>
+        <div class="cta-band-right">
+            <button class="btn btn-white btn-lg" onclick="openAuth('signup')">Get started →</button>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <div class="foot-logo">Pockit</div>
-        <p>Made for students, by students. &copy; 2025 Pockit, Inc.</p>
+        <div>
+            <div class="foot-logo">Pockit</div>
+            <p style="margin-top:4px">The student marketplace for campus clothes.</p>
+        </div>
+        <p>© 2025 Pockit, Inc.</p>
     </footer>
 </div>
 
@@ -840,8 +821,8 @@
                 <div class="welcome-name" id="w-name"></div>
                 <div class="welcome-sub"  id="w-sub"></div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="openSell()">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <button class="btn btn-outline-red btn-sm" onclick="openSell()">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
                 Post a listing
@@ -858,13 +839,13 @@
             <button class="chip" onclick="setCat('Shoes',this)">Shoes</button>
             <button class="chip" onclick="setCat('Accessories',this)">Accessories</button>
             <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
-                <select class="fsel" onchange="setCond(this.value)" aria-label="Filter by condition">
+                <select class="fsel" onchange="setCond(this.value)" aria-label="Condition">
                     <option value="all">Any condition</option>
                     <option value="Like New">Like New</option>
                     <option value="Good">Good</option>
                     <option value="Fair">Fair</option>
                 </select>
-                <select class="fsel" onchange="setSort(this.value)" aria-label="Sort listings">
+                <select class="fsel" onchange="setSort(this.value)" aria-label="Sort">
                     <option value="newest">Newest first</option>
                     <option value="price-low">Price: low → high</option>
                     <option value="price-high">Price: high → low</option>
@@ -878,20 +859,18 @@
 </div>
 
 <!-- ── AUTH MODAL ── -->
-<div class="overlay hidden" id="auth-m" onclick="ocClick(event,'auth-m')" role="dialog" aria-modal="true" aria-label="Authentication">
+<div class="overlay hidden" id="auth-m" onclick="ocClick(event,'auth-m')" role="dialog" aria-modal="true" aria-label="Sign in or sign up">
     <div class="mbox">
         <button class="mclose" onclick="closeAuth()" aria-label="Close">&#x2715;</button>
-
         <div id="auth-forms">
             <div class="auth-pad">
                 <div class="auth-tabs" role="tablist">
-                    <button class="atab on" id="t-up"  onclick="swTab('signup')" role="tab" aria-selected="true">Sign up</button>
-                    <button class="atab"    id="t-in"  onclick="swTab('login')"  role="tab" aria-selected="false">Log in</button>
+                    <button class="atab on" id="t-up" onclick="swTab('signup')" role="tab" aria-selected="true">Sign up</button>
+                    <button class="atab"    id="t-in" onclick="swTab('login')"  role="tab" aria-selected="false">Log in</button>
                 </div>
-
                 <div id="f-signup">
                     <div class="mh1">Create your account</div>
-                    <div class="msub">Use your college .edu email to get verified.</div>
+                    <div class="msub">Need a .edu email. No .edu, no Pockit.</div>
                     <div class="f">
                         <label for="su-name">Full name</label>
                         <input type="text" id="su-name" placeholder="Your name" autocomplete="name">
@@ -908,15 +887,14 @@
                         <input type="password" id="su-pass" placeholder="At least 8 characters" autocomplete="new-password">
                         <div class="ferr" id="e-su-pass">Password must be at least 8 characters.</div>
                     </div>
-                    <button class="btn btn-primary btn-block" onclick="doSignup()" style="margin-top:10px">Create account &rarr;</button>
-                    <p style="text-align:center;font-size:12px;color:var(--text-3);margin-top:16px">
-                        By signing up you agree to our <a href="#" style="color:var(--red-l)">Terms</a> and <a href="#" style="color:var(--red-l)">Privacy Policy</a>.
+                    <button class="btn btn-red btn-block" onclick="doSignup()" style="margin-top:8px">Create account →</button>
+                    <p style="text-align:center;font-size:12px;color:var(--text-3);margin-top:14px">
+                        By signing up you agree to our <a href="#" style="color:var(--red)">Terms</a> and <a href="#" style="color:var(--red)">Privacy Policy</a>.
                     </p>
                 </div>
-
                 <div id="f-login" class="hidden">
                     <div class="mh1">Welcome back</div>
-                    <div class="msub">Sign in with your college email.</div>
+                    <div class="msub">Good to see you again.</div>
                     <div class="f">
                         <label for="li-email">College email</label>
                         <input type="email" id="li-email" placeholder="you@university.edu" autocomplete="email">
@@ -927,23 +905,16 @@
                         <input type="password" id="li-pass" placeholder="Your password" autocomplete="current-password">
                         <div class="ferr" id="e-li-pass">Incorrect email or password.</div>
                     </div>
-                    <button class="btn btn-primary btn-block" onclick="doLogin()" style="margin-top:10px">Log in &rarr;</button>
+                    <button class="btn btn-red btn-block" onclick="doLogin()" style="margin-top:8px">Log in →</button>
                 </div>
             </div>
         </div>
-
         <div id="verify-s">
             <div class="vi">📬</div>
-            <div class="vh1">Check your inbox!</div>
-            <div class="vs">
-                We sent a verification link to<br>
-                <span class="ve" id="v-email"></span><br><br>
-                Click the link to confirm your .edu address and unlock the marketplace.
-            </div>
-            <button class="btn btn-primary btn-lg" onclick="simVerify()" style="margin:0 auto;display:flex">
-                &#10003;&nbsp; Simulate email click
-            </button>
-            <p class="vn">Demo only — in production, users receive a real email and click a verification link from their college inbox.</p>
+            <div class="vh1">Check your inbox</div>
+            <div class="vs">We sent a link to<br><span class="ve" id="v-email"></span><br><br>Click it to verify your .edu address and unlock the marketplace.</div>
+            <button class="btn btn-red btn-lg" onclick="simVerify()" style="margin:0 auto;display:flex">✓ Simulate email click</button>
+            <p class="vn">Demo only — in production this is a real email sent to your college inbox.</p>
         </div>
     </div>
 </div>
@@ -954,7 +925,7 @@
         <button class="mclose" onclick="closeSell()" aria-label="Close">&#x2715;</button>
         <div class="sell-pad">
             <div class="mh1">Post a listing</div>
-            <div class="msub">Fill in the details and start selling in seconds.</div>
+            <div class="msub">Tell people what you're selling.</div>
             <div class="f">
                 <label for="sl-title">Item name</label>
                 <input type="text" id="sl-title" placeholder="e.g. Nike Hoodie, Levi's 501 Jeans…">
@@ -968,7 +939,7 @@
                 </div>
                 <div class="f">
                     <label for="sl-size">Size</label>
-                    <input type="text" id="sl-size" placeholder="e.g. M, 8, 30×32">
+                    <input type="text" id="sl-size" placeholder="M, 8, 30×32…">
                     <div class="ferr" id="e-sl-size">Please enter a size.</div>
                 </div>
             </div>
@@ -993,9 +964,9 @@
             </div>
             <div class="f">
                 <label for="sl-desc">Description <span style="color:var(--text-3);font-weight:400">(optional)</span></label>
-                <textarea id="sl-desc" placeholder="Any wear, pickup preferences, or other details…"></textarea>
+                <textarea id="sl-desc" placeholder="Any wear, fit notes, or pickup preferences…"></textarea>
             </div>
-            <button class="btn btn-primary btn-block" onclick="doSell()">Post listing &rarr;</button>
+            <button class="btn btn-red btn-block" onclick="doSell()">Post listing →</button>
         </div>
     </div>
 </div>
@@ -1012,7 +983,7 @@
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ── SCHOOL MAP ──────────────────────────────────────────── */
+/* ── SCHOOL MAP ── */
 const SCHOOLS = {
     mit:'MIT',harvard:'Harvard',yale:'Yale',princeton:'Princeton',stanford:'Stanford',
     columbia:'Columbia',cornell:'Cornell',dartmouth:'Dartmouth',upenn:'UPenn',brown:'Brown',
@@ -1031,27 +1002,27 @@ const SCHOOLS = {
 };
 
 const CAT_EI = {
-    Tops:['👕','rgba(59,130,246,0.18)'],  Bottoms:['👖','rgba(99,102,241,0.18)'],
-    Outerwear:['🧥','rgba(16,185,129,0.18)'], Dresses:['👗','rgba(236,72,153,0.18)'],
-    Shoes:['👟','rgba(245,158,11,0.18)'],  Accessories:['🧢','rgba(139,92,246,0.18)'],
+    Tops:['👕','#eef2f8'],    Bottoms:['👖','#f0eeff'],
+    Outerwear:['🧥','#eef8f2'], Dresses:['👗','#f8eef4'],
+    Shoes:['👟','#faf4ee'],   Accessories:['🧢','#f4f0fa'],
 };
 
 const SAMPLE = [
-    {id:1, title:"Vintage Levi's 501 Jeans",         price:45, size:"W30 L32",  cond:"Good",     cat:"Bottoms",     seller:"Alex K.",   school:"Boston University", emoji:"👖", col:"rgba(99,102,241,0.18)", days:2, desc:"Classic 501s in great shape. Light fade, no rips. Washed and ready."},
-    {id:2, title:"Nike Air Force 1 Low (White)",      price:65, size:"M 10",     cond:"Like New", cat:"Shoes",       seller:"Jordan M.", school:"Northeastern",      emoji:"👟", col:"rgba(245,158,11,0.18)", days:1, desc:"Only worn twice. Cleaned, no yellowing on the sole. No box."},
-    {id:3, title:"Patagonia Better Sweater Fleece",   price:55, size:"L",        cond:"Good",     cat:"Outerwear",   seller:"Sam R.",    school:"Boston University", emoji:"🧥", col:"rgba(16,185,129,0.18)", days:3, desc:"Navy blue, perfect for fall. Light pilling on elbows but solid otherwise."},
-    {id:4, title:"Zara Floral Mini Dress",            price:20, size:"S",        cond:"Like New", cat:"Dresses",     seller:"Taylor W.", school:"Emerson",           emoji:"👗", col:"rgba(236,72,153,0.18)", days:5, desc:"Wore it once to a party. Beautiful print, fits true to size."},
-    {id:5, title:"Champion Reverse Weave Hoodie",     price:28, size:"XL",       cond:"Good",     cat:"Tops",        seller:"Chris B.",  school:"UMass Amherst",     emoji:"👕", col:"rgba(59,130,246,0.18)", days:1, desc:"Heather grey, cozy and thick. Minor wash fading, otherwise great."},
-    {id:6, title:"Lululemon Align Leggings",          price:45, size:"Size 6",   cond:"Like New", cat:"Bottoms",     seller:"Morgan P.", school:"Boston College",    emoji:"👖", col:"rgba(139,92,246,0.18)", days:4, desc:"Black, 28\" inseam. A few wears, no pilling. Offers welcome!"},
-    {id:7, title:"Carhartt WIP Acrylic Beanie",       price:14, size:"One Size", cond:"Good",     cat:"Accessories", seller:"Riley S.",  school:"Tufts",             emoji:"🧢", col:"rgba(139,92,246,0.18)", days:6, desc:"Dark brown colorway, one small snag on inside but not visible."},
-    {id:8, title:"Aritzia Super Puff Jacket",         price:95, size:"XS",       cond:"Like New", cat:"Outerwear",   seller:"Quinn A.",  school:"Simmons",           emoji:"🧥", col:"rgba(16,185,129,0.18)", days:2, desc:"Caramel color, worn maybe 3 times last winter. Perfect condition."},
-    {id:9, title:"Dr. Martens 1460 Boots",            price:80, size:"W 8",      cond:"Good",     cat:"Shoes",       seller:"Avery L.",  school:"Suffolk",           emoji:"👢", col:"rgba(245,158,11,0.18)", days:7, desc:"Classic black. Light scuffs on toe — normal Doc wear. Very wearable."},
-    {id:10,title:"Free People Peasant Blouse",        price:22, size:"S/M",      cond:"Good",     cat:"Tops",        seller:"Drew N.",   school:"Berklee",           emoji:"👕", col:"rgba(59,130,246,0.18)", days:3, desc:"Flowy cream top, super versatile. Hand-washed, no stains."},
-    {id:11,title:"Adidas Campus 00s Sneakers",        price:50, size:"M 9",      cond:"Like New", cat:"Shoes",       seller:"Jamie O.",  school:"MIT",               emoji:"👟", col:"rgba(245,158,11,0.18)", days:1, desc:"White/off-white colorway. Worn twice, still crispy. No box."},
-    {id:12,title:"Urban Outfitters Corduroy Jacket",  price:38, size:"M",        cond:"Good",     cat:"Outerwear",   seller:"Casey F.",  school:"Harvard",           emoji:"🧥", col:"rgba(16,185,129,0.18)", days:8, desc:"Rust orange cord jacket, slightly oversized. Classic and timeless."},
+    {id:1, title:"Vintage Levi's 501 Jeans",         price:45, size:"W30 L32",  cond:"Good",     cat:"Bottoms",     seller:"Alex K.",   school:"Boston University", emoji:"👖", col:"#f0eeff", days:2, desc:"Classic 501s in great shape. Light fade, no rips. Washed and ready."},
+    {id:2, title:"Nike Air Force 1 Low (White)",      price:65, size:"M 10",     cond:"Like New", cat:"Shoes",       seller:"Jordan M.", school:"Northeastern",      emoji:"👟", col:"#faf4ee", days:1, desc:"Only worn twice. Cleaned, no yellowing on the sole. No box."},
+    {id:3, title:"Patagonia Better Sweater Fleece",   price:55, size:"L",        cond:"Good",     cat:"Outerwear",   seller:"Sam R.",    school:"Boston University", emoji:"🧥", col:"#eef8f2", days:3, desc:"Navy blue, perfect for fall. Light pilling on elbows but solid otherwise."},
+    {id:4, title:"Zara Floral Mini Dress",            price:20, size:"S",        cond:"Like New", cat:"Dresses",     seller:"Taylor W.", school:"Emerson",           emoji:"👗", col:"#f8eef4", days:5, desc:"Wore it once to a party. Beautiful print, fits true to size."},
+    {id:5, title:"Champion Reverse Weave Hoodie",     price:28, size:"XL",       cond:"Good",     cat:"Tops",        seller:"Chris B.",  school:"UMass Amherst",     emoji:"👕", col:"#eef2f8", days:1, desc:"Heather grey, cozy and thick. Minor wash fading, otherwise great."},
+    {id:6, title:"Lululemon Align Leggings",          price:45, size:"Size 6",   cond:"Like New", cat:"Bottoms",     seller:"Morgan P.", school:"Boston College",    emoji:"👖", col:"#f0eeff", days:4, desc:"Black, 28\" inseam. A few wears, no pilling. Offers welcome!"},
+    {id:7, title:"Carhartt WIP Acrylic Beanie",       price:14, size:"One Size", cond:"Good",     cat:"Accessories", seller:"Riley S.",  school:"Tufts",             emoji:"🧢", col:"#f4f0fa", days:6, desc:"Dark brown colorway, one small snag on inside but not visible."},
+    {id:8, title:"Aritzia Super Puff Jacket",         price:95, size:"XS",       cond:"Like New", cat:"Outerwear",   seller:"Quinn A.",  school:"Simmons",           emoji:"🧥", col:"#eef8f2", days:2, desc:"Caramel color, worn maybe 3 times last winter. Perfect condition."},
+    {id:9, title:"Dr. Martens 1460 Boots",            price:80, size:"W 8",      cond:"Good",     cat:"Shoes",       seller:"Avery L.",  school:"Suffolk",           emoji:"👢", col:"#faf4ee", days:7, desc:"Classic black. Light scuffs on toe — normal Doc wear. Very wearable."},
+    {id:10,title:"Free People Peasant Blouse",        price:22, size:"S/M",      cond:"Good",     cat:"Tops",        seller:"Drew N.",   school:"Berklee",           emoji:"👕", col:"#eef2f8", days:3, desc:"Flowy cream top, super versatile. Hand-washed, no stains."},
+    {id:11,title:"Adidas Campus 00s Sneakers",        price:50, size:"M 9",      cond:"Like New", cat:"Shoes",       seller:"Jamie O.",  school:"MIT",               emoji:"👟", col:"#faf4ee", days:1, desc:"White/off-white colorway. Worn twice, still crispy. No box."},
+    {id:12,title:"Urban Outfitters Corduroy Jacket",  price:38, size:"M",        cond:"Good",     cat:"Outerwear",   seller:"Casey F.",  school:"Harvard",           emoji:"🧥", col:"#eef8f2", days:8, desc:"Rust orange cord jacket, slightly oversized. Classic and timeless."},
 ];
 
-/* ── STATE ───────────────────────────────────────────────── */
+/* ── STATE ── */
 const S = {
     user: null, pending: null,
     listings: [...SAMPLE],
@@ -1062,8 +1033,8 @@ const S = {
 
 function load() {
     try {
-        const u = ls('pockit_user');    if (u) S.user = JSON.parse(u);
-        const x = ls('pockit_extra');   if (x) S.listings = [...SAMPLE, ...JSON.parse(x)];
+        const u  = ls('pockit_user');   if (u)  S.user = JSON.parse(u);
+        const x  = ls('pockit_extra');  if (x)  S.listings = [...SAMPLE, ...JSON.parse(x)];
         const sv = ls('pockit_saved');  if (sv) S.saved = new Set(JSON.parse(sv));
         if (!ls('pockit_accounts')) lsSet('pockit_accounts','{}');
     } catch {}
@@ -1072,11 +1043,11 @@ const ls    = k => localStorage.getItem(k);
 const lsSet = (k,v) => localStorage.setItem(k,v);
 const lsDel = k => localStorage.removeItem(k);
 
-function saveUser()    { S.user ? lsSet('pockit_user', JSON.stringify(S.user)) : lsDel('pockit_user'); }
-function saveExtra()   { lsSet('pockit_extra', JSON.stringify(S.listings.filter(l=>l.id>=200))); }
-function saveSaved()   { lsSet('pockit_saved', JSON.stringify([...S.saved])); }
+function saveUser()  { S.user ? lsSet('pockit_user', JSON.stringify(S.user)) : lsDel('pockit_user'); }
+function saveExtra() { lsSet('pockit_extra', JSON.stringify(S.listings.filter(l=>l.id>=200))); }
+function saveSaved() { lsSet('pockit_saved', JSON.stringify([...S.saved])); }
 
-/* ── VIEWS ───────────────────────────────────────────────── */
+/* ── VIEWS ── */
 function showLanding() {
     g('landing').style.display = '';
     g('market').classList.add('hidden');
@@ -1101,24 +1072,30 @@ function showMarket() {
     g('n-avatar').textContent = ini;
     g('d-name').textContent   = S.user.name;
     g('d-email').textContent  = S.user.email;
-    g('w-name').textContent   = `Hey, ${first}! 👋`;
-    g('w-sub').textContent    = `Browsing listings at ${S.user.school}`;
+    g('w-name').textContent   = `Hey, ${first} 👋`;
+    g('w-sub').textContent    = `What are you looking for at ${S.user.school}?`;
     renderGrid();
 }
 
 function goHome() { S.user ? showMarket() : showLanding(); }
 
-/* ── AUTH ────────────────────────────────────────────────── */
+function goCat(cat) {
+    if (!S.user) { openAuth('signup'); return; }
+    S.filt.cat = cat;
+    showMarket();
+    qsa('.chip').forEach(b=>b.classList.remove('on'));
+    qsa('.chip').forEach(b => { if (b.textContent.trim() === cat) b.classList.add('on'); });
+    renderGrid();
+}
+
+/* ── AUTH ── */
 function openAuth(tab) {
     g('auth-m').classList.remove('hidden');
     g('verify-s').style.display   = 'none';
     g('auth-forms').style.display = '';
     swTab(tab || 'signup');
 }
-function closeAuth() {
-    g('auth-m').classList.add('hidden');
-    clearErrs();
-}
+function closeAuth() { g('auth-m').classList.add('hidden'); clearErrs(); }
 
 function swTab(t) {
     const su = t === 'signup';
@@ -1131,7 +1108,7 @@ function swTab(t) {
 
 function clearErrs() {
     qsa('.ferr').forEach(e=>e.classList.remove('on'));
-    qsa('.f input.err, .f select.err').forEach(e=>e.classList.remove('err'));
+    qsa('.f input.err,.f select.err').forEach(e=>e.classList.remove('err'));
 }
 
 function showErr(eid, fid) {
@@ -1151,7 +1128,7 @@ function checkEdu() {
     const h = g('h-school');
     if (isEdu(v)) {
         h.textContent = '🎓 ' + schoolFrom(v);
-        h.style.color = '#34d399';
+        h.style.color = '#00875a';
         g('su-email').classList.remove('err');
         g('e-su-email').classList.remove('on');
     } else { h.textContent = ''; }
@@ -1163,12 +1140,12 @@ function doSignup() {
     const email = g('su-email').value.trim().toLowerCase();
     const pass  = g('su-pass').value;
     let ok = true;
-    if (!name)          { showErr('e-su-name','su-name');   ok = false; }
-    if (!isEdu(email))  { showErr('e-su-email','su-email'); ok = false; }
-    if (pass.length < 8){ showErr('e-su-pass','su-pass');   ok = false; }
+    if (!name)          { showErr('e-su-name','su-name');   ok=false; }
+    if (!isEdu(email))  { showErr('e-su-email','su-email'); ok=false; }
+    if (pass.length < 8){ showErr('e-su-pass','su-pass');   ok=false; }
     if (!ok) return;
 
-    const acc = JSON.parse(ls('pockit_accounts') || '{}');
+    const acc = JSON.parse(ls('pockit_accounts')||'{}');
     const school = schoolFrom(email);
     acc[email] = {name, pass, school, verified:false};
     lsSet('pockit_accounts', JSON.stringify(acc));
@@ -1181,7 +1158,7 @@ function doSignup() {
 
 function simVerify() {
     const {name, email, school} = S.pending;
-    const acc = JSON.parse(ls('pockit_accounts') || '{}');
+    const acc = JSON.parse(ls('pockit_accounts')||'{}');
     if (acc[email]) acc[email].verified = true;
     lsSet('pockit_accounts', JSON.stringify(acc));
     S.user = {name, email, school, verified:true};
@@ -1196,11 +1173,11 @@ function doLogin() {
     const email = g('li-email').value.trim().toLowerCase();
     const pass  = g('li-pass').value;
     let ok = true;
-    if (!isEdu(email)) { showErr('e-li-email','li-email'); ok = false; }
-    if (!pass)         { showErr('e-li-pass','li-pass');   ok = false; }
+    if (!isEdu(email)) { showErr('e-li-email','li-email'); ok=false; }
+    if (!pass)         { showErr('e-li-pass','li-pass');   ok=false; }
     if (!ok) return;
 
-    const acc  = JSON.parse(ls('pockit_accounts') || '{}');
+    const acc  = JSON.parse(ls('pockit_accounts')||'{}');
     const acct = acc[email];
     if (!acct || acct.pass !== pass) {
         showErr('e-li-pass','li-pass');
@@ -1220,7 +1197,7 @@ function doLogout() {
     toast('Logged out. See you around!');
 }
 
-/* ── MARKETPLACE ─────────────────────────────────────────── */
+/* ── MARKETPLACE ── */
 function filtered() {
     let list = [...S.listings];
     const {cat, cond, sort, q} = S.filt;
@@ -1235,8 +1212,8 @@ function filtered() {
             l.school.toLowerCase().includes(lq)
         );
     }
-    if (sort === 'price-low')  list.sort((a,b)=>a.price-b.price);
-    else if (sort === 'price-high') list.sort((a,b)=>b.price-a.price);
+    if (sort==='price-low')  list.sort((a,b)=>a.price-b.price);
+    else if (sort==='price-high') list.sort((a,b)=>b.price-a.price);
     else list.sort((a,b)=>(a.days||0)-(b.days||0));
     return list;
 }
@@ -1247,7 +1224,7 @@ function renderGrid() {
     g('res-count').innerHTML = `<strong>${list.length}</strong> listing${list.length!==1?'s':''} found`;
 
     if (!list.length) {
-        grid.innerHTML = `<div class="empty"><div class="empty-emoji">🔍</div><h3>No listings found</h3><p>Try adjusting your filters or search.</p></div>`;
+        grid.innerHTML = `<div class="empty"><div class="empty-emoji">🔍</div><h3>Nothing here yet</h3><p>Try adjusting your filters or search.</p></div>`;
         return;
     }
 
@@ -1259,18 +1236,15 @@ function renderGrid() {
         <article class="lcard" onclick="openDet(${l.id})" role="button" tabindex="0" aria-label="${esc(l.title)}, $${l.price}">
             <div class="lc-img" style="background:${l.col}">
                 ${l.emoji}
-                <span class="lc-cond ${cc}">${l.cond}</span>
+                <span class="lc-cond ${cc}"><span class="cdot"></span>${l.cond}</span>
                 <button class="lc-save" onclick="toggleSave(event,${l.id})" aria-label="${sv?'Unsave':'Save'} ${esc(l.title)}">${sv?'❤️':'🤍'}</button>
             </div>
             <div class="lc-body">
+                <div class="lc-price">$${l.price}</div>
                 <div class="lc-title">${esc(l.title)}</div>
-                <div class="lc-meta">
-                    <span class="lc-size">${esc(l.size)}</span>
-                    <span class="lc-school">&bull; ${esc(l.school)}</span>
-                </div>
-                <div class="lc-bottom">
-                    <div class="lc-price">$${l.price}</div>
-                    <div class="lc-seller">${esc(l.seller)} &middot; ${ta}</div>
+                <div class="lc-seller">
+                    ${esc(l.seller)} · ${ta}
+                    <span class="lc-size-tag">${esc(l.size)}</span>
                 </div>
             </div>
         </article>`;
@@ -1294,7 +1268,7 @@ function toggleSave(e, id) {
     saveSaved(); renderGrid();
 }
 
-/* ── DETAIL ──────────────────────────────────────────────── */
+/* ── DETAIL ── */
 function openDet(id) {
     const l = S.listings.find(x=>x.id===id); if (!l) return;
     const cc = l.cond==='Like New'?'c-new':l.cond==='Good'?'c-good':'c-fair';
@@ -1305,7 +1279,7 @@ function openDet(id) {
     g('det-content').innerHTML = `
         <div class="det-img" style="background:${l.col}">
             ${l.emoji}
-            <span class="lc-cond ${cc}" style="position:absolute;top:16px;left:16px">${l.cond}</span>
+            <span class="lc-cond ${cc}" style="position:absolute;bottom:14px;left:14px"><span class="cdot"></span>${l.cond}</span>
         </div>
         <div class="det-body">
             <div class="det-price">$${l.price}</div>
@@ -1322,11 +1296,11 @@ function openDet(id) {
                     <div class="det-sname">${esc(l.seller)}</div>
                     <div class="det-sschool">🎓 ${esc(l.school)}</div>
                 </div>
-                <span class="det-badge">&#10003; .edu verified</span>
+                <span class="det-badge">✓ .edu verified</span>
             </div>
             <div style="display:flex;gap:10px">
-                <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doContact(${id})">Message seller</button>
-                <button class="btn btn-outline" id="ds-btn" onclick="toggleDetSave(${id})">${sv?'❤️ Saved':'🤍 Save'}</button>
+                <button class="btn btn-red" style="flex:1;justify-content:center;border-radius:8px;height:48px" onclick="doContact(${id})">Message seller</button>
+                <button class="btn btn-ghost" id="ds-btn" onclick="toggleDetSave(${id})" style="border-radius:8px;height:48px">${sv?'❤️ Saved':'🤍 Save'}</button>
             </div>
         </div>`;
     g('det-m').classList.remove('hidden');
@@ -1346,20 +1320,19 @@ function doContact(id) {
     closeDet();
 }
 
-/* ── SELL ────────────────────────────────────────────────── */
+/* ── SELL ── */
 function openSell()  { g('sell-m').classList.remove('hidden'); }
 function closeSell() {
     g('sell-m').classList.add('hidden');
     ['sl-title','sl-price','sl-size','sl-desc'].forEach(id=>{if(g(id))g(id).value='';});
     g('sl-cat').value=''; g('sl-cond').value='';
     qsa('#sell-m .ferr').forEach(e=>e.classList.remove('on'));
-    qsa('#sell-m .f input.err, #sell-m .f select.err').forEach(e=>e.classList.remove('err'));
+    qsa('#sell-m .f input.err,#sell-m .f select.err').forEach(e=>e.classList.remove('err'));
 }
 
 function doSell() {
     qsa('#sell-m .ferr').forEach(e=>e.classList.remove('on'));
-    qsa('#sell-m .f input.err, #sell-m .f select.err').forEach(e=>e.classList.remove('err'));
-
+    qsa('#sell-m .f input.err,#sell-m .f select.err').forEach(e=>e.classList.remove('err'));
     const title = g('sl-title').value.trim();
     const price = parseFloat(g('sl-price').value);
     const size  = g('sl-size').value.trim();
@@ -1367,7 +1340,6 @@ function doSell() {
     const cond  = g('sl-cond').value;
     const desc  = g('sl-desc').value.trim();
     let ok = true;
-
     if (!title)          { showErr('e-sl-title','sl-title'); ok=false; }
     if (!price||price<1) { showErr('e-sl-price','sl-price'); ok=false; }
     if (!size)           { showErr('e-sl-size','sl-size');   ok=false; }
@@ -1375,7 +1347,7 @@ function doSell() {
     if (!cond)           { showErr('e-sl-cond','sl-cond');   ok=false; }
     if (!ok) return;
 
-    const [emoji, col] = CAT_EI[cat] || ['👕','rgba(59,130,246,0.18)'];
+    const [emoji, col] = CAT_EI[cat] || ['👕','#eef2f8'];
     const sname = S.user.name.split(' ').length>1
         ? S.user.name.split(' ')[0]+' '+S.user.name.split(' ').slice(1).map(n=>n[0]+'.').join(' ')
         : S.user.name;
@@ -1397,15 +1369,14 @@ function doSell() {
     toast(`"${title}" listed for $${Math.round(price)}! 🎉`, 'ok');
 }
 
-/* ── DROPDOWN ────────────────────────────────────────────── */
+/* ── DROPDOWN ── */
 function toggleDrop() { g('udrop').classList.toggle('on'); }
 function closeDrop()  { g('udrop').classList.remove('on'); }
-
 document.addEventListener('click', e => {
     if (!g('n-avatar')?.contains(e.target) && !g('udrop')?.contains(e.target)) closeDrop();
 });
 
-/* ── MODAL OVERLAY ───────────────────────────────────────── */
+/* ── MODAL OVERLAY ── */
 function ocClick(e, id) {
     if (e.target === g(id)) {
         if (id==='auth-m') closeAuth();
@@ -1418,7 +1389,7 @@ document.addEventListener('keydown', e => {
     closeAuth(); closeSell(); closeDet(); closeDrop();
 });
 
-/* ── TOAST ───────────────────────────────────────────────── */
+/* ── TOAST ── */
 let _tt;
 function toast(msg, type='') {
     const t = g('toast');
@@ -1427,26 +1398,22 @@ function toast(msg, type='') {
     _tt = setTimeout(() => { t.className=''; }, 3000);
 }
 
-/* ── SCROLL EFFECTS ──────────────────────────────────────── */
+/* ── SCROLL REVEAL ── */
 const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-window.addEventListener('scroll', () => {
-    g('nav').classList.toggle('scrolled', window.scrollY > 60);
-}, {passive:true});
-
-/* ── UTILS ───────────────────────────────────────────────── */
+/* ── UTILS ── */
 function g(id)    { return document.getElementById(id); }
 function qsa(sel) { return document.querySelectorAll(sel); }
-function esc(s)   {
+function esc(s) {
     return String(s)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-/* ── BOOT ────────────────────────────────────────────────── */
+/* ── BOOT ── */
 load();
 if (S.user?.verified) showMarket();
 else showLanding();
