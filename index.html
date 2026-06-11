@@ -6,7 +6,7 @@
     <title>Pockit — Campus Thrift</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=Space+Mono:wght@700&family=Bebas+Neue&family=Anton&family=Oswald:wght@700&family=Dancing+Script:wght@700&family=Lobster&family=Permanent+Marker&family=Righteous&family=Russo+One&family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -59,7 +59,7 @@
         .nav-inner {
             max-width: 1200px; margin: 0 auto;
             padding: 0 24px; height: 100%;
-            display: flex; align-items: center; gap: 16px;
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
         }
 
         .logo {
@@ -69,7 +69,7 @@
             cursor: pointer; flex-shrink: 0; user-select: none;
         }
 
-        .nav-search { flex: 1; max-width: 400px; position: relative; }
+        .nav-search { width: min(480px, 100%); position: relative; }
         .nav-search input {
             width: 100%; height: 38px; padding: 0 14px 0 40px;
             background: var(--bg-warm); border: 1.5px solid var(--border);
@@ -86,7 +86,26 @@
             position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
             color: var(--text-3); pointer-events: none;
         }
-        .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+        .nav-right { display: flex; align-items: center; gap: 8px; justify-self: end; }
+
+        /* ── CATEGORY NAV ── */
+        .cat-nav {
+            position: sticky; top: var(--nav-h); z-index: 199;
+            background: #fff; border-bottom: 1px solid #e0e0e0;
+        }
+        .cat-nav-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; gap: 2px;
+        }
+        .cat-link {
+            padding: 10px 14px; font-size: 13px; font-weight: 600;
+            color: var(--text-2); cursor: pointer; border: none;
+            background: none; font-family: inherit; white-space: nowrap;
+            border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .cat-link:hover { color: var(--text); }
+        .cat-link.on { color: var(--text); border-bottom-color: var(--red); }
 
         /* ── BUTTONS ── */
         .btn {
@@ -625,7 +644,7 @@
     <div class="nav-inner">
         <span class="logo" onclick="goHome()">Pockit</span>
 
-        <div class="nav-search hidden" id="nav-search">
+        <div class="nav-search" id="nav-search">
             <svg class="nav-si" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
@@ -656,6 +675,18 @@
                 </div>
             </div>
         </div>
+    </div>
+</nav>
+
+<nav class="cat-nav" id="cat-nav">
+    <div class="cat-nav-inner">
+        <button class="cat-link on"  id="cl-all"      onclick="navCat('all',this)">All</button>
+        <button class="cat-link"     id="cl-men"      onclick="navCat('men',this)">Men</button>
+        <button class="cat-link"     id="cl-women"    onclick="navCat('women',this)">Women</button>
+        <button class="cat-link"     id="cl-sports"   onclick="navCat('sports',this)">Sports</button>
+        <button class="cat-link"     id="cl-jobs"     onclick="navCat('jobs',this)">Jobs</button>
+        <button class="cat-link"     id="cl-trending" onclick="navCat('trending',this)">Trending</button>
+        <button class="cat-link"     id="cl-sale"     onclick="navCat('sale',this)">Sale</button>
     </div>
 </nav>
 
@@ -1207,7 +1238,6 @@ function saveSaved() { lsSet('pockit_saved', JSON.stringify([...S.saved])); }
 function showLanding() {
     g('landing').style.display = '';
     g('market').classList.add('hidden');
-    g('nav-search').classList.add('hidden');
     g('n-login').classList.remove('hidden');
     g('n-signup').classList.remove('hidden');
     g('n-sell').classList.add('hidden');
@@ -1217,7 +1247,6 @@ function showLanding() {
 function showMarket() {
     g('landing').style.display = 'none';
     g('market').classList.remove('hidden');
-    g('nav-search').classList.remove('hidden');
     g('n-login').classList.add('hidden');
     g('n-signup').classList.add('hidden');
     g('n-sell').classList.remove('hidden');
@@ -1573,6 +1602,47 @@ function esc(s) {
 load();
 if (S.user?.verified) showMarket();
 else showLanding();
+
+/* ── CATEGORY NAV ── */
+function navCat(key, el) {
+    qsa('.cat-link').forEach(b => b.classList.remove('on'));
+    el.classList.add('on');
+    if (!g('market').classList.contains('hidden')) {
+        if (key === 'all')      { doSearch(''); setCat('all', qsa('.chip')[0]); }
+        else if (key === 'trending') { S.filt.sort = 'newest'; S.filt.q = ''; renderListings(); }
+        else if (key === 'sale')     { doSearch('sale'); }
+        else doSearch(key);
+    } else {
+        goMarket();
+        setTimeout(() => navCat(key, el), 50);
+    }
+}
+
+/* ── LOGO FONT CYCLING (Grailed-style) ── */
+(function() {
+    const fonts = [
+        "'Syne', sans-serif",
+        "'Playfair Display', serif",
+        "'Space Mono', monospace",
+        "'Bebas Neue', sans-serif",
+        "'Anton', sans-serif",
+        "'Oswald', sans-serif",
+        "'Dancing Script', cursive",
+        "'Lobster', cursive",
+        "'Permanent Marker', cursive",
+        "'Righteous', sans-serif",
+        "'Russo One', sans-serif",
+        "'Alfa Slab One', serif",
+    ];
+    let last = 0;
+    const logo = document.querySelector('.logo');
+    setInterval(() => {
+        let idx;
+        do { idx = Math.floor(Math.random() * fonts.length); } while (idx === last);
+        last = idx;
+        logo.style.fontFamily = fonts[idx];
+    }, 900);
+})();
 </script>
 </body>
 </html>
