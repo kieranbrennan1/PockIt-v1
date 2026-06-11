@@ -6,593 +6,865 @@
     <title>Pockit — Campus Clothing Marketplace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg: #f6f4f1;
-            --white: #ffffff;
-            --primary: #c8102e;
-            --primary-dark: #a50e26;
-            --primary-light: #fee2e2;
-            --text: #111827;
-            --text-muted: #6b7280;
-            --text-light: #9ca3af;
-            --border: #e5e7eb;
-            --success: #059669;
-            --danger: #dc2626;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
-            --shadow-lg: 0 20px 40px rgba(0,0,0,0.14);
-            --radius: 18px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --radius-xs: 6px;
-            --nav-h: 68px;
+            --bg:         #050506;
+            --bg-2:       #0a0a0f;
+            --bg-3:       #111118;
+            --surface:    rgba(255,255,255,0.04);
+            --surface-2:  rgba(255,255,255,0.07);
+            --surface-3:  rgba(255,255,255,0.12);
+            --border:     rgba(255,255,255,0.08);
+            --border-2:   rgba(255,255,255,0.16);
+            --red:        #e8193c;
+            --red-d:      #c0112e;
+            --red-l:      #ff5577;
+            --red-glow:   rgba(232,25,60,0.4);
+            --red-sub:    rgba(232,25,60,0.12);
+            --text:       #eeeef2;
+            --text-2:     rgba(238,238,242,0.55);
+            --text-3:     rgba(238,238,242,0.28);
+            --success:    #10b981;
+            --warning:    #f59e0b;
+            --ease:       cubic-bezier(0.16,1,0.3,1);
+            --nav-h:      68px;
+            --r:          18px;
+            --r-md:       13px;
+            --r-sm:       9px;
         }
 
         html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         .hidden { display: none !important; }
 
-        /* ── NAV ── */
-        nav {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(255,255,255,0.88);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--border);
-            height: var(--nav-h);
+        /* ── ANIMATED BACKGROUND ── */
+        .bg-canvas {
+            position: fixed; inset: 0; z-index: -1; overflow: hidden;
+            background: radial-gradient(ellipse at 60% 0%, #1a0610 0%, #050506 55%);
         }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(90px);
+            animation: blobIn 1.8s var(--ease) both, blobDrift ease-in-out infinite alternate;
+        }
+        .blob-1 {
+            width: 720px; height: 720px; top: -280px; right: -140px;
+            background: radial-gradient(circle, rgba(232,25,60,0.38) 0%, transparent 70%);
+            animation-duration: 1.8s, 14s; animation-delay: 0s, 0s;
+        }
+        .blob-2 {
+            width: 480px; height: 480px; bottom: -180px; left: -80px;
+            background: radial-gradient(circle, rgba(200,10,50,0.22) 0%, transparent 70%);
+            animation-duration: 1.8s, 18s; animation-delay: 0.4s, 0.4s;
+        }
+        .blob-3 {
+            width: 360px; height: 360px; top: 45%; left: 28%;
+            background: radial-gradient(circle, rgba(255,80,100,0.14) 0%, transparent 70%);
+            animation-duration: 1.8s, 22s; animation-delay: 0.8s, 0.8s;
+        }
+        @keyframes blobIn  { from{opacity:0;transform:scale(0.7)} to{opacity:1;transform:scale(1)} }
+        @keyframes blobDrift {
+            0%   { transform: translate(0,0) scale(1); }
+            33%  { transform: translate(35px,-55px) scale(1.06); }
+            66%  { transform: translate(-25px,30px) scale(0.94); }
+            100% { transform: translate(50px,20px) scale(1.03); }
+        }
+        .grid-dots {
+            position: absolute; inset: 0; pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, black 0%, transparent 100%);
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: sticky; top: 0; z-index: 200;
+            height: var(--nav-h);
+            background: rgba(5,5,6,0.65);
+            backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.4s;
+        }
+        nav.scrolled { background: rgba(5,5,6,0.9); }
+
         .nav-inner {
             max-width: 1200px; margin: 0 auto;
             padding: 0 24px; height: 100%;
-            display: flex; align-items: center; gap: 14px;
+            display: flex; align-items: center; gap: 16px;
         }
-        .logo {
-            font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
-            color: var(--text); cursor: pointer; flex-shrink: 0; text-decoration: none;
-            user-select: none;
-        }
-        .logo span { color: var(--primary); }
 
-        .nav-search { flex: 1; max-width: 400px; position: relative; }
-        .nav-search input {
-            width: 100%; height: 40px; padding: 0 16px 0 40px;
-            border: 1.5px solid var(--border); border-radius: 999px;
-            font-family: inherit; font-size: 14px;
-            background: var(--bg); color: var(--text); outline: none;
-            transition: border-color 0.2s, background 0.2s;
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 23px; font-weight: 900; letter-spacing: -0.5px;
+            background: linear-gradient(125deg, #fff 0%, #ffb3be 55%, #e8193c 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            cursor: pointer; flex-shrink: 0; user-select: none;
         }
-        .nav-search input:focus { border-color: var(--primary); background: white; }
+
+        .nav-search { flex: 1; max-width: 420px; position: relative; }
+        .nav-search input {
+            width: 100%; height: 40px; padding: 0 16px 0 42px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 999px; font-family: inherit; font-size: 14px;
+            color: var(--text); outline: none;
+            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+        .nav-search input::placeholder { color: var(--text-3); }
+        .nav-search input:focus {
+            border-color: rgba(232,25,60,0.5);
+            background: var(--surface-2);
+            box-shadow: 0 0 0 3px rgba(232,25,60,0.1);
+        }
         .nav-search-icon {
             position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-            color: var(--text-muted); pointer-events: none;
+            color: var(--text-3); pointer-events: none;
         }
         .nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 
         /* ── BUTTONS ── */
         .btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 0 20px; height: 40px; border-radius: 999px;
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 0 22px; height: 42px; border-radius: 999px;
             font-family: inherit; font-size: 14px; font-weight: 600;
-            cursor: pointer; border: none; transition: all 0.18s ease;
+            cursor: pointer; border: none;
+            transition: transform 0.2s var(--ease), box-shadow 0.2s, background 0.2s;
             white-space: nowrap; text-decoration: none;
         }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,16,46,0.35); }
-        .btn-ghost { background: transparent; color: var(--text); }
-        .btn-ghost:hover { background: var(--border); }
-        .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
-        .btn-outline:hover { background: var(--primary-light); }
-        .btn-white { background: white; color: var(--primary); }
-        .btn-white:hover { background: #f5f5ff; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.14); }
-        .btn-lg { height: 52px; padding: 0 32px; font-size: 16px; }
-        .btn-sm { height: 34px; padding: 0 14px; font-size: 13px; }
-        .btn-block { width: 100%; justify-content: center; height: 48px; font-size: 15px; border-radius: var(--radius-sm); }
+        .btn:active { transform: scale(0.97) !important; }
 
-        /* Avatar */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--red-d), var(--red));
+            color: white; box-shadow: 0 4px 18px var(--red-glow);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,25,60,0.55); }
+
+        .btn-ghost {
+            background: var(--surface); color: var(--text); border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { background: var(--surface-2); border-color: var(--border-2); }
+
+        .btn-outline {
+            background: transparent; color: var(--red-l); border: 1.5px solid rgba(232,25,60,0.45);
+        }
+        .btn-outline:hover { background: var(--red-sub); border-color: var(--red); }
+
+        .btn-white { background: white; color: var(--red); font-weight: 700; }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
+
+        .btn-lg { height: 54px; padding: 0 36px; font-size: 16px; }
+        .btn-sm { height: 34px; padding: 0 16px; font-size: 13px; }
+        .btn-block { width: 100%; justify-content: center; height: 50px; font-size: 15px; border-radius: var(--r-sm); }
+
         .avatar {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; user-select: none;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--red-d), var(--red));
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+            box-shadow: 0 4px 14px var(--red-glow);
         }
 
-        /* ── LANDING PAGE ── */
+        /* ── GLASS UTIL ── */
+        .glass {
+            background: var(--surface);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+        }
+
+        /* ── ENTRANCE ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(26px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .au { animation: fadeUp 0.7s var(--ease) both; }
+        .au-1 { animation-delay:0.15s; }
+        .au-2 { animation-delay:0.28s; }
+        .au-3 { animation-delay:0.42s; }
+        .au-4 { animation-delay:0.56s; }
+        .au-5 { animation-delay:0.70s; }
+
+        .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+        .reveal-d1 { transition-delay:0.08s; }
+        .reveal-d2 { transition-delay:0.18s; }
+        .reveal-d3 { transition-delay:0.28s; }
+
+        /* ── HERO ── */
         .hero {
-            max-width: 1200px; margin: 0 auto; padding: 80px 24px 60px;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+            min-height: calc(100vh - var(--nav-h));
+            max-width: 1200px; margin: 0 auto;
+            padding: 80px 24px 60px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 64px; align-items: center;
         }
+
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 6px 14px; background: var(--primary-light); color: var(--primary);
-            border-radius: 999px; font-size: 13px; font-weight: 600; margin-bottom: 22px;
+            display: inline-flex; align-items: center; gap: 9px;
+            padding: 7px 16px; border-radius: 999px;
+            background: var(--surface); border: 1px solid var(--border);
+            font-size: 13px; font-weight: 600; color: var(--text-2);
+            margin-bottom: 28px;
         }
+        .badge-pulse {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--red); box-shadow: 0 0 8px var(--red);
+            animation: pulseDot 2s ease infinite;
+        }
+        @keyframes pulseDot {
+            0%,100% { box-shadow: 0 0 6px var(--red); }
+            50%      { box-shadow: 0 0 16px var(--red), 0 0 32px rgba(232,25,60,0.35); }
+        }
+
         .hero-title {
-            font-size: clamp(38px, 5vw, 62px); font-weight: 900;
-            line-height: 1.06; letter-spacing: -2.5px; margin-bottom: 20px;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(44px, 5.5vw, 74px);
+            font-weight: 900; line-height: 1.0; letter-spacing: -3px; margin-bottom: 22px;
         }
-        .hero-title .accent {
-            background: linear-gradient(130deg, var(--primary), #ff6b6b);
+        .hero-title .g {
+            display: block;
+            background: linear-gradient(120deg, #ffffff 0%, #ffb3be 45%, #e8193c 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
+
         .hero-sub {
-            font-size: 18px; color: var(--text-muted); line-height: 1.65;
-            margin-bottom: 36px; max-width: 440px;
+            font-size: 17px; color: var(--text-2); line-height: 1.72;
+            margin-bottom: 36px; max-width: 460px;
         }
-        .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-        .hero-stats { display: flex; gap: 36px; margin-top: 44px; }
-        .hero-stat-num { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-        .hero-stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+        .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0; }
+
+        .hero-stats {
+            display: flex; gap: 40px; margin-top: 52px; padding-top: 36px;
+            border-top: 1px solid var(--border);
+        }
+        .stat-val {
+            font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
+            background: linear-gradient(120deg, var(--red-l), var(--red));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .stat-label { font-size: 13px; color: var(--text-3); margin-top: 3px; }
 
         /* Hero floating cards */
-        .hero-visual { position: relative; height: 440px; }
-        .float-card {
-            position: absolute; background: white; border-radius: 16px;
-            box-shadow: var(--shadow-md); padding: 14px;
-            display: flex; gap: 12px; align-items: center; width: 240px;
-            animation: float 4s ease-in-out infinite;
-        }
-        .float-card:nth-child(1) { top: 24px; right: 0; animation-delay: 0s; }
-        .float-card:nth-child(2) { top: 170px; right: 70px; animation-delay: 1.2s; }
-        .float-card:nth-child(3) { top: 310px; right: 8px; animation-delay: 0.6s; }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        .hero-visual { position: relative; height: 490px; }
 
-        .float-card-emoji {
-            width: 54px; height: 54px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px; flex-shrink: 0;
+        .hc-glow {
+            position: absolute; width: 340px; height: 340px;
+            right: 20px; top: 60px; pointer-events: none;
+            background: radial-gradient(circle, rgba(232,25,60,0.18) 0%, transparent 70%);
         }
-        .float-card-info { flex: 1; min-width: 0; }
-        .float-card-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .float-card-price { font-size: 17px; font-weight: 800; color: var(--primary); margin-top: 2px; }
-        .float-card-tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-top: 4px; }
 
-        /* Features */
-        .features { background: white; padding: 80px 24px; }
+        .hero-card {
+            position: absolute; width: 264px; padding: 16px;
+            border-radius: var(--r); display: flex; gap: 14px; align-items: center;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s;
+        }
+        .hero-card:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 24px 50px rgba(0,0,0,0.55), 0 0 32px rgba(232,25,60,0.14) !important;
+        }
+        .hero-card:nth-child(2) { top:18px;  right:0;   animation: hcf1 5s ease-in-out infinite; }
+        .hero-card:nth-child(3) { top:185px; right:82px; animation: hcf2 6.5s ease-in-out infinite; }
+        .hero-card:nth-child(4) { top:348px; right:12px; animation: hcf3 5.8s ease-in-out infinite; }
+
+        @keyframes hcf1 { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-12px)} }
+        @keyframes hcf2 { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-10px)} }
+        @keyframes hcf3 { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-14px)} }
+
+        .hc-img {
+            width: 58px; height: 58px; border-radius: 14px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 26px;
+        }
+        .hc-name { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--text); }
+        .hc-price {
+            font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-top: 2px;
+            background: linear-gradient(120deg, var(--red-l), var(--red));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hc-badge {
+            display: inline-block; padding: 2px 9px; border-radius: 999px;
+            font-size: 10px; font-weight: 700; letter-spacing: 0.2px; margin-top: 5px;
+        }
+        .b-new  { background: rgba(16,185,129,0.14); color: #34d399; }
+        .b-good { background: rgba(59,130,246,0.14); color: #60a5fa; }
+        .b-fair { background: rgba(245,158,11,0.14); color: #fbbf24; }
+
+        /* ── FEATURES ── */
+        .features {
+            padding: 110px 24px;
+            background: linear-gradient(180deg,transparent 0%,rgba(10,10,15,0.7) 50%,transparent 100%);
+        }
         .features-inner { max-width: 1200px; margin: 0 auto; }
-        .section-label {
-            text-align: center; font-size: 12px; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary); margin-bottom: 12px;
-        }
-        .section-title {
-            text-align: center; font-size: clamp(28px, 4vw, 42px);
-            font-weight: 800; letter-spacing: -1px; margin-bottom: 56px;
-        }
-        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-        .feature-card {
-            padding: 32px; background: var(--bg);
-            border-radius: var(--radius); border: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .feature-icon {
-            width: 52px; height: 52px; background: var(--primary-light);
-            border-radius: 14px; display: flex; align-items: center;
-            justify-content: center; font-size: 24px; margin-bottom: 18px;
-        }
-        .feature-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
-        .feature-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
 
-        /* CTA */
-        .cta-section { max-width: 1200px; margin: 80px auto; padding: 0 24px; }
-        .cta-inner {
-            background: var(--primary); border-radius: var(--radius);
-            padding: 72px 48px; text-align: center; color: white;
+        .eyebrow {
+            text-align: center; font-size: 11px; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            background: linear-gradient(120deg, var(--red-l), var(--red));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 14px;
         }
-        .cta-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
-        .cta-sub { font-size: 17px; opacity: 0.82; margin-bottom: 36px; }
+        .section-h {
+            text-align: center; font-family: 'Syne', sans-serif;
+            font-size: clamp(30px,4vw,50px); font-weight: 800;
+            letter-spacing: -1.5px; margin-bottom: 64px; line-height: 1.1;
+        }
 
+        .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+
+        .feat-card {
+            padding: 38px 32px; border-radius: var(--r);
+            transition: transform 0.35s var(--ease), border-color 0.3s, box-shadow 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .feat-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: linear-gradient(135deg, rgba(232,25,60,0.06) 0%, transparent 60%);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .feat-card:hover { transform: translateY(-7px); border-color: rgba(232,25,60,0.28); box-shadow: 0 24px 50px rgba(0,0,0,0.45), 0 0 40px rgba(232,25,60,0.07); }
+        .feat-card:hover::before { opacity: 1; }
+
+        .feat-icon {
+            width: 56px; height: 56px; border-radius: 16px; margin-bottom: 22px;
+            background: var(--red-sub); border: 1px solid rgba(232,25,60,0.22);
+            display: flex; align-items: center; justify-content: center; font-size: 26px;
+        }
+        .feat-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px; font-weight: 800; margin-bottom: 11px; letter-spacing: -0.3px;
+        }
+        .feat-desc { font-size: 14px; color: var(--text-2); line-height: 1.72; }
+
+        /* ── CTA ── */
+        .cta-wrap { max-width: 1200px; margin: 0 auto 90px; padding: 0 24px; }
+        .cta-box {
+            position: relative; overflow: hidden; border-radius: var(--r);
+            padding: 90px 56px; text-align: center;
+            background: linear-gradient(135deg, #a80f27 0%, var(--red) 50%, #ff4d6b 100%);
+            box-shadow: 0 12px 60px rgba(232,25,60,0.5);
+        }
+        .cta-box::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(255,255,255,0.12), transparent);
+        }
+        .cta-box::after {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px,4vw,50px); font-weight: 900;
+            letter-spacing: -1.5px; color: white; margin-bottom: 14px; line-height: 1.05;
+        }
+        .cta-sub { font-size: 17px; color: rgba(255,255,255,0.78); margin-bottom: 38px; }
+
+        /* ── FOOTER ── */
         footer {
-            background: white; border-top: 1px solid var(--border);
-            padding: 32px 24px; text-align: center; color: var(--text-muted); font-size: 14px;
+            border-top: 1px solid var(--border);
+            padding: 38px 24px; text-align: center;
+            background: rgba(5,5,6,0.8); backdrop-filter: blur(10px);
         }
-        .footer-logo { font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
-        .footer-logo span { color: var(--primary); }
+        .foot-logo {
+            font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 900;
+            background: linear-gradient(120deg, #fff 0%, #ffb3be 55%, var(--red) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 8px;
+        }
+        footer p { font-size: 13px; color: var(--text-3); }
 
         /* ── MARKETPLACE ── */
-        .marketplace-layout { max-width: 1200px; margin: 0 auto; padding: 24px; }
-        .filters-bar {
-            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
-            padding: 16px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
-        }
-        .filter-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-right: 2px; flex-shrink: 0; }
-        .filter-chip {
-            padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border);
-            background: white; font-family: inherit; font-size: 13px; font-weight: 500;
-            cursor: pointer; color: var(--text); transition: all 0.15s;
-        }
-        .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
-        .filter-chip.active { background: var(--primary); border-color: var(--primary); color: white; }
-        .filter-select {
-            height: 36px; padding: 0 12px; border: 1.5px solid var(--border);
-            border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 500;
-            color: var(--text); background: white; cursor: pointer; outline: none; transition: border-color 0.15s;
-        }
-        .filter-select:focus { border-color: var(--primary); }
-        .results-header { display: flex; align-items: center; margin-bottom: 20px; }
-        .results-count { font-size: 14px; color: var(--text-muted); font-weight: 500; }
-        .results-count strong { color: var(--text); }
-        .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .mkt { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
 
-        /* Card */
-        .listing-card {
-            background: white; border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow); cursor: pointer;
-            transition: all 0.22s ease; border: 1px solid transparent;
+        .welcome-row {
+            padding: 24px 0 6px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px; margin-bottom: 6px;
         }
-        .listing-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: #e0e0f0; }
-        .card-image {
-            height: 180px; display: flex; align-items: center;
+        .welcome-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+        }
+        .welcome-sub { font-size: 14px; color: var(--text-2); margin-top: 3px; }
+
+        .filters {
+            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+            padding: 16px 0 22px; border-bottom: 1px solid var(--border); margin-bottom: 28px;
+        }
+        .f-label { font-size: 12px; font-weight: 600; color: var(--text-3); flex-shrink: 0; }
+
+        .chip {
+            padding: 6px 16px; border-radius: 999px;
+            border: 1px solid var(--border); background: var(--surface);
+            font-family: inherit; font-size: 13px; font-weight: 500;
+            cursor: pointer; color: var(--text-2);
+            transition: all 0.18s;
+        }
+        .chip:hover { border-color: rgba(232,25,60,0.4); color: var(--text); background: var(--surface-2); }
+        .chip.on { background: var(--red-sub); border-color: rgba(232,25,60,0.5); color: #ff8a9a; font-weight: 600; }
+
+        .fsel {
+            height: 36px; padding: 0 12px;
+            border: 1px solid var(--border); border-radius: 999px;
+            font-family: inherit; font-size: 13px; font-weight: 500;
+            color: var(--text-2); background: var(--surface);
+            cursor: pointer; outline: none; transition: all 0.18s;
+        }
+        .fsel:focus { border-color: rgba(232,25,60,0.5); }
+        .fsel option { background: #111118; }
+
+        .res-count { font-size: 14px; color: var(--text-3); margin-bottom: 22px; }
+        .res-count strong { color: var(--text-2); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 20px; }
+
+        /* ── LISTING CARD ── */
+        .lcard {
+            background: var(--surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border); border-radius: var(--r);
+            overflow: hidden; cursor: pointer; position: relative;
+            transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
+        }
+        .lcard:hover {
+            transform: translateY(-7px);
+            border-color: rgba(232,25,60,0.32);
+            box-shadow: 0 22px 44px rgba(0,0,0,0.55), 0 0 28px rgba(232,25,60,0.1);
+        }
+
+        .lc-img {
+            height: 182px; display: flex; align-items: center;
             justify-content: center; font-size: 72px; position: relative;
         }
-        .card-condition {
+        .lc-cond {
             position: absolute; top: 12px; left: 12px;
-            padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+            padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700;
         }
-        .condition-like-new { background: #dcfce7; color: #16a34a; }
-        .condition-good { background: #dbeafe; color: #2563eb; }
-        .condition-fair { background: #fef3c7; color: #d97706; }
-        .card-save {
-            position: absolute; top: 10px; right: 10px;
-            width: 34px; height: 34px; background: white; border-radius: 50%;
-            border: none; cursor: pointer; display: flex; align-items: center;
-            justify-content: center; font-size: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: transform 0.15s;
-        }
-        .card-save:hover { transform: scale(1.18); }
-        .card-body { padding: 14px 16px 16px; }
-        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 7px; line-height: 1.3; }
-        .card-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
-        .card-size {
-            font-size: 12px; font-weight: 600; color: var(--text-muted);
-            background: var(--bg); padding: 2px 8px; border-radius: 4px;
-        }
-        .card-school { font-size: 12px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .card-bottom { display: flex; align-items: center; justify-content: space-between; }
-        .card-price { font-size: 20px; font-weight: 800; }
-        .card-seller { font-size: 12px; color: var(--text-muted); }
+        .c-new  { background: rgba(16,185,129,0.14); color: #34d399; }
+        .c-good { background: rgba(59,130,246,0.14); color: #60a5fa; }
+        .c-fair { background: rgba(245,158,11,0.14); color: #fbbf24; }
 
-        .empty-state { grid-column: 1 / -1; text-align: center; padding: 80px 20px; color: var(--text-muted); }
-        .empty-state-emoji { font-size: 56px; margin-bottom: 16px; }
-        .empty-state h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .lc-save {
+            position: absolute; top: 10px; right: 10px;
+            width: 34px; height: 34px;
+            background: rgba(0,0,0,0.45); backdrop-filter: blur(8px);
+            border: 1px solid var(--border); border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 15px;
+            transition: transform 0.2s var(--ease), background 0.2s;
+        }
+        .lc-save:hover { transform: scale(1.18); background: rgba(0,0,0,0.65); }
+
+        .lc-body { padding: 14px 16px 18px; }
+        .lc-title { font-size: 15px; font-weight: 600; margin-bottom: 7px; line-height: 1.3; }
+        .lc-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+        .lc-size {
+            font-size: 11px; font-weight: 700; color: var(--text-3);
+            background: var(--surface-2); padding: 2px 8px; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .lc-school { font-size: 12px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lc-bottom { display: flex; align-items: center; justify-content: space-between; }
+        .lc-price {
+            font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800;
+            background: linear-gradient(120deg, var(--red-l), var(--red));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .lc-seller { font-size: 12px; color: var(--text-3); }
+
+        .empty {
+            grid-column: 1/-1; text-align: center; padding: 80px 20px; color: var(--text-3);
+        }
+        .empty-emoji { font-size: 52px; margin-bottom: 16px; }
+        .empty h3 { font-size: 19px; font-weight: 700; color: var(--text-2); margin-bottom: 8px; }
 
         /* ── MODALS ── */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-            z-index: 200; display: flex; align-items: center; justify-content: center;
-            padding: 20px; animation: fadeIn 0.15s ease;
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 300; display: flex; align-items: center; justify-content: center;
+            padding: 20px; animation: fadeIn 0.18s ease;
         }
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-        .modal-box {
-            background: white; border-radius: var(--radius); box-shadow: var(--shadow-lg);
-            width: 100%; animation: slideUp 0.22s ease;
-            max-height: 90vh; overflow-y: auto; position: relative;
-        }
-        @keyframes slideUp { from{transform:translateY(22px);opacity:0} to{transform:translateY(0);opacity:1} }
-        .modal-close {
-            position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
-            border-radius: 50%; border: none; background: var(--bg); cursor: pointer;
-            font-size: 20px; display: flex; align-items: center; justify-content: center;
-            color: var(--text-muted); transition: all 0.15s; z-index: 10;
-        }
-        .modal-close:hover { background: var(--border); color: var(--text); }
 
-        /* Auth modal */
-        #auth-modal .modal-box { max-width: 420px; }
-        .auth-modal-content { padding: 36px; }
+        .mbox {
+            background: var(--bg-2); border: 1px solid var(--border);
+            border-radius: var(--r); box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+            width: 100%; position: relative;
+            animation: mboxIn 0.3s cubic-bezier(0.34,1.4,0.64,1);
+            max-height: 90vh; overflow-y: auto;
+        }
+        @keyframes mboxIn {
+            from { transform:translateY(30px) scale(0.96); opacity:0; }
+            to   { transform:translateY(0) scale(1); opacity:1; }
+        }
+
+        .mclose {
+            position: absolute; top: 16px; right: 16px;
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 1px solid var(--border); background: var(--surface);
+            cursor: pointer; font-size: 18px; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-2); transition: all 0.18s;
+        }
+        .mclose:hover { background: var(--surface-2); color: var(--text); }
+
+        /* Auth */
+        #auth-m .mbox { max-width: 440px; }
+        .auth-pad { padding: 40px; }
+
         .auth-tabs {
-            display: flex; background: var(--bg); border-radius: 10px;
-            padding: 4px; margin-bottom: 28px;
+            display: flex; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 4px; margin-bottom: 32px;
         }
-        .auth-tab {
-            flex: 1; height: 36px; border: none; background: transparent;
-            border-radius: 8px; font-family: inherit; font-size: 14px;
-            font-weight: 600; cursor: pointer; color: var(--text-muted); transition: all 0.15s;
+        .atab {
+            flex: 1; height: 38px; border: none; background: transparent;
+            border-radius: 9px; font-family: inherit; font-size: 14px;
+            font-weight: 600; cursor: pointer; color: var(--text-3); transition: all 0.2s;
         }
-        .auth-tab.active { background: white; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-        .auth-form-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
-        .auth-form-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .atab.on { background: var(--surface-3); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.35); }
 
-        /* Form */
-        .field { margin-bottom: 16px; }
-        .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-        .field input, .field select, .field textarea {
-            width: 100%; height: 44px; padding: 0 14px;
-            border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-            font-family: inherit; font-size: 15px; color: var(--text);
-            background: white; outline: none; transition: border-color 0.15s;
+        .mh1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px;
         }
-        .field textarea { height: 84px; padding: 12px 14px; resize: vertical; }
-        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--primary); }
-        .field input.error, .field select.error { border-color: var(--danger); }
-        .field-error { font-size: 12px; color: var(--danger); margin-top: 5px; display: none; }
-        .field-error.show { display: block; }
-        .field-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+        .msub { font-size: 14px; color: var(--text-2); margin-bottom: 28px; }
 
-        /* Verification */
-        #verification-screen { text-align: center; padding: 44px 36px 36px; display: none; }
-        .verify-icon { font-size: 56px; margin-bottom: 16px; }
-        .verify-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
-        .verify-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.7; }
-        .verify-email-tag { font-weight: 700; color: var(--primary); }
-        .verify-demo-note {
-            font-size: 12px; color: var(--text-light); margin-top: 16px;
-            padding: 12px 16px; background: var(--bg); border-radius: var(--radius-xs); line-height: 1.6;
+        /* Form fields */
+        .f { margin-bottom: 18px; }
+        .f label { display: block; font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 7px; }
+        .f input, .f select, .f textarea {
+            width: 100%; height: 46px; padding: 0 16px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-sm); font-family: inherit;
+            font-size: 15px; color: var(--text); outline: none;
+            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+        .f input::placeholder, .f textarea::placeholder { color: var(--text-3); }
+        .f textarea { height: 90px; padding: 13px 16px; resize: vertical; }
+        .f input:focus, .f select:focus, .f textarea:focus {
+            border-color: rgba(232,25,60,0.5); background: var(--surface-2);
+            box-shadow: 0 0 0 3px rgba(232,25,60,0.1);
+        }
+        .f input.err, .f select.err { border-color: rgba(232,25,60,0.7); }
+        .ferr { font-size: 12px; color: #ff8a9a; margin-top: 6px; display: none; }
+        .ferr.on { display: block; }
+        .fhint { font-size: 12px; color: var(--text-3); margin-top: 5px; }
+        .f select option { background: var(--bg-3); }
+        .f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* Verify */
+        #verify-s { display: none; text-align: center; padding: 48px 40px 42px; }
+        .vi { font-size: 56px; margin-bottom: 18px; }
+        .vh1 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .vs  { font-size: 14px; color: var(--text-2); margin-bottom: 28px; line-height: 1.7; }
+        .ve  { font-weight: 700; color: var(--red-l); }
+        .vn  {
+            font-size: 12px; color: var(--text-3); margin-top: 18px;
+            padding: 14px 18px; background: var(--surface);
+            border: 1px solid var(--border); border-radius: 8px; line-height: 1.6;
         }
 
-        /* Sell modal */
-        #sell-modal .modal-box { max-width: 520px; }
-        .sell-modal-content { padding: 32px; }
-        .sell-modal-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
-        .sell-modal-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
-        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* Sell */
+        #sell-m .mbox { max-width: 540px; }
+        .sell-pad { padding: 36px; }
 
-        /* Detail modal */
-        #detail-modal .modal-box { max-width: 560px; }
-        .detail-image {
-            height: 260px; display: flex; align-items: center;
-            justify-content: center; font-size: 96px;
-            border-radius: var(--radius) var(--radius) 0 0; position: relative;
+        /* Detail */
+        #det-m .mbox { max-width: 580px; }
+        .det-img {
+            height: 280px; display: flex; align-items: center;
+            justify-content: center; font-size: 100px;
+            border-radius: var(--r) var(--r) 0 0; position: relative;
         }
-        .detail-body { padding: 24px 28px; }
-        .detail-price { font-size: 34px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 8px; }
-        .detail-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-        .detail-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-        .detail-tag {
-            padding: 4px 12px; border-radius: 999px; font-size: 12px;
-            font-weight: 600; background: var(--bg); color: var(--text-muted);
+        .det-body { padding: 28px 32px; }
+        .det-price {
+            font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 900;
+            letter-spacing: -2px; margin-bottom: 8px;
+            background: linear-gradient(120deg, var(--red-l), var(--red));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .detail-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
-        .detail-seller {
-            display: flex; align-items: center; gap: 12px;
-            padding: 16px; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 20px;
+        .det-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
+        .det-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+        .det-tag {
+            padding: 5px 13px; border-radius: 999px;
+            font-size: 12px; font-weight: 600;
+            background: var(--surface); border: 1px solid var(--border); color: var(--text-2);
         }
-        .detail-seller-name { font-size: 15px; font-weight: 600; }
-        .detail-seller-school { font-size: 13px; color: var(--text-muted); }
-        .detail-seller-badge {
-            font-size: 11px; font-weight: 700; color: var(--success);
-            background: #dcfce7; padding: 3px 10px; border-radius: 999px; margin-left: auto; white-space: nowrap;
+        .det-desc { font-size: 14px; color: var(--text-2); line-height: 1.7; margin-bottom: 22px; }
+        .det-seller {
+            display: flex; align-items: center; gap: 14px; padding: 18px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r-md); margin-bottom: 22px;
+        }
+        .det-sname { font-size: 15px; font-weight: 600; }
+        .det-sschool { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+        .det-badge {
+            font-size: 11px; font-weight: 700; color: #34d399;
+            background: rgba(16,185,129,0.12); padding: 3px 10px;
+            border-radius: 999px; margin-left: auto; white-space: nowrap;
         }
 
         /* User dropdown */
-        .user-menu { position: relative; }
-        .user-dropdown {
-            position: absolute; top: calc(100% + 8px); right: 0;
-            background: white; border: 1px solid var(--border);
-            border-radius: var(--radius-md); box-shadow: var(--shadow-md);
-            width: 210px; padding: 8px; z-index: 300; display: none;
+        .umenu { position: relative; }
+        .udrop {
+            position: absolute; top: calc(100% + 10px); right: 0;
+            background: var(--bg-3); border: 1px solid var(--border);
+            border-radius: var(--r-md); box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+            width: 220px; padding: 8px; z-index: 400; display: none;
         }
-        .user-dropdown.open { display: block; animation: slideUp 0.15s ease; }
-        .dropdown-item {
-            width: 100%; padding: 10px 14px; border: none; background: transparent;
-            border-radius: var(--radius-xs); font-family: inherit; font-size: 14px;
-            font-weight: 500; color: var(--text); cursor: pointer; text-align: left; transition: background 0.12s;
+        .udrop.on { display: block; animation: mboxIn 0.2s var(--ease); }
+        .di {
+            width: 100%; padding: 10px 14px; border: none;
+            background: transparent; border-radius: 8px;
+            font-family: inherit; font-size: 14px; font-weight: 500;
+            color: var(--text-2); cursor: pointer; text-align: left; transition: all 0.14s;
         }
-        .dropdown-item:hover { background: var(--bg); }
-        .dropdown-item.danger { color: var(--danger); }
-        .dropdown-divider { height: 1px; background: var(--border); margin: 6px 0; }
-        .dropdown-user-info { padding: 10px 14px 6px; }
-        .dropdown-user-name { font-size: 14px; font-weight: 700; }
-        .dropdown-user-email { font-size: 12px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .di:hover { background: var(--surface); color: var(--text); }
+        .di.red { color: #ff6b8a; }
+        .di.red:hover { background: rgba(232,25,60,0.1); }
+        .ddiv { height: 1px; background: var(--border); margin: 6px 0; }
+        .dinfo { padding: 12px 14px 8px; }
+        .dname { font-size: 14px; font-weight: 700; }
+        .demail { font-size: 12px; color: var(--text-3); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* Toast */
+        /* ── TOAST ── */
         #toast {
-            position: fixed; bottom: 24px; left: 50%;
+            position: fixed; bottom: 28px; left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #1f2937; color: white;
-            padding: 13px 26px; border-radius: 999px;
-            font-size: 14px; font-weight: 500; z-index: 1000;
-            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
-            box-shadow: var(--shadow-md); pointer-events: none; white-space: nowrap;
+            background: rgba(20,20,28,0.9); border: 1px solid var(--border);
+            color: var(--text); padding: 13px 28px;
+            border-radius: 999px; font-size: 14px; font-weight: 500; z-index: 999;
+            transition: transform 0.32s cubic-bezier(0.34,1.5,0.64,1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5); pointer-events: none;
+            backdrop-filter: blur(18px); white-space: nowrap;
         }
-        #toast.show { transform: translateX(-50%) translateY(0); }
-        #toast.success { background: var(--success); }
-        #toast.error { background: var(--danger); }
-
-        /* Welcome bar */
-        .welcome-bar {
-            padding: 20px 0 4px;
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-        }
-        .welcome-greeting { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-        .welcome-sub { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+        #toast.on { transform: translateX(-50%) translateY(0); }
+        #toast.ok  { background: rgba(16,80,57,0.9); border-color: rgba(16,185,129,0.3); color: #34d399; }
+        #toast.bad { background: rgba(90,10,20,0.9); border-color: rgba(232,25,60,0.3); color: #ff8a9a; }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 900px) {
-            .features-grid { grid-template-columns: 1fr; gap: 16px; }
-        }
+        @media (max-width: 900px) { .feat-grid { grid-template-columns: 1fr; gap: 16px; } }
         @media (max-width: 768px) {
-            .hero { grid-template-columns: 1fr; padding: 40px 20px; gap: 32px; }
+            .hero { grid-template-columns: 1fr; padding: 48px 20px; gap: 44px; min-height: auto; }
             .hero-visual { display: none; }
-            .hero-title { letter-spacing: -1.5px; }
-            .field-row { grid-template-columns: 1fr; }
-            .filters-bar { gap: 6px; }
-            .cta-inner { padding: 48px 28px; }
+            .hero-title { letter-spacing: -2px; }
+            .hero-stats { gap: 24px; }
+            .cta-box { padding: 52px 28px; }
+            .f2 { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .hero-stats { gap: 20px; }
             .nav-inner { padding: 0 16px; }
-            .marketplace-layout { padding: 16px; }
+            .mkt { padding: 16px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .blob, .hero-card, .au, .reveal { animation: none !important; transition: none !important; }
+            .au { opacity: 1; transform: none; }
+            .reveal { opacity: 1; transform: none; }
         }
     </style>
 </head>
 <body>
 
-<!-- ── NAVBAR ── -->
-<nav>
+<!-- ── BACKGROUND ── -->
+<div class="bg-canvas" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-dots"></div>
+</div>
+
+<!-- ── NAV ── -->
+<nav id="nav">
     <div class="nav-inner">
-        <span class="logo" onclick="handleLogoClick()">Pock<span>it</span></span>
+        <span class="logo" onclick="goHome()">Pockit</span>
 
         <div class="nav-search hidden" id="nav-search">
             <svg class="nav-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
-            <input type="text" id="search-input" placeholder="Search clothes, brands, sizes..." oninput="handleSearch(this.value)">
+            <input type="text" id="s-input" placeholder="Search clothes, brands, sizes…" oninput="doSearch(this.value)" aria-label="Search listings">
         </div>
 
         <div class="nav-right">
-            <button class="btn btn-ghost" id="nav-login-btn" onclick="openAuth('login')">Log in</button>
-            <button class="btn btn-primary" id="nav-signup-btn" onclick="openAuth('signup')">Sign up free</button>
-            <button class="btn btn-primary hidden" id="nav-sell-btn" onclick="openSellModal()">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button class="btn btn-ghost"    id="n-login"  onclick="openAuth('login')">Log in</button>
+            <button class="btn btn-primary"  id="n-signup" onclick="openAuth('signup')">Sign up free</button>
+            <button class="btn btn-primary hidden" id="n-sell" onclick="openSell()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
                 Sell
             </button>
-            <div class="user-menu hidden" id="nav-user-menu">
-                <div class="avatar" id="nav-avatar" onclick="toggleDropdown()"></div>
-                <div class="user-dropdown" id="user-dropdown">
-                    <div class="dropdown-user-info">
-                        <div class="dropdown-user-name" id="dd-name"></div>
-                        <div class="dropdown-user-email" id="dd-email"></div>
+            <div class="umenu hidden" id="n-umenu">
+                <div class="avatar" id="n-avatar" onclick="toggleDrop()" role="button" aria-label="User menu" tabindex="0"></div>
+                <div class="udrop" id="udrop">
+                    <div class="dinfo">
+                        <div class="dname"  id="d-name"></div>
+                        <div class="demail" id="d-email"></div>
                     </div>
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item" onclick="closeDropdown()">My Listings</button>
-                    <button class="dropdown-item" onclick="closeDropdown()">Saved Items</button>
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item danger" onclick="logout()">Log out</button>
+                    <div class="ddiv"></div>
+                    <button class="di" onclick="closeDrop()">My Listings</button>
+                    <button class="di" onclick="closeDrop()">Saved Items</button>
+                    <div class="ddiv"></div>
+                    <button class="di red" onclick="doLogout()">Log out</button>
                 </div>
             </div>
         </div>
     </div>
 </nav>
 
-<!-- ── LANDING PAGE ── -->
-<div id="landing-page">
+<!-- ── LANDING ── -->
+<div id="landing">
+    <!-- Hero -->
     <section class="hero">
         <div>
-            <div class="hero-badge">🎓 College students only</div>
-            <h1 class="hero-title">Your campus closet,<br><span class="accent">reimagined.</span></h1>
-            <p class="hero-sub">Buy and sell clothes with students at your school. Verified .edu emails mean you always know who you're dealing with.</p>
-            <div class="hero-ctas">
+            <div class="hero-badge au au-1">
+                <span class="badge-pulse" aria-hidden="true"></span>
+                🎓 .edu verified marketplace
+            </div>
+            <h1 class="hero-title au au-2">
+                Your campus<br>
+                <span class="g">closet, reimagined.</span>
+            </h1>
+            <p class="hero-sub au au-3">
+                Buy and sell clothes with verified students at your college. Every user authenticated with a real .edu email — no randos, ever.
+            </p>
+            <div class="hero-ctas au au-4">
                 <button class="btn btn-primary btn-lg" onclick="openAuth('signup')">Start selling</button>
                 <button class="btn btn-ghost btn-lg" onclick="openAuth('signup')">Browse listings</button>
             </div>
-            <div class="hero-stats">
+            <div class="hero-stats au au-5">
                 <div>
-                    <div class="hero-stat-num">12k+</div>
-                    <div class="hero-stat-label">Active listings</div>
+                    <div class="stat-val">12k+</div>
+                    <div class="stat-label">Active listings</div>
                 </div>
                 <div>
-                    <div class="hero-stat-num">340+</div>
-                    <div class="hero-stat-label">Colleges</div>
+                    <div class="stat-val">340+</div>
+                    <div class="stat-label">Colleges</div>
                 </div>
                 <div>
-                    <div class="hero-stat-num">$18</div>
-                    <div class="hero-stat-label">Avg. price</div>
+                    <div class="stat-val">$18</div>
+                    <div class="stat-label">Avg. price</div>
                 </div>
             </div>
         </div>
-        <div class="hero-visual">
-            <div class="float-card">
-                <div class="float-card-emoji" style="background:#dbeafe">👖</div>
-                <div class="float-card-info">
-                    <div class="float-card-name">Levi's 501 Jeans</div>
-                    <div class="float-card-price">$45</div>
-                    <span class="float-card-tag" style="background:#dcfce7;color:#16a34a">Like New</span>
+
+        <div class="hero-visual" aria-hidden="true">
+            <div class="hc-glow"></div>
+            <div class="glass hero-card au au-2">
+                <div class="hc-img" style="background:rgba(59,130,246,0.14)">👖</div>
+                <div>
+                    <div class="hc-name">Levi's 501 Jeans</div>
+                    <div class="hc-price">$45</div>
+                    <span class="hc-badge b-new">Like New</span>
                 </div>
             </div>
-            <div class="float-card">
-                <div class="float-card-emoji" style="background:#fce7f3">👗</div>
-                <div class="float-card-info">
-                    <div class="float-card-name">Zara Floral Dress</div>
-                    <div class="float-card-price">$20</div>
-                    <span class="float-card-tag" style="background:#dbeafe;color:#2563eb">Good</span>
+            <div class="glass hero-card au au-3">
+                <div class="hc-img" style="background:rgba(236,72,153,0.14)">👗</div>
+                <div>
+                    <div class="hc-name">Zara Floral Dress</div>
+                    <div class="hc-price">$20</div>
+                    <span class="hc-badge b-good">Good</span>
                 </div>
             </div>
-            <div class="float-card">
-                <div class="float-card-emoji" style="background:#d1fae5">🧥</div>
-                <div class="float-card-info">
-                    <div class="float-card-name">Patagonia Fleece</div>
-                    <div class="float-card-price">$55</div>
-                    <span class="float-card-tag" style="background:#dcfce7;color:#16a34a">Like New</span>
+            <div class="glass hero-card au au-4">
+                <div class="hc-img" style="background:rgba(16,185,129,0.14)">🧥</div>
+                <div>
+                    <div class="hc-name">Patagonia Fleece</div>
+                    <div class="hc-price">$55</div>
+                    <span class="hc-badge b-new">Like New</span>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Features -->
     <section class="features">
         <div class="features-inner">
-            <div class="section-label">Why Pockit?</div>
-            <h2 class="section-title">Resale built for campus life</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3 class="feature-title">.edu verified only</h3>
-                    <p class="feature-desc">Every user must sign up with a verified college email. No strangers — just fellow students you can trust.</p>
+            <p class="eyebrow reveal">Why Pockit?</p>
+            <h2 class="section-h reveal reveal-d1">Resale built for campus life</h2>
+            <div class="feat-grid">
+                <div class="glass feat-card reveal reveal-d1">
+                    <div class="feat-icon">🎓</div>
+                    <h3 class="feat-title">.edu verified only</h3>
+                    <p class="feat-desc">Every user signs up with a verified college email. No strangers — just students from real campuses you can trust.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📦</div>
-                    <h3 class="feature-title">List in under 2 min</h3>
-                    <p class="feature-desc">Fill in a few details, set your price, and your item is live. No photography studio required — just the facts.</p>
+                <div class="glass feat-card reveal reveal-d2">
+                    <div class="feat-icon">📦</div>
+                    <h3 class="feat-title">List in under 2 min</h3>
+                    <p class="feat-desc">Fill in a few details, set your price, and your item is live. No photography studio required — just the facts.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3 class="feature-title">Safe campus swaps</h3>
-                    <p class="feature-desc">Meet at the library, the quad, or the dining hall. Local pickup keeps it simple and safe — no shipping drama.</p>
+                <div class="glass feat-card reveal reveal-d3">
+                    <div class="feat-icon">🤝</div>
+                    <h3 class="feat-title">Safe campus swaps</h3>
+                    <p class="feat-desc">Meet at the library, the quad, or the dining hall. Local pickup keeps it simple and safe — no shipping drama.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta-section">
-        <div class="cta-inner">
-            <h2 class="cta-title">Ready to clear out your closet?</h2>
-            <p class="cta-sub">Join thousands of students already buying and selling on Pockit.</p>
-            <button class="btn btn-white btn-lg" onclick="openAuth('signup')">Get started — it's free</button>
+    <!-- CTA -->
+    <div class="cta-wrap reveal">
+        <div class="cta-box">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to clear out your closet?</h2>
+                <p class="cta-sub">Join thousands of students already buying and selling on Pockit.</p>
+                <button class="btn btn-white btn-lg" onclick="openAuth('signup')">Get started — it's free</button>
+            </div>
         </div>
-    </section>
+    </div>
 
+    <!-- Footer -->
     <footer>
-        <div class="footer-logo">Pock<span>it</span></div>
+        <div class="foot-logo">Pockit</div>
         <p>Made for students, by students. &copy; 2025 Pockit, Inc.</p>
     </footer>
 </div>
 
 <!-- ── MARKETPLACE ── -->
-<div id="marketplace-page" class="hidden">
-    <div class="marketplace-layout">
-        <div class="welcome-bar">
+<div id="market" class="hidden">
+    <div class="mkt">
+        <div class="welcome-row">
             <div>
-                <div class="welcome-greeting" id="welcome-greeting"></div>
-                <div class="welcome-sub" id="welcome-sub"></div>
+                <div class="welcome-name" id="w-name"></div>
+                <div class="welcome-sub"  id="w-sub"></div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="openSellModal()">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button class="btn btn-outline btn-sm" onclick="openSell()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
                 Post a listing
             </button>
         </div>
 
-        <div class="filters-bar">
-            <span class="filter-label">Category:</span>
-            <button class="filter-chip active" onclick="setCategory('all', this)">All</button>
-            <button class="filter-chip" onclick="setCategory('Tops', this)">Tops</button>
-            <button class="filter-chip" onclick="setCategory('Bottoms', this)">Bottoms</button>
-            <button class="filter-chip" onclick="setCategory('Outerwear', this)">Outerwear</button>
-            <button class="filter-chip" onclick="setCategory('Dresses', this)">Dresses</button>
-            <button class="filter-chip" onclick="setCategory('Shoes', this)">Shoes</button>
-            <button class="filter-chip" onclick="setCategory('Accessories', this)">Accessories</button>
-            <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
-                <select class="filter-select" onchange="setCondition(this.value)">
+        <div class="filters">
+            <span class="f-label">Category:</span>
+            <button class="chip on" onclick="setCat('all',this)">All</button>
+            <button class="chip" onclick="setCat('Tops',this)">Tops</button>
+            <button class="chip" onclick="setCat('Bottoms',this)">Bottoms</button>
+            <button class="chip" onclick="setCat('Outerwear',this)">Outerwear</button>
+            <button class="chip" onclick="setCat('Dresses',this)">Dresses</button>
+            <button class="chip" onclick="setCat('Shoes',this)">Shoes</button>
+            <button class="chip" onclick="setCat('Accessories',this)">Accessories</button>
+            <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+                <select class="fsel" onchange="setCond(this.value)" aria-label="Filter by condition">
                     <option value="all">Any condition</option>
                     <option value="Like New">Like New</option>
                     <option value="Good">Good</option>
                     <option value="Fair">Fair</option>
                 </select>
-                <select class="filter-select" onchange="setSortOrder(this.value)">
+                <select class="fsel" onchange="setSort(this.value)" aria-label="Sort listings">
                     <option value="newest">Newest first</option>
                     <option value="price-low">Price: low → high</option>
                     <option value="price-high">Price: high → low</option>
@@ -600,637 +872,583 @@
             </div>
         </div>
 
-        <div class="results-header">
-            <div class="results-count" id="results-count"></div>
-        </div>
-        <div class="listings-grid" id="listings-grid"></div>
+        <div class="res-count" id="res-count" aria-live="polite"></div>
+        <div class="grid" id="grid"></div>
     </div>
 </div>
 
 <!-- ── AUTH MODAL ── -->
-<div class="modal-overlay hidden" id="auth-modal" onclick="overlayClick(event,'auth-modal')">
-    <div class="modal-box">
-        <button class="modal-close" onclick="closeAuth()">&#x2715;</button>
+<div class="overlay hidden" id="auth-m" onclick="ocClick(event,'auth-m')" role="dialog" aria-modal="true" aria-label="Authentication">
+    <div class="mbox">
+        <button class="mclose" onclick="closeAuth()" aria-label="Close">&#x2715;</button>
 
         <div id="auth-forms">
-            <div class="auth-modal-content">
-                <div class="auth-tabs">
-                    <button class="auth-tab active" id="tab-signup" onclick="switchTab('signup')">Sign up</button>
-                    <button class="auth-tab" id="tab-login" onclick="switchTab('login')">Log in</button>
+            <div class="auth-pad">
+                <div class="auth-tabs" role="tablist">
+                    <button class="atab on" id="t-up"  onclick="swTab('signup')" role="tab" aria-selected="true">Sign up</button>
+                    <button class="atab"    id="t-in"  onclick="swTab('login')"  role="tab" aria-selected="false">Log in</button>
                 </div>
 
-                <!-- Signup -->
-                <div id="form-signup">
-                    <div class="auth-form-title">Create your account</div>
-                    <div class="auth-form-sub">Use your college .edu email to get verified.</div>
-                    <div class="field">
+                <div id="f-signup">
+                    <div class="mh1">Create your account</div>
+                    <div class="msub">Use your college .edu email to get verified.</div>
+                    <div class="f">
                         <label for="su-name">Full name</label>
                         <input type="text" id="su-name" placeholder="Your name" autocomplete="name">
-                        <div class="field-error" id="err-su-name">Please enter your name.</div>
+                        <div class="ferr" id="e-su-name">Please enter your name.</div>
                     </div>
-                    <div class="field">
+                    <div class="f">
                         <label for="su-email">College email</label>
-                        <input type="email" id="su-email" placeholder="you@university.edu" autocomplete="email" oninput="onEduEmailInput()">
-                        <div class="field-error" id="err-su-email">Must be a valid .edu email address.</div>
-                        <div class="field-hint" id="hint-school"></div>
+                        <input type="email" id="su-email" placeholder="you@university.edu" autocomplete="email" oninput="checkEdu()">
+                        <div class="ferr" id="e-su-email">Must be a valid .edu email address.</div>
+                        <div class="fhint" id="h-school"></div>
                     </div>
-                    <div class="field">
+                    <div class="f">
                         <label for="su-pass">Password</label>
                         <input type="password" id="su-pass" placeholder="At least 8 characters" autocomplete="new-password">
-                        <div class="field-error" id="err-su-pass">Password must be at least 8 characters.</div>
+                        <div class="ferr" id="e-su-pass">Password must be at least 8 characters.</div>
                     </div>
-                    <button class="btn btn-primary btn-block" onclick="handleSignup()" style="margin-top:8px">Create account &rarr;</button>
-                    <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:14px">
-                        By signing up you agree to our <a href="#" style="color:var(--primary)">Terms</a> and <a href="#" style="color:var(--primary)">Privacy Policy</a>.
+                    <button class="btn btn-primary btn-block" onclick="doSignup()" style="margin-top:10px">Create account &rarr;</button>
+                    <p style="text-align:center;font-size:12px;color:var(--text-3);margin-top:16px">
+                        By signing up you agree to our <a href="#" style="color:var(--red-l)">Terms</a> and <a href="#" style="color:var(--red-l)">Privacy Policy</a>.
                     </p>
                 </div>
 
-                <!-- Login -->
-                <div id="form-login" class="hidden">
-                    <div class="auth-form-title">Welcome back</div>
-                    <div class="auth-form-sub">Sign in with your college email.</div>
-                    <div class="field">
+                <div id="f-login" class="hidden">
+                    <div class="mh1">Welcome back</div>
+                    <div class="msub">Sign in with your college email.</div>
+                    <div class="f">
                         <label for="li-email">College email</label>
                         <input type="email" id="li-email" placeholder="you@university.edu" autocomplete="email">
-                        <div class="field-error" id="err-li-email">Please enter a valid .edu email.</div>
+                        <div class="ferr" id="e-li-email">Please enter a valid .edu email.</div>
                     </div>
-                    <div class="field">
+                    <div class="f">
                         <label for="li-pass">Password</label>
                         <input type="password" id="li-pass" placeholder="Your password" autocomplete="current-password">
-                        <div class="field-error" id="err-li-pass">Incorrect email or password.</div>
+                        <div class="ferr" id="e-li-pass">Incorrect email or password.</div>
                     </div>
-                    <button class="btn btn-primary btn-block" onclick="handleLogin()" style="margin-top:8px">Log in &rarr;</button>
+                    <button class="btn btn-primary btn-block" onclick="doLogin()" style="margin-top:10px">Log in &rarr;</button>
                 </div>
             </div>
         </div>
 
-        <!-- Verification screen -->
-        <div id="verification-screen">
-            <div class="verify-icon">📬</div>
-            <div class="verify-title">Check your inbox!</div>
-            <div class="verify-sub">
+        <div id="verify-s">
+            <div class="vi">📬</div>
+            <div class="vh1">Check your inbox!</div>
+            <div class="vs">
                 We sent a verification link to<br>
-                <span class="verify-email-tag" id="verify-email-display"></span>
-                <br><br>
+                <span class="ve" id="v-email"></span><br><br>
                 Click the link to confirm your .edu address and unlock the marketplace.
             </div>
-            <button class="btn btn-primary btn-lg" onclick="simulateVerification()" style="margin:0 auto;display:flex">
-                &#10003; Simulate email click
+            <button class="btn btn-primary btn-lg" onclick="simVerify()" style="margin:0 auto;display:flex">
+                &#10003;&nbsp; Simulate email click
             </button>
-            <p class="verify-demo-note">Demo only — in production, the user would receive a real email and click the verification link from their college inbox.</p>
+            <p class="vn">Demo only — in production, users receive a real email and click a verification link from their college inbox.</p>
         </div>
     </div>
 </div>
 
 <!-- ── SELL MODAL ── -->
-<div class="modal-overlay hidden" id="sell-modal" onclick="overlayClick(event,'sell-modal')">
-    <div class="modal-box">
-        <button class="modal-close" onclick="closeSellModal()">&#x2715;</button>
-        <div class="sell-modal-content">
-            <div class="sell-modal-title">Post a listing</div>
-            <div class="sell-modal-sub">Fill in the details and start selling in seconds.</div>
-            <div class="field">
-                <label for="sell-title">Item name</label>
-                <input type="text" id="sell-title" placeholder="e.g. Nike Hoodie, Levi's 501 Jeans…">
-                <div class="field-error" id="err-sell-title">Please enter an item name.</div>
+<div class="overlay hidden" id="sell-m" onclick="ocClick(event,'sell-m')" role="dialog" aria-modal="true" aria-label="Post a listing">
+    <div class="mbox">
+        <button class="mclose" onclick="closeSell()" aria-label="Close">&#x2715;</button>
+        <div class="sell-pad">
+            <div class="mh1">Post a listing</div>
+            <div class="msub">Fill in the details and start selling in seconds.</div>
+            <div class="f">
+                <label for="sl-title">Item name</label>
+                <input type="text" id="sl-title" placeholder="e.g. Nike Hoodie, Levi's 501 Jeans…">
+                <div class="ferr" id="e-sl-title">Please enter an item name.</div>
             </div>
-            <div class="field-row">
-                <div class="field">
-                    <label for="sell-price">Price ($)</label>
-                    <input type="number" id="sell-price" placeholder="25" min="1" max="9999">
-                    <div class="field-error" id="err-sell-price">Enter a valid price.</div>
+            <div class="f2">
+                <div class="f">
+                    <label for="sl-price">Price ($)</label>
+                    <input type="number" id="sl-price" placeholder="25" min="1" max="9999">
+                    <div class="ferr" id="e-sl-price">Enter a valid price.</div>
                 </div>
-                <div class="field">
-                    <label for="sell-size">Size</label>
-                    <input type="text" id="sell-size" placeholder="e.g. M, 8, 30×32">
-                    <div class="field-error" id="err-sell-size">Please enter a size.</div>
+                <div class="f">
+                    <label for="sl-size">Size</label>
+                    <input type="text" id="sl-size" placeholder="e.g. M, 8, 30×32">
+                    <div class="ferr" id="e-sl-size">Please enter a size.</div>
                 </div>
             </div>
-            <div class="field-row">
-                <div class="field">
-                    <label for="sell-category">Category</label>
-                    <select id="sell-category">
+            <div class="f2">
+                <div class="f">
+                    <label for="sl-cat">Category</label>
+                    <select id="sl-cat">
                         <option value="">Select…</option>
                         <option>Tops</option><option>Bottoms</option><option>Outerwear</option>
                         <option>Dresses</option><option>Shoes</option><option>Accessories</option>
                     </select>
-                    <div class="field-error" id="err-sell-category">Select a category.</div>
+                    <div class="ferr" id="e-sl-cat">Select a category.</div>
                 </div>
-                <div class="field">
-                    <label for="sell-condition">Condition</label>
-                    <select id="sell-condition">
+                <div class="f">
+                    <label for="sl-cond">Condition</label>
+                    <select id="sl-cond">
                         <option value="">Select…</option>
                         <option>Like New</option><option>Good</option><option>Fair</option>
                     </select>
-                    <div class="field-error" id="err-sell-condition">Select a condition.</div>
+                    <div class="ferr" id="e-sl-cond">Select a condition.</div>
                 </div>
             </div>
-            <div class="field">
-                <label for="sell-desc">Description <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
-                <textarea id="sell-desc" placeholder="Any wear, pickup location preferences, or other details…"></textarea>
+            <div class="f">
+                <label for="sl-desc">Description <span style="color:var(--text-3);font-weight:400">(optional)</span></label>
+                <textarea id="sl-desc" placeholder="Any wear, pickup preferences, or other details…"></textarea>
             </div>
-            <button class="btn btn-primary btn-block" onclick="handleSellSubmit()">Post listing &rarr;</button>
+            <button class="btn btn-primary btn-block" onclick="doSell()">Post listing &rarr;</button>
         </div>
     </div>
 </div>
 
 <!-- ── DETAIL MODAL ── -->
-<div class="modal-overlay hidden" id="detail-modal" onclick="overlayClick(event,'detail-modal')">
-    <div class="modal-box">
-        <button class="modal-close" onclick="closeDetailModal()">&#x2715;</button>
-        <div id="detail-content"></div>
+<div class="overlay hidden" id="det-m" onclick="ocClick(event,'det-m')" role="dialog" aria-modal="true">
+    <div class="mbox">
+        <button class="mclose" onclick="closeDet()" aria-label="Close">&#x2715;</button>
+        <div id="det-content"></div>
     </div>
 </div>
 
 <!-- ── TOAST ── -->
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-// ─── DATA ─────────────────────────────────────────────────────────────────────
-
-const SCHOOL_MAP = {
-    mit:'MIT', harvard:'Harvard', yale:'Yale', princeton:'Princeton',
-    stanford:'Stanford', columbia:'Columbia', cornell:'Cornell',
-    dartmouth:'Dartmouth', upenn:'UPenn', brown:'Brown',
-    bu:'Boston University', northeastern:'Northeastern', bc:'Boston College',
-    umass:'UMass Amherst', tufts:'Tufts', emerson:'Emerson',
-    berklee:'Berklee College of Music', simmons:'Simmons', suffolk:'Suffolk',
-    nyu:'NYU', fordham:'Fordham', pace:'Pace', newschool:'The New School',
-    usc:'USC', ucla:'UCLA', ucb:'UC Berkeley', ucsb:'UCSB', ucsd:'UC San Diego',
-    ucdavis:'UC Davis', uci:'UC Irvine', ucr:'UC Riverside', ucsc:'UC Santa Cruz',
-    uchicago:'University of Chicago', northwestern:'Northwestern', purdue:'Purdue',
-    osu:'Ohio State', umich:'University of Michigan', msu:'Michigan State',
-    duke:'Duke', unc:'UNC Chapel Hill', gatech:'Georgia Tech',
-    vt:'Virginia Tech', uva:'University of Virginia', georgetown:'Georgetown',
-    gmu:'George Mason', gwu:'George Washington', american:'American University',
-    drexel:'Drexel', temple:'Temple', pitt:'University of Pittsburgh',
-    cmu:'Carnegie Mellon', rutgers:'Rutgers', njit:'NJIT',
-    cuny:'CUNY', caltech:'Caltech', rice:'Rice', tulane:'Tulane',
-    vanderbilt:'Vanderbilt', emory:'Emory', wake:'Wake Forest',
-    nd:'Notre Dame', bc:'Boston College', villanova:'Villanova',
-    asu:'Arizona State', ua:'University of Arizona', cu:'University of Colorado',
-    colorado:'University of Colorado', uw:'University of Washington',
-    oregonstate:'Oregon State', uoregon:'University of Oregon',
-    lsu:'LSU', auburn:'Auburn', alabama:'University of Alabama',
-    usf:'University of South Florida', fsu:'Florida State', uf:'University of Florida',
-    ucf:'UCF', miami:'University of Miami', fiu:'FIU', fau:'FAU',
+/* ── SCHOOL MAP ──────────────────────────────────────────── */
+const SCHOOLS = {
+    mit:'MIT',harvard:'Harvard',yale:'Yale',princeton:'Princeton',stanford:'Stanford',
+    columbia:'Columbia',cornell:'Cornell',dartmouth:'Dartmouth',upenn:'UPenn',brown:'Brown',
+    bu:'Boston University',northeastern:'Northeastern',bc:'Boston College',
+    umass:'UMass Amherst',tufts:'Tufts',emerson:'Emerson',berklee:'Berklee',
+    simmons:'Simmons',suffolk:'Suffolk',nyu:'NYU',fordham:'Fordham',pace:'Pace',
+    usc:'USC',ucla:'UCLA',ucb:'UC Berkeley',ucsb:'UCSB',ucsd:'UC San Diego',
+    uchicago:'University of Chicago',northwestern:'Northwestern',purdue:'Purdue',
+    osu:'Ohio State',umich:'University of Michigan',duke:'Duke',unc:'UNC Chapel Hill',
+    gatech:'Georgia Tech',vt:'Virginia Tech',uva:'UVA',georgetown:'Georgetown',
+    drexel:'Drexel',temple:'Temple',pitt:'University of Pittsburgh',cmu:'Carnegie Mellon',
+    rutgers:'Rutgers',njit:'NJIT',cuny:'CUNY',caltech:'Caltech',rice:'Rice',
+    vanderbilt:'Vanderbilt',emory:'Emory',nd:'Notre Dame',villanova:'Villanova',
+    asu:'Arizona State',uw:'University of Washington',lsu:'LSU',auburn:'Auburn',
+    fsu:'Florida State',uf:'University of Florida',ucf:'UCF',miami:'University of Miami',
 };
 
-const CATEGORY_EMOJI = {
-    Tops:        ['👕','#e0f2fe'],
-    Bottoms:     ['👖','#dbeafe'],
-    Outerwear:   ['🧥','#d1fae5'],
-    Dresses:     ['👗','#fce7f3'],
-    Shoes:       ['👟','#fef3c7'],
-    Accessories: ['🧢','#f3e8ff'],
+const CAT_EI = {
+    Tops:['👕','rgba(59,130,246,0.18)'],  Bottoms:['👖','rgba(99,102,241,0.18)'],
+    Outerwear:['🧥','rgba(16,185,129,0.18)'], Dresses:['👗','rgba(236,72,153,0.18)'],
+    Shoes:['👟','rgba(245,158,11,0.18)'],  Accessories:['🧢','rgba(139,92,246,0.18)'],
 };
 
 const SAMPLE = [
-    { id:1,  title:"Vintage Levi's 501 Jeans",           price:45, size:"W30 L32",  condition:"Good",     category:"Bottoms",     seller:"Alex K.",   school:"Boston University", emoji:"👖", color:"#dbeafe", daysAgo:2, desc:"Classic 501s in great shape. Light fade, no rips. Washed and ready." },
-    { id:2,  title:"Nike Air Force 1 Low (White)",        price:65, size:"M 10",     condition:"Like New", category:"Shoes",       seller:"Jordan M.", school:"Northeastern",      emoji:"👟", color:"#fef3c7", daysAgo:1, desc:"Only worn twice. Cleaned, no yellowing on the sole. No box." },
-    { id:3,  title:"Patagonia Better Sweater Fleece",     price:55, size:"L",        condition:"Good",     category:"Outerwear",   seller:"Sam R.",    school:"Boston University", emoji:"🧥", color:"#d1fae5", daysAgo:3, desc:"Navy blue, perfect for fall. Light pilling on elbows but solid otherwise." },
-    { id:4,  title:"Zara Floral Mini Dress",              price:20, size:"S",        condition:"Like New", category:"Dresses",     seller:"Taylor W.", school:"Emerson",           emoji:"👗", color:"#fce7f3", daysAgo:5, desc:"Wore it once to a party. Beautiful print, fits true to size." },
-    { id:5,  title:"Champion Reverse Weave Hoodie",       price:28, size:"XL",       condition:"Good",     category:"Tops",        seller:"Chris B.",  school:"UMass Amherst",     emoji:"👕", color:"#e0f2fe", daysAgo:1, desc:"Heather grey, cozy and thick. Minor wash fading, otherwise great." },
-    { id:6,  title:"Lululemon Align Leggings",            price:45, size:"Size 6",   condition:"Like New", category:"Bottoms",     seller:"Morgan P.", school:"Boston College",    emoji:"👖", color:"#ffe4e6", daysAgo:4, desc:"Black, 28\" inseam. A few wears, no pilling. Offers welcome!" },
-    { id:7,  title:"Carhartt WIP Acrylic Beanie",         price:14, size:"One Size", condition:"Good",     category:"Accessories", seller:"Riley S.",  school:"Tufts",             emoji:"🧢", color:"#f3e8ff", daysAgo:6, desc:"Dark brown colorway, one small snag on inside but not visible." },
-    { id:8,  title:"Aritzia Super Puff Jacket",           price:95, size:"XS",       condition:"Like New", category:"Outerwear",   seller:"Quinn A.",  school:"Simmons",           emoji:"🧥", color:"#dbeafe", daysAgo:2, desc:"Caramel color, worn maybe 3 times last winter. Perfect condition." },
-    { id:9,  title:"Dr. Martens 1460 Boots",              price:80, size:"W 8",      condition:"Good",     category:"Shoes",       seller:"Avery L.",  school:"Suffolk",           emoji:"👢", color:"#d1fae5", daysAgo:7, desc:"Classic black. Light scuffs on toe — normal Doc wear. Very wearable." },
-    { id:10, title:"Free People Peasant Blouse",          price:22, size:"S/M",      condition:"Good",     category:"Tops",        seller:"Drew N.",   school:"Berklee",           emoji:"👕", color:"#fce7f3", daysAgo:3, desc:"Flowy cream top, super versatile. Hand-washed, no stains." },
-    { id:11, title:"Adidas Campus 00s Sneakers",          price:50, size:"M 9",      condition:"Like New", category:"Shoes",       seller:"Jamie O.",  school:"MIT",               emoji:"👟", color:"#fef3c7", daysAgo:1, desc:"White/off-white colorway. Worn twice, still crispy. No box." },
-    { id:12, title:"Urban Outfitters Corduroy Jacket",    price:38, size:"M",        condition:"Good",     category:"Outerwear",   seller:"Casey F.",  school:"Harvard",           emoji:"🧥", color:"#fef3c7", daysAgo:8, desc:"Rust orange cord jacket, slightly oversized. Classic and timeless." },
+    {id:1, title:"Vintage Levi's 501 Jeans",         price:45, size:"W30 L32",  cond:"Good",     cat:"Bottoms",     seller:"Alex K.",   school:"Boston University", emoji:"👖", col:"rgba(99,102,241,0.18)", days:2, desc:"Classic 501s in great shape. Light fade, no rips. Washed and ready."},
+    {id:2, title:"Nike Air Force 1 Low (White)",      price:65, size:"M 10",     cond:"Like New", cat:"Shoes",       seller:"Jordan M.", school:"Northeastern",      emoji:"👟", col:"rgba(245,158,11,0.18)", days:1, desc:"Only worn twice. Cleaned, no yellowing on the sole. No box."},
+    {id:3, title:"Patagonia Better Sweater Fleece",   price:55, size:"L",        cond:"Good",     cat:"Outerwear",   seller:"Sam R.",    school:"Boston University", emoji:"🧥", col:"rgba(16,185,129,0.18)", days:3, desc:"Navy blue, perfect for fall. Light pilling on elbows but solid otherwise."},
+    {id:4, title:"Zara Floral Mini Dress",            price:20, size:"S",        cond:"Like New", cat:"Dresses",     seller:"Taylor W.", school:"Emerson",           emoji:"👗", col:"rgba(236,72,153,0.18)", days:5, desc:"Wore it once to a party. Beautiful print, fits true to size."},
+    {id:5, title:"Champion Reverse Weave Hoodie",     price:28, size:"XL",       cond:"Good",     cat:"Tops",        seller:"Chris B.",  school:"UMass Amherst",     emoji:"👕", col:"rgba(59,130,246,0.18)", days:1, desc:"Heather grey, cozy and thick. Minor wash fading, otherwise great."},
+    {id:6, title:"Lululemon Align Leggings",          price:45, size:"Size 6",   cond:"Like New", cat:"Bottoms",     seller:"Morgan P.", school:"Boston College",    emoji:"👖", col:"rgba(139,92,246,0.18)", days:4, desc:"Black, 28\" inseam. A few wears, no pilling. Offers welcome!"},
+    {id:7, title:"Carhartt WIP Acrylic Beanie",       price:14, size:"One Size", cond:"Good",     cat:"Accessories", seller:"Riley S.",  school:"Tufts",             emoji:"🧢", col:"rgba(139,92,246,0.18)", days:6, desc:"Dark brown colorway, one small snag on inside but not visible."},
+    {id:8, title:"Aritzia Super Puff Jacket",         price:95, size:"XS",       cond:"Like New", cat:"Outerwear",   seller:"Quinn A.",  school:"Simmons",           emoji:"🧥", col:"rgba(16,185,129,0.18)", days:2, desc:"Caramel color, worn maybe 3 times last winter. Perfect condition."},
+    {id:9, title:"Dr. Martens 1460 Boots",            price:80, size:"W 8",      cond:"Good",     cat:"Shoes",       seller:"Avery L.",  school:"Suffolk",           emoji:"👢", col:"rgba(245,158,11,0.18)", days:7, desc:"Classic black. Light scuffs on toe — normal Doc wear. Very wearable."},
+    {id:10,title:"Free People Peasant Blouse",        price:22, size:"S/M",      cond:"Good",     cat:"Tops",        seller:"Drew N.",   school:"Berklee",           emoji:"👕", col:"rgba(59,130,246,0.18)", days:3, desc:"Flowy cream top, super versatile. Hand-washed, no stains."},
+    {id:11,title:"Adidas Campus 00s Sneakers",        price:50, size:"M 9",      cond:"Like New", cat:"Shoes",       seller:"Jamie O.",  school:"MIT",               emoji:"👟", col:"rgba(245,158,11,0.18)", days:1, desc:"White/off-white colorway. Worn twice, still crispy. No box."},
+    {id:12,title:"Urban Outfitters Corduroy Jacket",  price:38, size:"M",        cond:"Good",     cat:"Outerwear",   seller:"Casey F.",  school:"Harvard",           emoji:"🧥", col:"rgba(16,185,129,0.18)", days:8, desc:"Rust orange cord jacket, slightly oversized. Classic and timeless."},
 ];
 
-// ─── STATE ────────────────────────────────────────────────────────────────────
-
-const state = {
-    user: null,
-    pendingUser: null,
+/* ── STATE ───────────────────────────────────────────────── */
+const S = {
+    user: null, pending: null,
     listings: [...SAMPLE],
-    filters: { category:'all', condition:'all', sort:'newest', search:'' },
+    filt: {cat:'all', cond:'all', sort:'newest', q:''},
     saved: new Set(),
     nextId: 200,
 };
 
-function loadState() {
+function load() {
     try {
-        const u = localStorage.getItem('pockit_user');
-        if (u) state.user = JSON.parse(u);
-        const extra = localStorage.getItem('pockit_listings');
-        if (extra) state.listings = [...SAMPLE, ...JSON.parse(extra)];
-        const sv = localStorage.getItem('pockit_saved');
-        if (sv) state.saved = new Set(JSON.parse(sv));
-        if (!localStorage.getItem('pockit_accounts')) localStorage.setItem('pockit_accounts', '{}');
+        const u = ls('pockit_user');    if (u) S.user = JSON.parse(u);
+        const x = ls('pockit_extra');   if (x) S.listings = [...SAMPLE, ...JSON.parse(x)];
+        const sv = ls('pockit_saved');  if (sv) S.saved = new Set(JSON.parse(sv));
+        if (!ls('pockit_accounts')) lsSet('pockit_accounts','{}');
     } catch {}
 }
+const ls    = k => localStorage.getItem(k);
+const lsSet = (k,v) => localStorage.setItem(k,v);
+const lsDel = k => localStorage.removeItem(k);
 
-function persistUser()     { state.user ? localStorage.setItem('pockit_user', JSON.stringify(state.user)) : localStorage.removeItem('pockit_user'); }
-function persistListings() { localStorage.setItem('pockit_listings', JSON.stringify(state.listings.filter(l => l.id >= 200))); }
-function persistSaved()    { localStorage.setItem('pockit_saved', JSON.stringify([...state.saved])); }
+function saveUser()    { S.user ? lsSet('pockit_user', JSON.stringify(S.user)) : lsDel('pockit_user'); }
+function saveExtra()   { lsSet('pockit_extra', JSON.stringify(S.listings.filter(l=>l.id>=200))); }
+function saveSaved()   { lsSet('pockit_saved', JSON.stringify([...S.saved])); }
 
-// ─── ROUTING ─────────────────────────────────────────────────────────────────
-
+/* ── VIEWS ───────────────────────────────────────────────── */
 function showLanding() {
-    document.getElementById('landing-page').style.display = '';
-    document.getElementById('marketplace-page').classList.add('hidden');
-    document.getElementById('nav-search').classList.add('hidden');
-    document.getElementById('nav-login-btn').classList.remove('hidden');
-    document.getElementById('nav-signup-btn').classList.remove('hidden');
-    document.getElementById('nav-sell-btn').classList.add('hidden');
-    document.getElementById('nav-user-menu').classList.add('hidden');
+    g('landing').style.display = '';
+    g('market').classList.add('hidden');
+    g('nav-search').classList.add('hidden');
+    g('n-login').classList.remove('hidden');
+    g('n-signup').classList.remove('hidden');
+    g('n-sell').classList.add('hidden');
+    g('n-umenu').classList.add('hidden');
 }
 
-function showMarketplace() {
-    document.getElementById('landing-page').style.display = 'none';
-    document.getElementById('marketplace-page').classList.remove('hidden');
-    document.getElementById('nav-search').classList.remove('hidden');
-    document.getElementById('nav-login-btn').classList.add('hidden');
-    document.getElementById('nav-signup-btn').classList.add('hidden');
-    document.getElementById('nav-sell-btn').classList.remove('hidden');
-    document.getElementById('nav-user-menu').classList.remove('hidden');
+function showMarket() {
+    g('landing').style.display = 'none';
+    g('market').classList.remove('hidden');
+    g('nav-search').classList.remove('hidden');
+    g('n-login').classList.add('hidden');
+    g('n-signup').classList.add('hidden');
+    g('n-sell').classList.remove('hidden');
+    g('n-umenu').classList.remove('hidden');
 
-    const first = state.user.name.split(' ')[0];
-    const initials = state.user.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
-    document.getElementById('nav-avatar').textContent = initials;
-    document.getElementById('dd-name').textContent = state.user.name;
-    document.getElementById('dd-email').textContent = state.user.email;
-    document.getElementById('welcome-greeting').textContent = `Hey, ${first}! 👋`;
-    document.getElementById('welcome-sub').textContent = `Browsing listings at ${state.user.school}`;
-    renderListings();
+    const first = S.user.name.split(' ')[0];
+    const ini   = S.user.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    g('n-avatar').textContent = ini;
+    g('d-name').textContent   = S.user.name;
+    g('d-email').textContent  = S.user.email;
+    g('w-name').textContent   = `Hey, ${first}! 👋`;
+    g('w-sub').textContent    = `Browsing listings at ${S.user.school}`;
+    renderGrid();
 }
 
-function handleLogoClick() {
-    state.user ? showMarketplace() : showLanding();
-}
+function goHome() { S.user ? showMarket() : showLanding(); }
 
-// ─── AUTH ─────────────────────────────────────────────────────────────────────
-
+/* ── AUTH ────────────────────────────────────────────────── */
 function openAuth(tab) {
-    el('auth-modal').classList.remove('hidden');
-    el('verification-screen').style.display = 'none';
-    el('auth-forms').style.display = '';
-    switchTab(tab || 'signup');
+    g('auth-m').classList.remove('hidden');
+    g('verify-s').style.display   = 'none';
+    g('auth-forms').style.display = '';
+    swTab(tab || 'signup');
 }
-
 function closeAuth() {
-    el('auth-modal').classList.add('hidden');
-    clearErrors();
+    g('auth-m').classList.add('hidden');
+    clearErrs();
 }
 
-function switchTab(tab) {
-    const isSignup = tab === 'signup';
-    el('form-signup').classList.toggle('hidden', !isSignup);
-    el('form-login').classList.toggle('hidden', isSignup);
-    el('tab-signup').classList.toggle('active', isSignup);
-    el('tab-login').classList.toggle('active', !isSignup);
-    clearErrors();
+function swTab(t) {
+    const su = t === 'signup';
+    g('f-signup').classList.toggle('hidden', !su);
+    g('f-login').classList.toggle('hidden',  su);
+    g('t-up').classList.toggle('on', su);
+    g('t-in').classList.toggle('on', !su);
+    clearErrs();
 }
 
-function clearErrors() {
-    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
-    document.querySelectorAll('.field input.error, .field select.error').forEach(e => e.classList.remove('error'));
+function clearErrs() {
+    qsa('.ferr').forEach(e=>e.classList.remove('on'));
+    qsa('.f input.err, .f select.err').forEach(e=>e.classList.remove('err'));
 }
 
-function showErr(errId, fieldId) {
-    el(errId)?.classList.add('show');
-    if (fieldId) el(fieldId)?.classList.add('error');
+function showErr(eid, fid) {
+    g(eid)?.classList.add('on');
+    if (fid) g(fid)?.classList.add('err');
 }
 
-function isEdu(email) { return email.endsWith('.edu') && email.includes('@'); }
+function isEdu(e) { return e.endsWith('.edu') && e.includes('@'); }
 
-function schoolFromEmail(email) {
-    const domain = email.split('@')[1] || '';
-    const key = domain.replace('.edu','').split('.').pop();
-    if (SCHOOL_MAP[key]) return SCHOOL_MAP[key];
-    return key.split(/[-_]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') + ' University';
+function schoolFrom(email) {
+    const dom = (email.split('@')[1]||'').replace('.edu','').split('.').pop();
+    return SCHOOLS[dom] || dom.split(/[-_]/).map(w=>w[0].toUpperCase()+w.slice(1)).join(' ') + ' University';
 }
 
-function onEduEmailInput() {
-    const email = el('su-email').value.trim().toLowerCase();
-    const hint = el('hint-school');
-    if (isEdu(email)) {
-        hint.textContent = '🎓 ' + schoolFromEmail(email);
-        hint.style.color = 'var(--success)';
-        el('su-email').classList.remove('error');
-        el('err-su-email').classList.remove('show');
-    } else {
-        hint.textContent = '';
-    }
+function checkEdu() {
+    const v = g('su-email').value.trim().toLowerCase();
+    const h = g('h-school');
+    if (isEdu(v)) {
+        h.textContent = '🎓 ' + schoolFrom(v);
+        h.style.color = '#34d399';
+        g('su-email').classList.remove('err');
+        g('e-su-email').classList.remove('on');
+    } else { h.textContent = ''; }
 }
 
-function handleSignup() {
-    clearErrors();
-    const name  = el('su-name').value.trim();
-    const email = el('su-email').value.trim().toLowerCase();
-    const pass  = el('su-pass').value;
+function doSignup() {
+    clearErrs();
+    const name  = g('su-name').value.trim();
+    const email = g('su-email').value.trim().toLowerCase();
+    const pass  = g('su-pass').value;
     let ok = true;
-
-    if (!name)            { showErr('err-su-name','su-name'); ok = false; }
-    if (!isEdu(email))    { showErr('err-su-email','su-email'); ok = false; }
-    if (pass.length < 8)  { showErr('err-su-pass','su-pass'); ok = false; }
+    if (!name)          { showErr('e-su-name','su-name');   ok = false; }
+    if (!isEdu(email))  { showErr('e-su-email','su-email'); ok = false; }
+    if (pass.length < 8){ showErr('e-su-pass','su-pass');   ok = false; }
     if (!ok) return;
 
-    const accounts = JSON.parse(localStorage.getItem('pockit_accounts') || '{}');
-    const school = schoolFromEmail(email);
-    accounts[email] = { name, pass, school, verified: false };
-    localStorage.setItem('pockit_accounts', JSON.stringify(accounts));
+    const acc = JSON.parse(ls('pockit_accounts') || '{}');
+    const school = schoolFrom(email);
+    acc[email] = {name, pass, school, verified:false};
+    lsSet('pockit_accounts', JSON.stringify(acc));
 
-    state.pendingUser = { name, email, school };
-    el('auth-forms').style.display = 'none';
-    el('verification-screen').style.display = '';
-    el('verify-email-display').textContent = email;
+    S.pending = {name, email, school};
+    g('auth-forms').style.display = 'none';
+    g('verify-s').style.display = '';
+    g('v-email').textContent = email;
 }
 
-function simulateVerification() {
-    const { name, email, school } = state.pendingUser;
-    const accounts = JSON.parse(localStorage.getItem('pockit_accounts') || '{}');
-    if (accounts[email]) accounts[email].verified = true;
-    localStorage.setItem('pockit_accounts', JSON.stringify(accounts));
-
-    state.user = { name, email, school, verified: true };
-    persistUser();
+function simVerify() {
+    const {name, email, school} = S.pending;
+    const acc = JSON.parse(ls('pockit_accounts') || '{}');
+    if (acc[email]) acc[email].verified = true;
+    lsSet('pockit_accounts', JSON.stringify(acc));
+    S.user = {name, email, school, verified:true};
+    saveUser();
     closeAuth();
-    showMarketplace();
-    toast(`Welcome to Pockit, ${name.split(' ')[0]}! 🎉`, 'success');
+    showMarket();
+    toast(`Welcome to Pockit, ${name.split(' ')[0]}! 🎉`, 'ok');
 }
 
-function handleLogin() {
-    clearErrors();
-    const email = el('li-email').value.trim().toLowerCase();
-    const pass  = el('li-pass').value;
+function doLogin() {
+    clearErrs();
+    const email = g('li-email').value.trim().toLowerCase();
+    const pass  = g('li-pass').value;
     let ok = true;
-
-    if (!isEdu(email)) { showErr('err-li-email','li-email'); ok = false; }
-    if (!pass)         { showErr('err-li-pass','li-pass'); ok = false; }
+    if (!isEdu(email)) { showErr('e-li-email','li-email'); ok = false; }
+    if (!pass)         { showErr('e-li-pass','li-pass');   ok = false; }
     if (!ok) return;
 
-    const accounts = JSON.parse(localStorage.getItem('pockit_accounts') || '{}');
-    const acct = accounts[email];
-
+    const acc  = JSON.parse(ls('pockit_accounts') || '{}');
+    const acct = acc[email];
     if (!acct || acct.pass !== pass) {
-        showErr('err-li-pass','li-pass');
-        el('err-li-pass').textContent = 'Incorrect email or password.';
+        showErr('e-li-pass','li-pass');
+        g('e-li-pass').textContent = 'Incorrect email or password.';
         return;
     }
-
-    state.user = { name: acct.name, email, school: acct.school, verified: true };
-    persistUser();
+    S.user = {name:acct.name, email, school:acct.school, verified:true};
+    saveUser();
     closeAuth();
-    showMarketplace();
-    toast(`Welcome back, ${acct.name.split(' ')[0]}!`, 'success');
+    showMarket();
+    toast(`Welcome back, ${acct.name.split(' ')[0]}!`, 'ok');
 }
 
-function logout() {
-    state.user = null;
-    state.filters = { category:'all', condition:'all', sort:'newest', search:'' };
-    persistUser();
-    closeDropdown();
-    showLanding();
+function doLogout() {
+    S.user = null; S.filt = {cat:'all',cond:'all',sort:'newest',q:''};
+    saveUser(); closeDrop(); showLanding();
     toast('Logged out. See you around!');
 }
 
-// ─── MARKETPLACE ─────────────────────────────────────────────────────────────
-
-function filteredListings() {
-    let list = [...state.listings];
-    const { category, condition, sort, search } = state.filters;
-
-    if (category !== 'all') list = list.filter(l => l.category === category);
-    if (condition !== 'all') list = list.filter(l => l.condition === condition);
-    if (search) {
-        const q = search.toLowerCase();
-        list = list.filter(l =>
-            l.title.toLowerCase().includes(q) ||
-            l.category.toLowerCase().includes(q) ||
-            l.seller.toLowerCase().includes(q) ||
-            l.school.toLowerCase().includes(q)
+/* ── MARKETPLACE ─────────────────────────────────────────── */
+function filtered() {
+    let list = [...S.listings];
+    const {cat, cond, sort, q} = S.filt;
+    if (cat !== 'all')  list = list.filter(l=>l.cat === cat);
+    if (cond !== 'all') list = list.filter(l=>l.cond === cond);
+    if (q) {
+        const lq = q.toLowerCase();
+        list = list.filter(l=>
+            l.title.toLowerCase().includes(lq) ||
+            l.cat.toLowerCase().includes(lq)   ||
+            l.seller.toLowerCase().includes(lq)||
+            l.school.toLowerCase().includes(lq)
         );
     }
-
-    if (sort === 'price-low')  list.sort((a,b) => a.price - b.price);
-    else if (sort === 'price-high') list.sort((a,b) => b.price - a.price);
-    else list.sort((a,b) => (a.daysAgo||0) - (b.daysAgo||0));
-
+    if (sort === 'price-low')  list.sort((a,b)=>a.price-b.price);
+    else if (sort === 'price-high') list.sort((a,b)=>b.price-a.price);
+    else list.sort((a,b)=>(a.days||0)-(b.days||0));
     return list;
 }
 
-function renderListings() {
-    const grid = el('listings-grid');
-    const list = filteredListings();
-    el('results-count').innerHTML = `<strong>${list.length}</strong> listing${list.length !== 1 ? 's' : ''} found`;
+function renderGrid() {
+    const grid = g('grid');
+    const list = filtered();
+    g('res-count').innerHTML = `<strong>${list.length}</strong> listing${list.length!==1?'s':''} found`;
 
     if (!list.length) {
-        grid.innerHTML = `<div class="empty-state">
-            <div class="empty-state-emoji">🔍</div>
-            <h3>No listings found</h3>
-            <p>Try adjusting your filters or search term.</p>
-        </div>`;
+        grid.innerHTML = `<div class="empty"><div class="empty-emoji">🔍</div><h3>No listings found</h3><p>Try adjusting your filters or search.</p></div>`;
         return;
     }
 
     grid.innerHTML = list.map(l => {
-        const condClass = l.condition === 'Like New' ? 'condition-like-new' : l.condition === 'Good' ? 'condition-good' : 'condition-fair';
-        const saved = state.saved.has(l.id);
-        const time  = l.daysAgo === 0 ? 'Just now' : l.daysAgo === 1 ? '1 day ago' : `${l.daysAgo}d ago`;
+        const cc = l.cond==='Like New'?'c-new':l.cond==='Good'?'c-good':'c-fair';
+        const sv = S.saved.has(l.id);
+        const ta = l.days===0?'Just now':l.days===1?'1d ago':`${l.days}d ago`;
         return `
-        <div class="listing-card" onclick="openDetail(${l.id})">
-            <div class="card-image" style="background:${l.color}">
+        <article class="lcard" onclick="openDet(${l.id})" role="button" tabindex="0" aria-label="${esc(l.title)}, $${l.price}">
+            <div class="lc-img" style="background:${l.col}">
                 ${l.emoji}
-                <span class="card-condition ${condClass}">${l.condition}</span>
-                <button class="card-save" onclick="toggleSave(event,${l.id})">${saved ? '❤️' : '🤍'}</button>
+                <span class="lc-cond ${cc}">${l.cond}</span>
+                <button class="lc-save" onclick="toggleSave(event,${l.id})" aria-label="${sv?'Unsave':'Save'} ${esc(l.title)}">${sv?'❤️':'🤍'}</button>
             </div>
-            <div class="card-body">
-                <div class="card-title">${esc(l.title)}</div>
-                <div class="card-meta">
-                    <span class="card-size">${esc(l.size)}</span>
-                    <span class="card-school">&bull; ${esc(l.school)}</span>
+            <div class="lc-body">
+                <div class="lc-title">${esc(l.title)}</div>
+                <div class="lc-meta">
+                    <span class="lc-size">${esc(l.size)}</span>
+                    <span class="lc-school">&bull; ${esc(l.school)}</span>
                 </div>
-                <div class="card-bottom">
-                    <div class="card-price">$${l.price}</div>
-                    <div class="card-seller">${esc(l.seller)} &middot; ${time}</div>
+                <div class="lc-bottom">
+                    <div class="lc-price">$${l.price}</div>
+                    <div class="lc-seller">${esc(l.seller)} &middot; ${ta}</div>
                 </div>
             </div>
-        </div>`;
+        </article>`;
     }).join('');
 }
 
-function setCategory(cat, btn) {
-    state.filters.category = cat;
-    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderListings();
+function setCat(cat, btn) {
+    S.filt.cat = cat;
+    qsa('.chip').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    renderGrid();
 }
-function setCondition(v)  { state.filters.condition = v; renderListings(); }
-function setSortOrder(v)  { state.filters.sort = v; renderListings(); }
-function handleSearch(v)  { state.filters.search = v; renderListings(); }
+function setCond(v) { S.filt.cond = v; renderGrid(); }
+function setSort(v) { S.filt.sort = v; renderGrid(); }
+function doSearch(v){ S.filt.q   = v; renderGrid(); }
 
 function toggleSave(e, id) {
     e.stopPropagation();
-    if (state.saved.has(id)) { state.saved.delete(id); toast('Removed from saved'); }
-    else { state.saved.add(id); toast('Saved! ❤️', 'success'); }
-    persistSaved();
-    renderListings();
+    if (S.saved.has(id)) { S.saved.delete(id); toast('Removed from saved'); }
+    else                 { S.saved.add(id);    toast('Saved! ❤️','ok'); }
+    saveSaved(); renderGrid();
 }
 
-// ─── DETAIL MODAL ─────────────────────────────────────────────────────────────
+/* ── DETAIL ──────────────────────────────────────────────── */
+function openDet(id) {
+    const l = S.listings.find(x=>x.id===id); if (!l) return;
+    const cc = l.cond==='Like New'?'c-new':l.cond==='Good'?'c-good':'c-fair';
+    const sv = S.saved.has(id);
+    const ini= l.seller.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+    const ta = l.days===0?'Today':l.days===1?'Yesterday':`${l.days} days ago`;
 
-function openDetail(id) {
-    const l = state.listings.find(x => x.id === id);
-    if (!l) return;
-    const condClass = l.condition === 'Like New' ? 'condition-like-new' : l.condition === 'Good' ? 'condition-good' : 'condition-fair';
-    const saved = state.saved.has(id);
-    const initials = l.seller.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-    const time = l.daysAgo === 0 ? 'Today' : l.daysAgo === 1 ? 'Yesterday' : `${l.daysAgo} days ago`;
-
-    el('detail-content').innerHTML = `
-        <div class="detail-image" style="background:${l.color}">
+    g('det-content').innerHTML = `
+        <div class="det-img" style="background:${l.col}">
             ${l.emoji}
-            <span class="card-condition ${condClass}" style="position:absolute;top:16px;left:16px">${l.condition}</span>
+            <span class="lc-cond ${cc}" style="position:absolute;top:16px;left:16px">${l.cond}</span>
         </div>
-        <div class="detail-body">
-            <div class="detail-price">$${l.price}</div>
-            <div class="detail-title">${esc(l.title)}</div>
-            <div class="detail-tags">
-                <span class="detail-tag">📐 ${esc(l.size)}</span>
-                <span class="detail-tag">📂 ${esc(l.category)}</span>
-                <span class="detail-tag">📅 ${time}</span>
+        <div class="det-body">
+            <div class="det-price">$${l.price}</div>
+            <div class="det-title">${esc(l.title)}</div>
+            <div class="det-tags">
+                <span class="det-tag">📐 ${esc(l.size)}</span>
+                <span class="det-tag">📂 ${esc(l.cat)}</span>
+                <span class="det-tag">📅 ${ta}</span>
             </div>
-            ${l.desc ? `<p class="detail-desc">${esc(l.desc)}</p>` : ''}
-            <div class="detail-seller">
-                <div class="avatar">${initials}</div>
+            ${l.desc?`<p class="det-desc">${esc(l.desc)}</p>`:''}
+            <div class="det-seller">
+                <div class="avatar" style="flex-shrink:0">${ini}</div>
                 <div>
-                    <div class="detail-seller-name">${esc(l.seller)}</div>
-                    <div class="detail-seller-school">🎓 ${esc(l.school)}</div>
+                    <div class="det-sname">${esc(l.seller)}</div>
+                    <div class="det-sschool">🎓 ${esc(l.school)}</div>
                 </div>
-                <span class="detail-seller-badge">&#10003; .edu verified</span>
+                <span class="det-badge">&#10003; .edu verified</span>
             </div>
             <div style="display:flex;gap:10px">
-                <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="handleContact(${id})">Message seller</button>
-                <button class="btn btn-outline" id="save-detail-btn" onclick="toggleSaveDetail(${id})">${saved ? '❤️ Saved' : '🤍 Save'}</button>
+                <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doContact(${id})">Message seller</button>
+                <button class="btn btn-outline" id="ds-btn" onclick="toggleDetSave(${id})">${sv?'❤️ Saved':'🤍 Save'}</button>
             </div>
         </div>`;
-    el('detail-modal').classList.remove('hidden');
+    g('det-m').classList.remove('hidden');
+}
+function closeDet() { g('det-m').classList.add('hidden'); }
+
+function toggleDetSave(id) {
+    const btn = g('ds-btn');
+    if (S.saved.has(id)) { S.saved.delete(id); btn.textContent='🤍 Save'; toast('Removed from saved'); }
+    else                 { S.saved.add(id);    btn.textContent='❤️ Saved'; toast('Saved! ❤️','ok'); }
+    saveSaved(); renderGrid();
 }
 
-function closeDetailModal() { el('detail-modal').classList.add('hidden'); }
-
-function toggleSaveDetail(id) {
-    if (state.saved.has(id)) { state.saved.delete(id); el('save-detail-btn').textContent = '🤍 Save'; toast('Removed from saved'); }
-    else { state.saved.add(id); el('save-detail-btn').textContent = '❤️ Saved'; toast('Saved! ❤️', 'success'); }
-    persistSaved();
-    renderListings();
+function doContact(id) {
+    const l = S.listings.find(x=>x.id===id);
+    toast(`Message sent to ${l.seller.split(' ')[0]}! (demo feature)`, 'ok');
+    closeDet();
 }
 
-function handleContact(id) {
-    const l = state.listings.find(x => x.id === id);
-    toast(`Message sent to ${l.seller.split(' ')[0]}! (demo feature)`, 'success');
-    closeDetailModal();
+/* ── SELL ────────────────────────────────────────────────── */
+function openSell()  { g('sell-m').classList.remove('hidden'); }
+function closeSell() {
+    g('sell-m').classList.add('hidden');
+    ['sl-title','sl-price','sl-size','sl-desc'].forEach(id=>{if(g(id))g(id).value='';});
+    g('sl-cat').value=''; g('sl-cond').value='';
+    qsa('#sell-m .ferr').forEach(e=>e.classList.remove('on'));
+    qsa('#sell-m .f input.err, #sell-m .f select.err').forEach(e=>e.classList.remove('err'));
 }
 
-// ─── SELL MODAL ───────────────────────────────────────────────────────────────
+function doSell() {
+    qsa('#sell-m .ferr').forEach(e=>e.classList.remove('on'));
+    qsa('#sell-m .f input.err, #sell-m .f select.err').forEach(e=>e.classList.remove('err'));
 
-function openSellModal()  { el('sell-modal').classList.remove('hidden'); }
-function closeSellModal() {
-    el('sell-modal').classList.add('hidden');
-    ['sell-title','sell-price','sell-size','sell-desc'].forEach(id => { if(el(id)) el(id).value = ''; });
-    el('sell-category').value = '';
-    el('sell-condition').value = '';
-    document.querySelectorAll('#sell-modal .field-error').forEach(e => e.classList.remove('show'));
-    document.querySelectorAll('#sell-modal .field input.error, #sell-modal .field select.error').forEach(e => e.classList.remove('error'));
-}
-
-function handleSellSubmit() {
-    document.querySelectorAll('#sell-modal .field-error').forEach(e => e.classList.remove('show'));
-    document.querySelectorAll('#sell-modal .field input.error, #sell-modal .field select.error').forEach(e => e.classList.remove('error'));
-
-    const title     = el('sell-title').value.trim();
-    const price     = parseFloat(el('sell-price').value);
-    const size      = el('sell-size').value.trim();
-    const category  = el('sell-category').value;
-    const condition = el('sell-condition').value;
-    const desc      = el('sell-desc').value.trim();
+    const title = g('sl-title').value.trim();
+    const price = parseFloat(g('sl-price').value);
+    const size  = g('sl-size').value.trim();
+    const cat   = g('sl-cat').value;
+    const cond  = g('sl-cond').value;
+    const desc  = g('sl-desc').value.trim();
     let ok = true;
 
-    if (!title)            { showErr('err-sell-title','sell-title'); ok = false; }
-    if (!price || price<1) { showErr('err-sell-price','sell-price'); ok = false; }
-    if (!size)             { showErr('err-sell-size','sell-size'); ok = false; }
-    if (!category)         { showErr('err-sell-category','sell-category'); ok = false; }
-    if (!condition)        { showErr('err-sell-condition','sell-condition'); ok = false; }
+    if (!title)          { showErr('e-sl-title','sl-title'); ok=false; }
+    if (!price||price<1) { showErr('e-sl-price','sl-price'); ok=false; }
+    if (!size)           { showErr('e-sl-size','sl-size');   ok=false; }
+    if (!cat)            { showErr('e-sl-cat','sl-cat');     ok=false; }
+    if (!cond)           { showErr('e-sl-cond','sl-cond');   ok=false; }
     if (!ok) return;
 
-    const [emoji, color] = CATEGORY_EMOJI[category] || ['👕','#e0f2fe'];
-    const name = state.user.name;
-    const sellerDisplay = name.split(' ').length > 1
-        ? name.split(' ')[0] + ' ' + name.split(' ').slice(1).map(n=>n[0]+'.').join(' ')
-        : name;
+    const [emoji, col] = CAT_EI[cat] || ['👕','rgba(59,130,246,0.18)'];
+    const sname = S.user.name.split(' ').length>1
+        ? S.user.name.split(' ')[0]+' '+S.user.name.split(' ').slice(1).map(n=>n[0]+'.').join(' ')
+        : S.user.name;
 
-    const listing = {
-        id: state.nextId++, title, price: Math.round(price), size, category, condition,
-        desc, seller: sellerDisplay, sellerEmail: state.user.email,
-        school: state.user.school, emoji, color, daysAgo: 0,
-    };
+    S.listings.unshift({
+        id:S.nextId++, title, price:Math.round(price), size, cat, cond, desc,
+        seller:sname, sellerEmail:S.user.email, school:S.user.school,
+        emoji, col, days:0,
+    });
+    saveExtra(); closeSell();
 
-    state.listings.unshift(listing);
-    persistListings();
-    closeSellModal();
+    S.filt = {cat:'all',cond:'all',sort:'newest',q:''};
+    g('s-input').value = '';
+    qsa('.chip').forEach(b=>b.classList.remove('on'));
+    qsa('.chip')[0]?.classList.add('on');
+    qsa('.fsel').forEach(s=>s.selectedIndex=0);
 
-    state.filters = { category:'all', condition:'all', sort:'newest', search:'' };
-    el('search-input').value = '';
-    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-    document.querySelector('.filter-chip').classList.add('active');
-    document.querySelectorAll('.filter-select').forEach(s => s.selectedIndex = 0);
-
-    renderListings();
-    toast(`"${title}" listed for $${Math.round(price)}! 🎉`, 'success');
+    renderGrid();
+    toast(`"${title}" listed for $${Math.round(price)}! 🎉`, 'ok');
 }
 
-// ─── USER DROPDOWN ────────────────────────────────────────────────────────────
-
-function toggleDropdown() { el('user-dropdown').classList.toggle('open'); }
-function closeDropdown()  { el('user-dropdown').classList.remove('open'); }
+/* ── DROPDOWN ────────────────────────────────────────────── */
+function toggleDrop() { g('udrop').classList.toggle('on'); }
+function closeDrop()  { g('udrop').classList.remove('on'); }
 
 document.addEventListener('click', e => {
-    if (!el('nav-avatar')?.contains(e.target) && !el('user-dropdown')?.contains(e.target)) closeDropdown();
+    if (!g('n-avatar')?.contains(e.target) && !g('udrop')?.contains(e.target)) closeDrop();
 });
 
-// ─── MODAL HELPERS ────────────────────────────────────────────────────────────
-
-function overlayClick(e, id) {
-    if (e.target === el(id)) {
-        if (id === 'auth-modal') closeAuth();
-        else if (id === 'sell-modal') closeSellModal();
-        else if (id === 'detail-modal') closeDetailModal();
+/* ── MODAL OVERLAY ───────────────────────────────────────── */
+function ocClick(e, id) {
+    if (e.target === g(id)) {
+        if (id==='auth-m') closeAuth();
+        else if (id==='sell-m') closeSell();
+        else if (id==='det-m')  closeDet();
     }
 }
-
 document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
-    closeAuth(); closeSellModal(); closeDetailModal(); closeDropdown();
+    closeAuth(); closeSell(); closeDet(); closeDrop();
 });
 
-// ─── TOAST ───────────────────────────────────────────────────────────────────
-
-let _toastTimer;
-function toast(msg, type = '') {
-    const t = el('toast');
-    t.textContent = msg;
-    t.className = type ? `show ${type}` : 'show';
-    clearTimeout(_toastTimer);
-    _toastTimer = setTimeout(() => { t.className = ''; }, 3000);
+/* ── TOAST ───────────────────────────────────────────────── */
+let _tt;
+function toast(msg, type='') {
+    const t = g('toast');
+    t.textContent = msg; t.className = type ? `on ${type}` : 'on';
+    clearTimeout(_tt);
+    _tt = setTimeout(() => { t.className=''; }, 3000);
 }
 
-// ─── UTILS ───────────────────────────────────────────────────────────────────
+/* ── SCROLL EFFECTS ──────────────────────────────────────── */
+const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-function el(id) { return document.getElementById(id); }
-function esc(s) {
+window.addEventListener('scroll', () => {
+    g('nav').classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* ── UTILS ───────────────────────────────────────────────── */
+function g(id)    { return document.getElementById(id); }
+function qsa(sel) { return document.querySelectorAll(sel); }
+function esc(s)   {
     return String(s)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-// ─── BOOT ────────────────────────────────────────────────────────────────────
-
-loadState();
-if (state.user?.verified) showMarketplace();
+/* ── BOOT ────────────────────────────────────────────────── */
+load();
+if (S.user?.verified) showMarket();
 else showLanding();
 </script>
 </body>
