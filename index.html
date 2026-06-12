@@ -1300,7 +1300,7 @@ const S = {
 
 function load() {
     try {
-        const u  = ls('pockit_user');   if (u)  S.user = JSON.parse(u);
+        const u  = ss('pockit_user');   if (u)  S.user = JSON.parse(u);
         const x  = ls('pockit_extra');  if (x)  S.listings = [...SAMPLE, ...JSON.parse(x)];
         const sv = ls('pockit_saved');  if (sv) S.saved = new Set(JSON.parse(sv));
         if (!ls('pockit_accounts')) lsSet('pockit_accounts','{}');
@@ -1309,8 +1309,11 @@ function load() {
 const ls    = k => localStorage.getItem(k);
 const lsSet = (k,v) => localStorage.setItem(k,v);
 const lsDel = k => localStorage.removeItem(k);
+const ss    = k => sessionStorage.getItem(k);
+const ssSet = (k,v) => sessionStorage.setItem(k,v);
+const ssDel = k => sessionStorage.removeItem(k);
 
-function saveUser()  { S.user ? lsSet('pockit_user', JSON.stringify(S.user)) : lsDel('pockit_user'); }
+function saveUser()  { S.user ? ssSet('pockit_user', JSON.stringify(S.user)) : ssDel('pockit_user'); }
 function saveExtra() { lsSet('pockit_extra', JSON.stringify(S.listings.filter(l=>l.id>=200))); }
 function saveSaved() { lsSet('pockit_saved', JSON.stringify([...S.saved])); }
 
@@ -1318,10 +1321,20 @@ function saveSaved() { lsSet('pockit_saved', JSON.stringify([...S.saved])); }
 function showLanding() {
     g('landing').style.display = '';
     g('market').classList.add('hidden');
-    g('n-login').classList.remove('hidden');
-    g('n-signup').classList.remove('hidden');
-    g('n-sell').classList.add('hidden');
-    g('n-umenu').classList.add('hidden');
+    if (S.user) {
+        g('n-login').classList.add('hidden');
+        g('n-signup').classList.add('hidden');
+        g('n-sell').classList.remove('hidden');
+        g('n-umenu').classList.remove('hidden');
+        g('n-uemail').textContent = S.user.email;
+        g('d-name').textContent   = S.user.name;
+        g('d-email').textContent  = S.user.email;
+    } else {
+        g('n-login').classList.remove('hidden');
+        g('n-signup').classList.remove('hidden');
+        g('n-sell').classList.add('hidden');
+        g('n-umenu').classList.add('hidden');
+    }
 }
 
 function showMarket() {
