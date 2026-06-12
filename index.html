@@ -105,8 +105,39 @@
             border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s;
             text-transform: uppercase; letter-spacing: 0.4px;
         }
-        .cat-link:hover { color: var(--text); }
-        .cat-link.on { color: var(--text); border-bottom-color: var(--red); }
+        .cat-link:hover { color: var(--text); border-bottom-color: var(--red); }
+        .cat-link.on { color: var(--text); }
+
+        /* ── SEARCH SUGGESTIONS ── */
+        .search-drop {
+            position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+            background: #fff; border: 1.5px solid var(--border);
+            border-radius: 16px; box-shadow: var(--sh-lg);
+            z-index: 500; overflow: hidden;
+        }
+        .search-drop-label {
+            padding: 10px 16px 5px;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.7px;
+            text-transform: uppercase; color: var(--text-3);
+        }
+        .search-sug {
+            padding: 9px 16px; font-size: 14px; color: var(--text);
+            cursor: pointer; display: flex; align-items: center; gap: 10px;
+            transition: background 0.1s;
+        }
+        .search-sug:hover { background: var(--bg-warm); }
+        .search-sug-icon { font-size: 15px; flex-shrink: 0; }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding: 36px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 4px;
+        }
+        .page-header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(38px, 4.5vw, 60px); font-weight: 900;
+            color: var(--text); letter-spacing: -2px; line-height: 1; margin-bottom: 6px;
+        }
+        .page-header-sub { font-size: 15px; color: var(--text-2); }
 
         /* ── BUTTONS ── */
         .btn {
@@ -676,7 +707,8 @@
             <svg class="nav-si" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
-            <input type="text" id="s-input" placeholder="Search campus fashion…" oninput="doSearch(this.value)" aria-label="Search listings">
+            <input type="text" id="s-input" placeholder="Search campus fashion…" oninput="onSearchInput(this.value)" onfocus="showSearchDrop()" onblur="hideSearchDrop()" aria-label="Search listings" autocomplete="off">
+            <div class="search-drop hidden" id="search-drop"></div>
         </div>
 
         <div class="nav-right">
@@ -732,7 +764,7 @@
                 Buy and sell clothes with real students at your college. Everyone's .edu verified — so you always know who you're dealing with.
             </p>
             <div class="hero-ctas au au-4">
-                <button class="btn btn-red btn-lg" onclick="openAuth('signup')">Browse the feed</button>
+                <button class="btn btn-red btn-lg" onclick="browseFeed()">Browse the feed</button>
                 <button class="btn btn-ghost btn-lg" onclick="openAuth('signup')">Start selling</button>
             </div>
             <div class="hero-stats au au-5">
@@ -1031,6 +1063,10 @@
 <!-- ── MARKETPLACE ── -->
 <div id="market" class="hidden">
     <div class="mkt">
+        <div id="page-header" class="page-header hidden">
+            <div id="page-title" class="page-header-title"></div>
+            <div id="page-sub" class="page-header-sub"></div>
+        </div>
         <div class="welcome-row">
             <div>
                 <div class="welcome-name" id="w-name"></div>
@@ -1632,17 +1668,94 @@ if (S.user?.verified) showMarket();
 else showLanding();
 
 /* ── CATEGORY NAV ── */
+const PAGE_META = {
+    all:      { title: 'All Listings',  sub: 'Everything on campus — clothes, gear, and more' },
+    men:      { title: 'Men',           sub: 'Menswear from students at your campus' },
+    women:    { title: 'Women',         sub: "Women's fashion from students nearby" },
+    sports:   { title: 'Sports',        sub: 'Athletic gear, jerseys, and sports apparel' },
+    jobs:     { title: 'Jobs',          sub: 'Campus job listings from fellow students' },
+    trending: { title: 'Trending',      sub: "What's hot on campus right now" },
+    sale:     { title: 'Sale',          sub: 'Deals and markdowns from your campus' },
+};
+
 function navCat(key, el) {
     qsa('.cat-link').forEach(b => b.classList.remove('on'));
     el.classList.add('on');
-    if (!g('market').classList.contains('hidden')) {
-        if (key === 'all')      { doSearch(''); setCat('all', qsa('.chip')[0]); }
-        else if (key === 'trending') { S.filt.sort = 'newest'; S.filt.q = ''; renderListings(); }
-        else if (key === 'sale')     { doSearch('sale'); }
-        else doSearch(key);
+    if (!S.user) { openAuth('signup'); return; }
+    if (g('market').classList.contains('hidden')) showMarket();
+    const meta = PAGE_META[key] || { title: key, sub: '' };
+    g('page-title').textContent = meta.title;
+    g('page-sub').textContent   = meta.sub;
+    g('page-header').classList.remove('hidden');
+    S.filt.q = ''; S.filt.sort = 'newest';
+    if (key === 'all')           { S.filt.cat = 'all'; setCat('all', qsa('.chip')[0]); }
+    else if (key === 'trending') { S.filt.cat = 'all'; renderGrid(); }
+    else if (key === 'sale')     { S.filt.cat = 'all'; S.filt.sort = 'price-low'; renderGrid(); }
+    else                         { S.filt.cat = 'all'; doSearch(key); }
+}
+
+function browseFeed() {
+    if (S.user) {
+        showMarket();
+        g('page-header').classList.add('hidden');
     } else {
-        goMarket();
-        setTimeout(() => navCat(key, el), 50);
+        openAuth('signup');
+    }
+}
+
+/* ── SEARCH SUGGESTIONS ── */
+const SUGGESTIONS = [
+    { icon: '🎽', text: 'Ohio State jersey' },
+    { icon: '👕', text: 'Michigan hoodie' },
+    { icon: '👗', text: 'Penn State gameday dress' },
+    { icon: '👟', text: 'Nike Air Force 1' },
+    { icon: '🧥', text: 'Patagonia fleece' },
+    { icon: '👖', text: 'Vintage Levi\'s jeans' },
+    { icon: '🏀', text: 'Duke basketball shorts' },
+    { icon: '👕', text: 'Alabama crimson hoodie' },
+    { icon: '👢', text: 'Dr. Martens boots' },
+    { icon: '🧢', text: 'Carhartt beanie' },
+    { icon: '🎓', text: 'UCLA vintage tee' },
+    { icon: '🏈', text: 'Notre Dame gameday gear' },
+    { icon: '👟', text: 'Adidas campus sneakers' },
+    { icon: '🩱', text: 'lululemon leggings' },
+    { icon: '🧤', text: 'North Face jacket' },
+    { icon: '👕', text: 'Texas Longhorns shirt' },
+    { icon: '🎽', text: 'Georgia Bulldogs jersey' },
+    { icon: '👖', text: 'Zara wide leg pants' },
+];
+
+function renderSuggestions(q) {
+    const lq = q.toLowerCase();
+    const matches = q
+        ? SUGGESTIONS.filter(s => s.text.toLowerCase().includes(lq)).slice(0, 6)
+        : SUGGESTIONS.slice(0, 6);
+    if (!matches.length) { g('search-drop').classList.add('hidden'); return; }
+    g('search-drop').innerHTML =
+        `<div class="search-drop-label">Popular searches</div>` +
+        matches.map(s =>
+            `<div class="search-sug" onmousedown="pickSug('${s.text.replace(/'/g,"&#39;")}')">` +
+            `<span class="search-sug-icon">${s.icon}</span>${s.text}</div>`
+        ).join('');
+    g('search-drop').classList.remove('hidden');
+}
+
+function showSearchDrop() { renderSuggestions(g('s-input').value); }
+function hideSearchDrop() { setTimeout(() => g('search-drop').classList.add('hidden'), 160); }
+
+function onSearchInput(v) {
+    doSearch(v);
+    renderSuggestions(v);
+}
+
+function pickSug(text) {
+    const inp = g('s-input');
+    inp.value = text;
+    g('search-drop').classList.add('hidden');
+    doSearch(text);
+    if (g('market').classList.contains('hidden')) {
+        if (S.user) showMarket();
+        else openAuth('signup');
     }
 }
 
