@@ -628,6 +628,19 @@
 
         /* User dropdown */
         .umenu { position: relative; }
+        .user-pill {
+            display: flex; align-items: center; gap: 7px;
+            padding: 5px 12px 5px 8px; border-radius: 999px;
+            background: var(--bg-warm); border: 1.5px solid var(--border);
+            cursor: pointer; transition: background 0.15s, border-color 0.15s;
+            user-select: none;
+        }
+        .user-pill:hover { background: var(--bg-warm2); border-color: var(--border-2); }
+        .user-pill-emoji { font-size: 18px; line-height: 1; }
+        .user-pill-email {
+            font-size: 13px; font-weight: 500; color: var(--text);
+            max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
         .udrop {
             position: absolute; top: calc(100% + 8px); right: 0;
             background: white; border: 1.5px solid var(--border);
@@ -645,7 +658,7 @@
         .di.red { color: var(--red); }
         .di.red:hover { background: var(--red-pale); }
         .ddiv  { height: 1px; background: var(--border); margin: 4px 0; }
-        .dinfo { padding: 10px 13px 6px; }
+        .dinfo { padding: 10px 13px 8px; }
         .dname  { font-size: 14px; font-weight: 700; }
         .demail { font-size: 12px; color: var(--text-3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -721,10 +734,13 @@
                 Sell
             </button>
             <div class="umenu hidden" id="n-umenu">
-                <div class="avatar" id="n-avatar" onclick="toggleDrop()" role="button" tabindex="0"></div>
+                <div class="user-pill" id="n-pill" onclick="toggleDrop()" role="button" tabindex="0" aria-label="Account menu">
+                    <span class="user-pill-emoji">🧑</span>
+                    <span class="user-pill-email" id="n-uemail"></span>
+                </div>
                 <div class="udrop" id="udrop">
                     <div class="dinfo">
-                        <div class="dname"  id="d-name"></div>
+                        <div class="dname" id="d-name"></div>
                         <div class="demail" id="d-email"></div>
                     </div>
                     <div class="ddiv"></div>
@@ -1317,8 +1333,7 @@ function showMarket() {
     g('n-umenu').classList.remove('hidden');
 
     const first = S.user.name.split(' ')[0];
-    const ini   = S.user.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-    g('n-avatar').textContent = ini;
+    g('n-uemail').textContent = S.user.email;
     g('d-name').textContent   = S.user.name;
     g('d-email').textContent  = S.user.email;
     g('w-name').textContent   = `Hey, ${first} 👋`;
@@ -1649,7 +1664,7 @@ function doSell() {
 function toggleDrop() { g('udrop').classList.toggle('on'); }
 function closeDrop()  { g('udrop').classList.remove('on'); }
 document.addEventListener('click', e => {
-    if (!g('n-avatar')?.contains(e.target) && !g('udrop')?.contains(e.target)) closeDrop();
+    if (!g('n-pill')?.contains(e.target) && !g('udrop')?.contains(e.target)) closeDrop();
 });
 
 /* ── MODAL OVERLAY ── */
