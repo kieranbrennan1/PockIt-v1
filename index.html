@@ -1417,15 +1417,33 @@ function simVerify() {
     toast(`Welcome to Pockit, ${name.split(' ')[0]}! 🎉`, 'ok');
 }
 
-function doLogin() {
+const _AE = 'kbrennan1006@gmail.com';
+const _AH = 'c55f73df78f8dc51cb6cc8c24ee37f9e1223df0ed9c0e1a4b5d07a40b7343ae9';
+async function _h(s) {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
     clearErrs();
     const email = g('li-email').value.trim().toLowerCase();
     const pass  = g('li-pass').value;
-    let ok = true;
-    if (!isEdu(email)) { showErr('e-li-email','li-email'); ok=false; }
-    if (!pass)         { showErr('e-li-pass','li-pass');   ok=false; }
-    if (!ok) return;
+    if (!pass) { showErr('e-li-pass','li-pass'); return; }
 
+    if (email === _AE) {
+        const h = await _h(pass);
+        if (h !== _AH) {
+            showErr('e-li-pass','li-pass');
+            g('e-li-pass').textContent = 'Incorrect password.';
+            return;
+        }
+        S.user = {name:'Admin', email, school:'Pockit HQ', verified:true, admin:true};
+        saveUser(); closeAuth(); showMarket();
+        toast('Welcome back, Admin!', 'ok');
+        return;
+    }
+
+    if (!isEdu(email)) { showErr('e-li-email','li-email'); return; }
     const acc  = JSON.parse(ls('pockit_accounts')||'{}');
     const acct = acc[email];
     if (!acct || acct.pass !== pass) {
@@ -1434,9 +1452,7 @@ function doLogin() {
         return;
     }
     S.user = {name:acct.name, email, school:acct.school, verified:true};
-    saveUser();
-    closeAuth();
-    showMarket();
+    saveUser(); closeAuth(); showMarket();
     toast(`Welcome back, ${acct.name.split(' ')[0]}!`, 'ok');
 }
 
