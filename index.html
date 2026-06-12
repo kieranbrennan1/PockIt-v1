@@ -67,7 +67,7 @@
             font-size: 22px; font-weight: 900;
             color: var(--red); letter-spacing: -0.5px;
             cursor: pointer; flex-shrink: 0; user-select: none;
-            transition: opacity 0.4s ease, filter 0.4s ease;
+            transition: opacity 0.28s ease, transform 0.28s ease;
         }
 
         .nav-search { width: min(620px, 100%); position: relative; }
@@ -197,39 +197,29 @@
             display: inline-block;
             background: linear-gradient(
                 90deg,
-                #3d0008 0%,
-                #7a0012 6%,
-                #bb0018 12%,
-                #e8002d 20%,
-                #ff2244 28%,
-                #ff6677 35%,
-                #ffb8c2 41%,
-                #ffe8ec 45%,
-                #ffffff 48%,
-                #ffe8ec 51%,
-                #ffb8c2 55%,
-                #ff6677 61%,
-                #ff2244 68%,
-                #e8002d 76%,
-                #bb0018 84%,
-                #7a0012 91%,
-                #3d0008 97%,
-                #e8002d 100%
+                #1a0004 0%,   #1a0004 7%,
+                #8b0015 7%,   #8b0015 16%,
+                #e8002d 16%,  #e8002d 28%,
+                #ff4455 28%,  #ff4455 38%,
+                #ffaaB4 38%,  #ffaaB4 44%,
+                #ffffff 44%,  #ffffff 56%,
+                #ffaab4 56%,  #ffaab4 62%,
+                #ff4455 62%,  #ff4455 72%,
+                #e8002d 72%,  #e8002d 84%,
+                #8b0015 84%,  #8b0015 93%,
+                #1a0004 93%,  #1a0004 100%
             );
-            background-size: 300% 100%;
+            background-size: 280% 100%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             color: transparent;
-            animation: shine-red 5s linear infinite, accent-pulse 3s ease-in-out infinite;
+            animation: pixel-wave 4s ease-in-out infinite;
         }
-        @keyframes shine-red {
-            0%   { background-position: 250% center; }
-            100% { background-position: -50% center; }
-        }
-        @keyframes accent-pulse {
-            0%, 100% { filter: brightness(1) saturate(1); }
-            50%      { filter: brightness(1.2) saturate(1.3); }
+        @keyframes pixel-wave {
+            0%   { background-position: 10% center; }
+            50%  { background-position: 90% center; }
+            100% { background-position: 10% center; }
         }
 
         .hero-sub {
@@ -1679,13 +1669,17 @@ function navCat(key, el) {
         do { idx = Math.floor(Math.random() * fonts.length); } while (idx === last);
         last = idx;
         logo.style.opacity = '0';
-        logo.style.filter = 'blur(8px)';
+        logo.style.transform = 'translateY(-10px)';
         setTimeout(() => {
             logo.style.fontFamily = fonts[idx];
+            logo.style.transition = 'none';
+            logo.style.transform = 'translateY(10px)';
+            logo.offsetHeight;
+            logo.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
             logo.style.opacity = '1';
-            logo.style.filter = 'blur(0px)';
-        }, 400);
-    }, 2800);
+            logo.style.transform = 'translateY(0)';
+        }, 280);
+    }, 1800);
 })();
 </script>
 </body>
