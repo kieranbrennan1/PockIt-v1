@@ -1275,7 +1275,7 @@ const SAMPLE = [
 
 /* ── STATE ── */
 const S = {
-    user: null, pending: null,
+    user: null, pending: null, authIntent: null,
     listings: [...SAMPLE],
     filt: {cat:'all', cond:'all', sort:'newest', q:''},
     saved: new Set(),
@@ -1338,11 +1338,26 @@ function goCat(cat) {
 }
 
 /* ── AUTH ── */
-function openAuth(tab) {
+function openAuth(tab, intent) {
+    S.authIntent = intent || null;
     g('auth-m').classList.remove('hidden');
     g('verify-s').style.display   = 'none';
     g('auth-forms').style.display = '';
     swTab(tab || 'signup');
+}
+
+function afterAuth(greeting) {
+    closeAuth();
+    const intent = S.authIntent;
+    S.authIntent = null;
+    showMarket();
+    if (intent && intent !== 'feed') {
+        const el = g('cl-' + intent);
+        if (el) navCat(intent, el);
+    } else {
+        g('page-header').classList.add('hidden');
+    }
+    toast(greeting, 'ok');
 }
 function closeAuth() { g('auth-m').classList.add('hidden'); clearErrs(); }
 
@@ -1412,9 +1427,7 @@ function simVerify() {
     lsSet('pockit_accounts', JSON.stringify(acc));
     S.user = {name, email, school, verified:true};
     saveUser();
-    closeAuth();
-    showMarket();
-    toast(`Welcome to Pockit, ${name.split(' ')[0]}! 🎉`, 'ok');
+    afterAuth(`Welcome to Pockit, ${name.split(' ')[0]}! 🎉`);
 }
 
 const _AE = 'kbrennan1006@gmail.com';
@@ -1425,35 +1438,40 @@ async function _h(s) {
 }
 
 async function doLogin() {
-    clearErrs();
-    const email = g('li-email').value.trim().toLowerCase();
-    const pass  = g('li-pass').value;
-    if (!pass) { showErr('e-li-pass','li-pass'); return; }
+    try {
+        clearErrs();
+        const email = g('li-email').value.trim().toLowerCase();
+        const pass  = g('li-pass').value;
+        if (!pass) { showErr('e-li-pass','li-pass'); return; }
 
-    if (email === _AE) {
-        const h = await _h(pass);
-        if (h !== _AH) {
-            showErr('e-li-pass','li-pass');
-            g('e-li-pass').textContent = 'Incorrect password.';
+        if (email === _AE) {
+            const h = await _h(pass);
+            if (h !== _AH) {
+                showErr('e-li-pass','li-pass');
+                g('e-li-pass').textContent = 'Incorrect password.';
+                return;
+            }
+            S.user = {name:'Admin', email, school:'Pockit HQ', verified:true, admin:true};
+            saveUser();
+            afterAuth('Welcome back, Admin!');
             return;
         }
-        S.user = {name:'Admin', email, school:'Pockit HQ', verified:true, admin:true};
-        saveUser(); closeAuth(); showMarket();
-        toast('Welcome back, Admin!', 'ok');
-        return;
-    }
 
-    if (!isEdu(email)) { showErr('e-li-email','li-email'); return; }
-    const acc  = JSON.parse(ls('pockit_accounts')||'{}');
-    const acct = acc[email];
-    if (!acct || acct.pass !== pass) {
-        showErr('e-li-pass','li-pass');
-        g('e-li-pass').textContent = 'Incorrect email or password.';
-        return;
+        if (!isEdu(email)) { showErr('e-li-email','li-email'); return; }
+        const acc  = JSON.parse(ls('pockit_accounts')||'{}');
+        const acct = acc[email];
+        if (!acct || acct.pass !== pass) {
+            showErr('e-li-pass','li-pass');
+            g('e-li-pass').textContent = 'Incorrect email or password.';
+            return;
+        }
+        S.user = {name:acct.name, email, school:acct.school, verified:true};
+        saveUser();
+        afterAuth(`Welcome back, ${acct.name.split(' ')[0]}!`);
+    } catch(e) {
+        console.error('Login error:', e);
+        toast('Something went wrong. Please try again.', 'err');
     }
-    S.user = {name:acct.name, email, school:acct.school, verified:true};
-    saveUser(); closeAuth(); showMarket();
-    toast(`Welcome back, ${acct.name.split(' ')[0]}!`, 'ok');
 }
 
 function doLogout() {
@@ -1697,7 +1715,7 @@ const PAGE_META = {
 function navCat(key, el) {
     qsa('.cat-link').forEach(b => b.classList.remove('on'));
     el.classList.add('on');
-    if (!S.user) { openAuth('signup'); return; }
+    if (!S.user) { openAuth('signup', key); return; }
     if (g('market').classList.contains('hidden')) showMarket();
     const meta = PAGE_META[key] || { title: key, sub: '' };
     g('page-title').textContent = meta.title;
@@ -1711,12 +1729,8 @@ function navCat(key, el) {
 }
 
 function browseFeed() {
-    if (S.user) {
-        showMarket();
-        g('page-header').classList.add('hidden');
-    } else {
-        openAuth('signup');
-    }
+    if (S.user) { showMarket(); g('page-header').classList.add('hidden'); }
+    else { openAuth('signup', 'feed'); }
 }
 
 /* ── SEARCH SUGGESTIONS ── */
